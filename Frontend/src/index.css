@@ -1,0 +1,114 @@
+body {
+  font-family: Roboto, sans-serif;
+  /* background: #edf0f5; */
+  background: #ffffff;
+  position: relative;
+}
+/* Màu */
+.color-primary {
+  color: #ecee81;
+}
+.background-primary {
+  background-color: #ecee81;
+}
+.button-primary {
+  color: #000000;
+  background-color: #ecee81;
+  border: 1px solid #fffadd;
+}
+.btn:hover{
+  background-color: transparent;
+  color: #000000;
+}
+.btn{
+  outline: none;
+}
+<<<<<<< HEAD
+.btn-hover{
+  text-decoration: none;
+}
+.btn-hover:hover{
+  background-color: #ecee81;
+  color: #ffffff;
+
+}
+=======
+>>>>>>> a279fa93df0c2078b52cd083fd0d78f836f1100b
+a {
+  text-decoration: none;
+}
+.icon-link {
+  height: 20px;
+  width: auto;
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.detail-boder {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+
+.carousel-control-prev span,
+.carousel-control-next span {
+  display: none;
+}
+
+/* Cart */
+.icon-cart {
+  font-size: 70px;
+  color: red;
+}
+
+.card-image {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-image:hover {
+  transform: scale(1.1);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+textarea {
+  resize: none;
+}
+/* Thanh toán */
+.selected {
+  background-color: red;
+  color: red;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #eaeaea;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.bottom-right-button {
+  position: fixed;
+  bottom: 20px;
+  right: 100px;
+  background-color: #eaeaea;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
