@@ -20,6 +20,10 @@ Frontend/node_modules
 Frontend/.pnp
 Frontend/.pnp.js
 
+Admin/node_modules
+Admin/.pnp
+Admin/.pnp.js
+
 # testing
 Frontend/coverage
 
