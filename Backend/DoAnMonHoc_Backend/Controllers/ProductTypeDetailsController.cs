@@ -15,9 +15,20 @@ namespace DoAnMonHoc_Backend.Controllers
             _uow = uow;
         }
         [HttpGet]
-        public async Task<IActionResult> ProductTypeDetails()
+        public async Task<IActionResult> GetProductTypeDetails()
         {
             var ProductTypeDetail = await _uow.ProductTypeDetailRepository.GetProductTypeDetails();
+            return Ok(ProductTypeDetail);
+        }
+        [HttpGet]
+        [Route("GetProductsByProductType/{productTypeId}")]
+        public async Task<IActionResult> GetProductsByProductType(int productTypeId)
+        {
+            if(productTypeId <= 0)
+            {
+                return BadRequest();    
+            }
+            var ProductTypeDetail = await _uow.ProductTypeDetailRepository.GetProductsByProductType(productTypeId);
             return Ok(ProductTypeDetail);
         }
         [HttpGet]
