@@ -15,6 +15,9 @@ Frontend/node_modules/.bin/
 Frontend/node_modules/.cache/
 Frontend/node_modules/.cache/.eslintcache
 
+Admin/node_modules/.bin/
+Admin/node_modules/.cache/
+Admin/node_modules/.cache/.eslintcache
 # dependencies
 Frontend/node_modules
 Frontend/.pnp
