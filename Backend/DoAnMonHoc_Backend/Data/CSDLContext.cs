@@ -24,5 +24,6 @@ namespace DoAnMonHoc_Backend.Data
         public DbSet<ProductTypeDetail> ProductTypeDetails { get; set; } = default!;
         public DbSet<Rating> Ratings { get; set; } = default!;
         public DbSet<WishList> WishLists { get; set; } = default!;
+        public DbSet<Slideshow> Slideshows { get; set; } = default!;
     }
 }
