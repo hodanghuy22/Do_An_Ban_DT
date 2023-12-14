@@ -23,6 +23,14 @@ namespace DoAnMonHoc_Backend.Repository
             _context.ProductTypeDetails.Remove(productTypeDetail);
         }
 
+        public async Task<IEnumerable<ProductTypeDetail>> GetProductsByProductType(int productTypeId)
+        {
+            return await _context.ProductTypeDetails.Include(pt => pt.ProductType)
+                .Include(pt => pt.Phone)
+                .Where(p => p.ProductTypeId == productTypeId)
+                .ToListAsync();
+        }
+
         public async Task<ProductTypeDetail> GetProductTypeDetail(int id)
         {
             return await _context.ProductTypeDetails.Include(pt => pt.ProductType)
