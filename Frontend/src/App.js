@@ -15,6 +15,7 @@ import Thanhtoan from "./pages/Thanhtoan";
 import Sosanh from "./pages/Sosanh";
 import Doimatkhau from "./pages/Doimatkhau";
 import ChiTietDonHang from "./pages/ChiTietDonHang";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="chi-tiet-don-hang/1" element={<ChiTietDonHang />} />
           </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
