@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { HiArrowCircleLeft, HiArrowCircleRight } from "react-icons/hi";
-import { RiCoupon2Line, RiCoupon3Line, RiDashboard2Line } from "react-icons/ri";
-import { TbCategory, TbShoppingCart, TbShoppingCartCog } from "react-icons/tb";
+import { RiCoupon2Line, RiCoupon3Line, RiDashboard2Line, RiBarChart2Fill, RiMessage3Line, RiSlideshow4Line } from "react-icons/ri";
+import { TbCategory, TbShoppingCart, TbShoppingCartCog, TbBrandBlogger } from "react-icons/tb";
+import { MdOutlineColorLens } from "react-icons/md";
 import { FaUser, FaUserCog } from "react-icons/fa";
 import { Layout, Menu, Button, theme } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
@@ -50,21 +51,21 @@ const MainLayout = () => {
                   label: 'Product List',
                 },
                 {
-                  key: 'category',
+                  key: 'add-product-type',
                   icon: <TbCategory className='fs-5' />,
-                  label: 'Category',
+                  label: 'Add Product Type',
                 },
                 {
-                  key: 'category-list',
+                  key: 'product-type-list',
                   icon: <TbCategory className='fs-5' />,
-                  label: 'Category List',
+                  label: 'Product Type List',
                 },
               ],
             },
             {
               key: 'customer',
               icon: <FaUser className='fs-5' />,
-              label: 'Customer',
+              label: 'Customers',
               children: [
                 {
                   key: 'add-customer',
@@ -94,6 +95,60 @@ const MainLayout = () => {
                   label: 'Coupon List',
                 },
               ],
+            },
+            {
+              key: 'statistic',
+              icon: <RiBarChart2Fill className='fs-5' />,
+              label: 'Statistic',
+            },
+            {
+              key: 'comment',
+              icon: <RiMessage3Line className='fs-5' />,
+              label: 'Comment',
+            },
+            {
+              key: 'orders',
+              icon: <RiMessage3Line className='fs-5' />,
+              label: 'Orders',
+            },
+            {
+              key: 'slide-show',
+              icon: <RiSlideshow4Line className='fs-5' />,
+              label: 'Slide Show',
+            },
+            {
+              key: 'color',
+              icon: <MdOutlineColorLens className='fs-5' />,
+              label: 'Color',
+              children: [
+                {
+                  key: 'add-color',
+                  icon: <MdOutlineColorLens className='fs-5' />,
+                  label: 'Add Color',
+                },
+                {
+                  key: 'color-list',
+                  icon: <MdOutlineColorLens className='fs-5' />,
+                  label: 'Color List',
+                },
+              ]
+            },
+            {
+              key: 'brand',
+              icon: <TbBrandBlogger className='fs-5' />,
+              label: 'Brand',
+              children: [
+                {
+                  key: 'add-brand',
+                  icon: <MdOutlineColorLens className='fs-5' />,
+                  label: 'Add Brand',
+                },
+                {
+                  key: 'brand-list',
+                  icon: <MdOutlineColorLens className='fs-5' />,
+                  label: 'Brand List',
+                },
+              ]
             },
           ]}
         />

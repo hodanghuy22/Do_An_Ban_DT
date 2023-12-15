@@ -18,6 +18,7 @@ namespace DoAnMonHoc_Backend.Controllers
             _photoService = photoService;
         }
         [HttpPost]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UploadPhoto(IFormFile file)
         {
             var result = await _photoService.UploadPhotoAsync(file);
@@ -34,6 +35,7 @@ namespace DoAnMonHoc_Backend.Controllers
         }
         [HttpDelete]
         [Route("{publicId}")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePhoto(string publicId)
         {
             var result = await _photoService.DeletePhotoAsync(publicId);
