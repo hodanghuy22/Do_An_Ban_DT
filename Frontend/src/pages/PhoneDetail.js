@@ -5,8 +5,9 @@ import { AiTwotoneStar } from "react-icons/ai";
 import { RiRefund2Line } from "react-icons/ri";
 import { BsShieldCheck, BsBox } from "react-icons/bs";
 import { CiCirclePlus } from "react-icons/ci";
-import { BsCartCheck} from "react-icons/bs";
+import { BsCartCheck } from "react-icons/bs";
 import { Container, Row, Col, Carousel, Button, Table, Form } from 'react-bootstrap';
+import Footer from '../Components/Footer';
 const PhoneDetail = () => {
 
     useEffect(() => {
@@ -35,7 +36,7 @@ const PhoneDetail = () => {
                 <h5 style={{ display: 'inline-block' }}>Điện thoại iPhone 12 128GB</h5>
                 <Link style={{ color: 'yellow' }}><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /></Link>
                 <span>171 đánh giá</span>
-                <Link to="/so-sanh" className='ml-3' > 
+                <Link to="/so-sanh" className='ml-3' >
                     <CiCirclePlus className='mb-1' style={{ fontSize: '20px' }} />
                     So sánh
                 </Link>
@@ -44,7 +45,7 @@ const PhoneDetail = () => {
                 <Row>
                     <Col xl={7}>
                         {/* Slider điện thoại */}
-                        <Carousel  className='bg-light ' data-bs-theme="dark" prevIcon={null} nextIcon={null}>
+                        <Carousel className='bg-light ' data-bs-theme="dark" prevIcon={null} nextIcon={null}>
                             <Carousel.Item>
                                 <img
                                     className="d-block w-100"
@@ -71,7 +72,7 @@ const PhoneDetail = () => {
                                     className="d-block w-100"
                                     src="/Images/detail/1/4.jpg"
                                     alt="First slide 4"
-                                /> 
+                                />
                             </Carousel.Item>
                             <Carousel.Item>
                                 <img
@@ -91,7 +92,7 @@ const PhoneDetail = () => {
                                 <img
                                     className="d-block w-100"
                                     src="/Images/detail/1/7.jpg"
-                                    alt="First slide7" 
+                                    alt="First slide7"
                                 />
                             </Carousel.Item>
                             <Carousel.Item>
@@ -163,7 +164,7 @@ const PhoneDetail = () => {
                         {/* Ảnh thông tin điện thoại */}
                         <Container className='bg-light '>
                             <Row >
-                                <img src='/Images/detail/1/note.jpg' style={{ width: '100%' }} alt='zxczxc'/>
+                                <img src='/Images/detail/1/note.jpg' style={{ width: '100%' }} alt='zxczxc' />
                             </Row>
                             <Row className='mt-5'>
                                 <h5>Thông tin sản phẩm</h5>
@@ -218,7 +219,7 @@ const PhoneDetail = () => {
                                     <div className='mt-4'>
                                         <div className='d-flex items-start justify-start '>
                                             <div className='avatar overflow-hidden'>
-                                                <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='zxczcxzxc'/>
+                                                <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='zxczcxzxc' />
                                             </div>
                                             <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                 <div className='d-flex items-center'>
@@ -240,7 +241,7 @@ const PhoneDetail = () => {
                                         </div>
                                         <div className='d-flex items-start justify-start  '>
                                             <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasdasd'/>
+                                                <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasdasd' />
                                             </div>
                                             <div className='flex-column items-start justify-start px-3 w-11/12'>
                                                 <div class="d-flex items-center">
@@ -317,7 +318,7 @@ const PhoneDetail = () => {
                                                     </div>
                                                     <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                         <div className='d-flex items-center'>
-                                                            
+
                                                             <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
                                                         </div>
                                                         <div class="d-flex items-center">
@@ -329,12 +330,12 @@ const PhoneDetail = () => {
                                                 </div>
                                                 <div className='d-flex items-start justify-start  '>
                                                     <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='adasdasdas'/>
+                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='adasdasdas' />
                                                     </div>
                                                     <div className='flex-column items-start justify-start px-3 w-11/12'>
                                                         <div class="d-flex items-center">
                                                             <p class="text-ddv font-bold text-16 mt-1" >
-                                                                Di Động Việt xin chào Anh Hải ạ !<br/>
+                                                                Di Động Việt xin chào Anh Hải ạ !<br />
                                                                 Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram 4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ 3.790.000.<br />
                                                                 Ưu đãi khi mua cùng máy<br />
                                                                 Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo bảng giá hôm nay tại đây)<br />
@@ -354,7 +355,7 @@ const PhoneDetail = () => {
                                                     </div>
                                                     <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                         <div className='d-flex items-center'>
-                                                            
+
                                                             <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
                                                         </div>
                                                         <div class="d-flex items-center">
@@ -366,7 +367,7 @@ const PhoneDetail = () => {
                                                 </div>
                                                 <div className='d-flex items-start justify-start  '>
                                                     <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png'  alt='asdasd'/>
+                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
                                                     </div>
                                                     <div className='flex-column items-start justify-start px-3 w-11/12'>
                                                         <div class="d-flex items-center">
@@ -387,11 +388,11 @@ const PhoneDetail = () => {
                                             <div className='pt-4'>
                                                 <div className='d-flex items-start justify-start '>
                                                     <div className='avatar overflow-hidden'>
-                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png'  alt='asdasd'/>
+                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
                                                     </div>
                                                     <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                         <div className='d-flex items-center'>
-                                                            
+
                                                             <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
                                                         </div>
                                                         <div class="d-flex items-center">
@@ -403,7 +404,7 @@ const PhoneDetail = () => {
                                                 </div>
                                                 <div className='d-flex items-start justify-start  '>
                                                     <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png'  alt='asdasd'/>
+                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
                                                     </div>
                                                     <div className='flex-column items-start justify-start px-3 w-11/12'>
                                                         <div class="d-flex items-center">
@@ -424,11 +425,11 @@ const PhoneDetail = () => {
                                             <div className='pt-4'>
                                                 <div className='d-flex items-start justify-start '>
                                                     <div className='avatar overflow-hidden'>
-                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png'  alt='asdasd'/>
+                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
                                                     </div>
                                                     <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                         <div className='d-flex items-center'>
-                                                            
+
                                                             <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
                                                         </div>
                                                         <div class="d-flex items-center">
@@ -440,7 +441,7 @@ const PhoneDetail = () => {
                                                 </div>
                                                 <div className='d-flex items-start justify-start  '>
                                                     <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='zxcz'/>
+                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='zxcz' />
                                                     </div>
                                                     <div className='flex-column items-start justify-start px-3 w-11/12'>
                                                         <div class="d-flex items-center">
@@ -504,15 +505,15 @@ const PhoneDetail = () => {
                                         <div className='w-100'>
                                             <div>
                                                 <Button variant="danger" className='' style={{ width: '73%', margin: '1%' }}>MUA NGAY GIÁ RẺ QUÁ </Button>
-                                                <Button variant="danger" className='' style={{ width: '23%', margin: '1%' }}><BsCartCheck style={{fontSize:'25px'}}/></Button>
-                                         
+                                                <Button variant="danger" className='' style={{ width: '23%', margin: '1%' }}><BsCartCheck style={{ fontSize: '25px' }} /></Button>
+
                                             </div>
                                             <Button variant='primary' style={{ width: '48%', margin: '1%' }} className=' mt-1  '>MUA TRẢ GÓP</Button>
                                             <Button variant='primary' style={{ width: '48%', margin: '1%' }} className=' mt-1 '>TRẢ GÓP QUA THẺ</Button>
                                         </div>
                                     </div>
                                 </Col>
-                               
+
                             </Row>
                         </Container>
                         <Container className=' bg-light '>
@@ -563,6 +564,9 @@ const PhoneDetail = () => {
                     </Col>
                 </Row>
             </Container>
+            <footer className='m-auto' style={{ width: 1200 }}>
+                <Footer />
+            </footer>
         </>
     )
 }

@@ -16,15 +16,17 @@ import Sosanh from "./pages/Sosanh";
 import Doimatkhau from "./pages/Doimatkhau";
 import ChiTietDonHang from "./pages/ChiTietDonHang";
 import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<Resetpassword />} />
         <Route path="/forgot-password" element={<Forgotpassword />} />
         <Route path="/" element={<MainLayout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
           <Route index element={<Home />} />
           <Route path="/dtdd/1" element={<Detail />} />
           <Route path="/cart" element={<Cart />} />
