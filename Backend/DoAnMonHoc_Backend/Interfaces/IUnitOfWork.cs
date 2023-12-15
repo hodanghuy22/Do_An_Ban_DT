@@ -16,6 +16,7 @@
         IInvoiceDetailRepository InvoiceDetailRepository { get; }
         ICommentRepository CommentRepository { get; }
         IRatingRepository RatingRepository { get; }
+        ISlideshowRepository SlideshowRepository { get; }
         Task<bool> SaveAsync();
     }
 }

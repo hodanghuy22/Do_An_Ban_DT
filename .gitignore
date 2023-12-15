@@ -19,11 +19,9 @@ Admin/node_modules/.bin/
 Admin/node_modules/.cache/
 Admin/node_modules/.cache/.eslintcache
 # dependencies
-Frontend/node_modules
 Frontend/.pnp
 Frontend/.pnp.js
 
-Admin/node_modules
 Admin/.pnp
 Admin/.pnp.js
 

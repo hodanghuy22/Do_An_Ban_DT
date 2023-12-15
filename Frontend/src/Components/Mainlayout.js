@@ -107,7 +107,6 @@ const Mainlayout = () => {
             </div>
 
 
-
             <Modal show={show} onHide={handleClose} style={{ marginTop: '10%' }}>
                 <Modal.Header >
                     <Modal.Title>{isLogin ? 'Đăng Nhập' : 'Đăng Ký'}</Modal.Title>

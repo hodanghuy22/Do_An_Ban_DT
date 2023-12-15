@@ -68,6 +68,8 @@ namespace DoAnMonHoc_Backend.Data
         public IRatingRepository RatingRepository => 
             new RatingRepository(_context);
 
+        public ISlideshowRepository SlideshowRepository => 
+            new SlideshowRepository(_context);
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() > 0;

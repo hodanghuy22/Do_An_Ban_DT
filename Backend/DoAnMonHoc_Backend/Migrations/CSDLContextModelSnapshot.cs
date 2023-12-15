@@ -468,6 +468,28 @@ namespace DoAnMonHoc_Backend.Migrations
                     b.ToTable("Ratings");
                 });
 
+            modelBuilder.Entity("DoAnMonHoc_Backend.Models.Slideshow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Slideshows");
+                });
+
             modelBuilder.Entity("DoAnMonHoc_Backend.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -725,7 +747,7 @@ namespace DoAnMonHoc_Backend.Migrations
                         .HasForeignKey("CommentId");
 
                     b.HasOne("DoAnMonHoc_Backend.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -848,7 +870,7 @@ namespace DoAnMonHoc_Backend.Migrations
             modelBuilder.Entity("DoAnMonHoc_Backend.Models.Rating", b =>
                 {
                     b.HasOne("DoAnMonHoc_Backend.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Ratings")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -947,7 +969,11 @@ namespace DoAnMonHoc_Backend.Migrations
 
             modelBuilder.Entity("DoAnMonHoc_Backend.Models.Product", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Images");
+
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("DoAnMonHoc_Backend.Models.User", b =>

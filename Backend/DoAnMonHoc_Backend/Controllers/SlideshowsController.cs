@@ -18,9 +18,23 @@ namespace DoAnMonHoc_Backend.Controllers
             _photoService = photoService;
             _uow = uow;
         }
+        [HttpGet("for-admin")]
+        public async Task<IActionResult> GetSlideshows()
+        {
+            var sildeshows = await _uow.SlideshowRepository.GetSlideshows();
+            return Ok(sildeshows);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSlideshowsForPresent()
+        {
+            var sildeshows = await _uow.SlideshowRepository.GetSlideshowsForPresent();
+            return Ok(sildeshows);
+        }
+
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddBrandPhoto(IFormFile file)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddSlideShow(IFormFile file)
         {
             var result = await _photoService.UploadPhotoAsync(file);
             if (result.Error != null)
@@ -33,28 +47,30 @@ namespace DoAnMonHoc_Backend.Controllers
                 PublicId = result.PublicId,
                 Status = true
             };
-            await _uow.SaveAsync();
-            return Ok(201);
-        }
-        [HttpPost]
-        [Route("delete-photo/{brandId}/{publicId}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteBrandPhoto(int brandId, string publicId)
-        {
-            var brand = await _uow.BrandRepository.GetBrand(brandId);
-            if (brand == null || brand.HinhPublicId != publicId)
+            await _uow.SlideshowRepository.CreateSlideshow(slideshow);
+            var save = await _uow.SaveAsync();
+            if (!save)
             {
                 return BadRequest();
             }
-            var result = await _photoService.DeletePhotoAsync(brand.HinhPublicId);
-            if (result.Error != null)
+            return Ok();
+        }
+        [HttpDelete]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteSlideShow (int slideshowId)
+        {
+            var slideshow = await _uow.SlideshowRepository.GetSlideshow(slideshowId);
+            if(slideshow == null)
             {
-                return BadRequest(result.Error.Message);
+                return NotFound();
             }
-            brand.FileHinh = "";
-            brand.HinhPublicId = "";
-            await _uow.SaveAsync();
-            return Ok(201);
+            await _uow.SlideshowRepository.DeleteSlideshow(slideshowId);
+            var save = await _uow.SaveAsync();
+            if (!save)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
     }
 }
