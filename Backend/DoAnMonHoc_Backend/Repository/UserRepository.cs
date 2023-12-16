@@ -72,12 +72,15 @@ namespace DoAnMonHoc_Backend.Repository
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
-            var userDto = _mapper.Map<UserDto>(user);  
+            user.Token = new JwtSecurityTokenHandler().WriteToken(token);
+            user.Expiration = token.ValidTo;
+            await _context.SaveChangesAsync();
+            var userDto = _mapper.Map<UserDto>(user);
             return new OkObjectResult(new
             {
                 userDto,
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
+                //token = new JwtSecurityTokenHandler().WriteToken(token),
+                //expiration = token.ValidTo
             });
         }
 
@@ -165,19 +168,22 @@ namespace DoAnMonHoc_Backend.Repository
         public async Task<IActionResult> UpdateUser(string id, UserDto userDto)
         {
             var userDB = await _userManager.FindByIdAsync(id);
-            Console.WriteLine("trc " + userDB.Name);
             if (userDB == null)
             {
                 return new NotFoundResult();
             }
             _mapper.Map(userDto, userDB);
-            Console.WriteLine("sau " + userDB.Name);
 
             // Thực hiện cập nhật thông tin người dùng trong cơ sở dữ liệu
             var result = await _userManager.UpdateAsync(userDB);
+            //var user = _mapper.Map<UserDto>(userDB);
+            _mapper.Map(userDB, userDto);
             if (result.Succeeded)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    userDto
+                });
             }
 
             return new BadRequestObjectResult(result.Errors);

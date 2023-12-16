@@ -4,13 +4,16 @@ import { RiProfileFill } from "react-icons/ri"
 import { FaClipboardList } from "react-icons/fa"
 import { Link, Outlet } from 'react-router-dom'
 import { FaHeart } from "react-icons/fa";
+import { useSelector } from 'react-redux'
 const AccountLayout = () => {
+    const authState = useSelector(state => state?.auth?.user?.userDto);
+    
     return (
         <div>
             <Container>
                 <Row className='justify-content-between'>
                     <Col xl={3} className=''>
-                        <h6>Anh <strong>Phạm Quảng Bình</strong></h6>
+                        <h6>Anh/Chị <strong>{authState?.name}</strong></h6>
                         <div className='text-left'>
                             <Link to="/user" variant='light' className='w-100 text-left btn mb-2'>
                                 <FaClipboardList className='mr-2 h4 text-success' />

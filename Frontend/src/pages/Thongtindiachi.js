@@ -1,109 +1,156 @@
-import React, { useState } from 'react'
-import { Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import { TiEdit } from "react-icons/ti";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import React, { useState, useEffect } from 'react'
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateAUser } from '../features/users/userSlice';
+
+const userSchema = yup.object({
+  name: yup.string().required('Username is Required'),
+  age: yup.number()
+    .moreThan(0, 'Giá trị phải lớn hơn 0')
+    .required("Password is Required"),
+  address: yup.string().required('Username is Required'),
+  phoneNumber: yup.string()
+    .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ')
+    .required('Vui lòng nhập số điện thoại'),
+  email: yup.string().email("Email Should be valid").required('Email is Required'),
+  userName: yup.string().required('Username is Required')
+  .min(6, 'Username must be at least 6 characters'),
+});
+
 const Thongtindiachi = () => {
-    const [showEditForm, setShowEditForm] = useState(false);
-    const [gender, setGender] = useState(1);
-    const [fullName, setFullName] = useState("Phạm Quảng Bình");
-    const [phoneNumber, setPhoneNumber] = useState("0329155867");
-
-    const handleClick = () => {
-        setShowEditForm(true);
-    };
-
-    const handleGenderChange = (value) => {
-        setGender(value);
-    };
-
-    const handleFullNameChange = (event) => {
-        const value = event.target.value;
-        setFullName(value);
-    };
-
-    const handlePhoneNumberChange = (event) => {
-        const value = event.target.value;
-        setPhoneNumber(value);
-    };
-
-    const handleProfileEdit = () => {
-        // Xử lý lưu thông tin
-        setShowEditForm(false);
-    };
-
-    const handleCancelEdit = () => {
-        setShowEditForm(false);
-    };
-    return (
+  const authState = useSelector(state => state?.auth?.user?.userDto);
+  const dispatch = useDispatch()
+  const formik = useFormik({
+    initialValues: {
+      id: authState?.id,
+      name: authState?.name,
+      age: authState?.age,
+      address: authState?.address,
+      phoneNumber: authState?.phoneNumber,
+      email: authState?.email,
+      userName: authState?.userName,
+      token: authState?.token,
+      expiration: authState?.expiration,
+    },
+    validationSchema: userSchema,
+    onSubmit: values => {
+      const data = { id: authState.id, data: values }
+      dispatch(UpdateAUser(data))
+    },
+  });
+  return (
+    <div>
+      <form onSubmit={formik.handleSubmit} className='w-75 m-auto'>
         <div>
-            <h4>Thông tin tải khoản</h4>
-            <div className='bg-light shadow p-4 mb-5 bg-white rounded'>
-                <p className='h6'>THÔNG TIN CÁ NHÂN</p>
-                <p>Anh Phạm Quảng Bình - 0329155867 <Link onClick={handleClick} className='ml-2'><TiEdit className='mb-2' />Sửa</Link></p>
-
-                <div>
-
-                    <div className="edit-form " style={{ display: showEditForm ? 'block' : 'none' }}>
-                        <div className="profile-input-group">
-                            <div>
-                                <span
-                                    className={gender === 1 ? 'active mr-2' : 'mr-2'}
-                                    data-val="1"
-                                    onClick={() => handleGenderChange(1)}
-                                >
-                                    <input type="radio" name="gender" checked={gender === 1} readOnly /> Anh
-                                </span>
-                                <span
-                                    className={gender === 0 ? 'active' : ''}
-                                    data-val="0"
-                                    onClick={() => handleGenderChange(0)}
-                                >
-                                    <input type="radio" name="gender" checked={gender === 0} readOnly /> Chị
-                                </span>
-                            </div>
-                            <div className="profile-input d-flex mt-3">
-                                <div className="profile-name mr-5">
-                                    <span>Họ &amp; Tên: </span>
-                                    <input
-                                        className='p-2'
-                                        type="text"
-                                        name="txtFullName"
-                                        value={fullName}
-                                        onChange={handleFullNameChange}
-                                    />
-                                    <p className="texterror txtFullName_error"></p>
-                                </div>
-                                <div className="profile-phoneNumber">
-                                    <span>Số điện thoại: </span>
-                                    <input
-                                        className='p-2'
-                                        type="tel"
-                                        name="txtPhoneNumber"
-                                        value={phoneNumber}
-                                        onChange={handlePhoneNumberChange}
-                                    />
-                                    <p className="texterror txtPhoneNumber_error"></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="d-flex mt-3" style={{ justifyContent: 'center' }}>
-                            <Button variant='light' style={{ display: 'block' }} className="" onClick={handleCancelEdit}>Hủy</Button>
-                            <Button variant='light' style={{ display: 'block' }} className="text-danger" onClick={handleProfileEdit}>Lưu</Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='bg-light shadow p-4 mb-5 bg-white rounded'>
-                <p className='h6'>ĐỊA CHỈ NHẬN HÀNG</p>
-                <p>Đường 106, phường Tăng Nhơn Phú A, Thành Phố Thủ Đức
-                    <Link className='ml-2'><TiEdit className='mb-2' />Sửa</Link>
-                    <Link className='ml-2'><RiDeleteBin6Line className='mb-2' />Xóa</Link>
-                </p>
-            </div>
+          <h3 className='text-center'>Thông Tin Tài Khoản</h3>
         </div>
-    )
+        <div className="form-outline mb-4">
+          <label className="form-label">Họ Tên</label>
+          <input
+            type="text"
+            className="form-control"
+            name="name"
+            placeholder='Name'
+            value={formik.values.name}
+            onChange={formik.handleChange('name')}
+            onBlur={formik.handleBlur('name')}
+          />
+          <div className='error'>
+            {
+              formik.touched.name && formik.errors.name
+            }
+          </div>
+        </div>
+        <div className="form-outline mb-4">
+          <label className="form-label">Tuổi</label>
+          <input
+            type="number"
+            className="form-control"
+            name="age"
+            placeholder='Age'
+            value={formik.values.age}
+            onChange={formik.handleChange('age')}
+            onBlur={formik.handleBlur('age')}
+          />
+          <div className='error'>
+            {
+              formik.touched.age && formik.errors.age
+            }
+          </div>
+        </div>
+        <div className="form-outline mb-4">
+          <label className="form-label">Số Điện Thoại</label>
+          <input
+            type="text"
+            className="form-control"
+            name="phoneNumber"
+            placeholder='Phone Number'
+            value={formik.values.phoneNumber}
+            onChange={formik.handleChange('phoneNumber')}
+            onBlur={formik.handleBlur('phoneNumber')}
+          />
+          <div className='error'>
+            {
+              formik.touched.phoneNumber && formik.errors.phoneNumber
+            }
+          </div>
+        </div>
+        <div className="form-outline mb-4">
+          <label className="form-label">Địa Chỉ</label>
+          <input
+            type="text"
+            className="form-control"
+            name="address"
+            placeholder='Address'
+            value={formik.values.address}
+            onChange={formik.handleChange('address')}
+            onBlur={formik.handleBlur('address')}
+          />
+          <div className='error'>
+            {
+              formik.touched.address && formik.errors.address
+            }
+          </div>
+        </div>
+        <div className="form-outline mb-4">
+          <label className="form-label">Email</label>
+          <input
+            type="email"
+            className="form-control"
+            name="email"
+            placeholder='Email'
+            value={formik.values.email}
+            onChange={formik.handleChange('email')}
+            onBlur={formik.handleBlur('email')}
+          />
+          <div className='error'>
+            {
+              formik.touched.email && formik.errors.email
+            }
+          </div>
+        </div>
+        <div className="form-outline mb-4">
+          <label className="form-label">Username</label>
+          <input
+            type="text"
+            className="form-control"
+            name="userName"
+            placeholder='UserName'
+            value={formik.values.userName}
+            onChange={formik.handleChange('userName')}
+            onBlur={formik.handleBlur('userName')}
+          />
+          <div className='error'>
+            {
+              formik.touched.userName && formik.errors.userName
+            }
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary btn-block mb-4 background-primary text-dark">Lưu Thông Tin</button>
+      </form>
+    </div>
+  )
 }
 
 export default Thongtindiachi
