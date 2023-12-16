@@ -23,17 +23,6 @@ body {
 .btn{
   outline: none;
 }
-<<<<<<< HEAD
-.btn-hover{
-  text-decoration: none;
-}
-.btn-hover:hover{
-  background-color: #ecee81;
-  color: #ffffff;
-
-}
-=======
->>>>>>> a279fa93df0c2078b52cd083fd0d78f836f1100b
 a {
   text-decoration: none;
 }
@@ -111,4 +100,9 @@ textarea {
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.error{
+  color:red;
+  font-size: 13px;
 }

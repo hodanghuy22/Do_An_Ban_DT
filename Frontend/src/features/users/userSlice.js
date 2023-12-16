@@ -10,6 +10,14 @@ export const registerUser = createAsyncThunk("auth/register", async(userData,thu
     }
 })
 
+export const login = createAsyncThunk("auth/login", async(userData,thunkAPI) =>{
+    try{
+        return await userService.login(userData);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 const getCustomerfromLocalStorage = localStorage.getItem('customer')? JSON.parse(localStorage.getItem("customer")):null;
 
 const initialState = {
@@ -33,12 +41,32 @@ export const authSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.createdUser = action.payload;
             if(state.isSuccess === true){
                 toast.info("User Created Successfully");
             }
         })
         .addCase(registerUser.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+            if(state.isError === true){
+                toast.error(action.payload.response.data.message);
+            }
+        }).addCase(login.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(login.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.user = action.payload;
+            if(state.isSuccess === true){
+                localStorage.setItem('token', action.payload.token)
+                toast.info("Login Successfully");
+            }
+        })
+        .addCase(login.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

@@ -7,6 +7,9 @@ import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { Link, Outlet } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Mainlayout = () => {
     const handleScrollToTop = () => {
         window.scrollTo(0, 0);
@@ -70,7 +73,18 @@ const Mainlayout = () => {
             <button onClick={handleScrollToTop} className="scroll-to-top-button mb-3">
                 <GoMoveToTop style={{ fontSize: '30px' }} />
             </button>
-
+            <ToastContainer 
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </>
     )
 }

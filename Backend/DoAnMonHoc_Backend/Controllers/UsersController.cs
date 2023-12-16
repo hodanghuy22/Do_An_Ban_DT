@@ -23,19 +23,19 @@ namespace DoAnMonHoc_Backend.Controllers
         }
         [HttpPost]
         [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin(string Username, string Password, string Email)
+        public async Task<IActionResult> RegisterAdmin(RegisterModel registerModel)
         {
-            return await _uow.UserRepositoty.RegisterAdmin(Username, Password, Email);
+            return await _uow.UserRepositoty.RegisterAdmin(registerModel);
         }
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(string Username, string Password, string Email)
+        public async Task<IActionResult> Register(RegisterModel registerModel)
         {
-            return await _uow.UserRepositoty.Register(Username, Password, Email);
+            return await _uow.UserRepositoty.Register(registerModel);
         }
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([Bind("Username,Password")] LoginModel account)
+        public async Task<IActionResult> Login(LoginModel account)
         {
             return await _uow.UserRepositoty.Login(account);
         }

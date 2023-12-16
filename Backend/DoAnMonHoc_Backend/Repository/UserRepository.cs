@@ -42,7 +42,7 @@ namespace DoAnMonHoc_Backend.Repository
             return usersDto;
         }
 
-        public async Task<IActionResult> Login([Bind(new[] { "Username,Password" })] LoginModel account)
+        public async Task<IActionResult> Login(LoginModel account)
         {
             var user = await _userManager.FindByNameAsync(account.Username);
             if (user == null)
@@ -81,21 +81,31 @@ namespace DoAnMonHoc_Backend.Repository
             });
         }
 
-        public async Task<IActionResult> Register(string Username, string Password, string Email)
+        public async Task<IActionResult> Register(RegisterModel registerModel)
         {
-            var userExist = await _userManager.FindByNameAsync(Username);
+            if(registerModel.Password != registerModel.Repassword)
+            {
+                return new BadRequestObjectResult("Password must be matched with Repassword!");
+            }
+            var userExist = await _userManager.FindByNameAsync(registerModel.Username);
             if(userExist != null)
             {
                 var errorResponse = new { Message = "User already exists" };
                 return new BadRequestObjectResult(errorResponse);
             }
+            var checkEmail = await _userManager.FindByEmailAsync(registerModel.Email);
+            if (checkEmail != null)
+            {
+                var errorResponse = new { Message = "Email already exists" };
+                return new BadRequestObjectResult(errorResponse);
+            }
             User user = new User()
             {
-                UserName = Username,
+                UserName = registerModel.Username,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                Email = Email
+                Email = registerModel.Email
             };
-            var result = await _userManager.CreateAsync(user, Password);
+            var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
             {
                 var errorResponse = new { Message = "Something went wrong!" };
@@ -109,21 +119,31 @@ namespace DoAnMonHoc_Backend.Repository
 
         }
 
-        public async Task<IActionResult> RegisterAdmin(string Username, string Password, string Email)
+        public async Task<IActionResult> RegisterAdmin(RegisterModel registerModel)
         {
-            var userExists = await _userManager.FindByNameAsync(Username);
-            if (userExists != null)
+            if (registerModel.Password != registerModel.Repassword)
+            {
+                return new BadRequestObjectResult("Password must be matched with Repassword!");
+            }
+            var userExist = await _userManager.FindByNameAsync(registerModel.Username);
+            if (userExist != null)
             {
                 var errorResponse = new { Message = "User already exists" };
                 return new BadRequestObjectResult(errorResponse);
             }
+            var checkEmail = await _userManager.FindByEmailAsync(registerModel.Email);
+            if (checkEmail != null)
+            {
+                var errorResponse = new { Message = "Email already exists" };
+                return new BadRequestObjectResult(errorResponse);
+            }
             User user = new User()
             {
-                Email = Email,
+                Email = registerModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = Username
+                UserName = registerModel.Username
             };
-            var result = await _userManager.CreateAsync(user, Password);
+            var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
             {
                 var errorResponse = new { Message = "Something went wrong!" };
