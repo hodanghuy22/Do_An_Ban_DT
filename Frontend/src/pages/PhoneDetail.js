@@ -8,6 +8,15 @@ import { CiCirclePlus } from "react-icons/ci";
 import { BsCartCheck } from "react-icons/bs";
 import { Container, Row, Col, Carousel, Button, Table, Form } from 'react-bootstrap';
 import Footer from '../Components/Footer';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+// import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { getAProduct } from '../features/products/productSlice';
@@ -64,107 +73,49 @@ const PhoneDetail = () => {
                         <Container className='border-top'>
                             <Row>
                                 <Col xl={7}>
-                                    {/* Slider điện thoại */}
-                                    <Carousel className='bg-light ' data-bs-theme="dark" prevIcon={null} nextIcon={null}>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/1.jpg"
-                                                alt="First slide 1"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/2.jpg"
-                                                alt="First slide 2"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/3.jpg"
-                                                alt="First slide 3"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/4.jpg"
-                                                alt="First slide 4"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/5.jpg"
-                                                alt="First slide 5"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/6.jpg"
-                                                alt="First slide 6"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/7.jpg"
-                                                alt="First slide7"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/8.jpg"
-                                                alt="First slide 8"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/9.jpg"
-                                                alt="First slide 9"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/10.jpg"
-                                                alt="First slide10"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/11.jpg"
-                                                alt="First slide 11"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/12.jpg"
-                                                alt="First slide 12"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/13.jpg"
-                                                alt="First slide 13"
-                                            />
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <img
-                                                className="d-block w-100"
-                                                src="/Images/detail/1/14.jpg"
-                                                alt="First slide 14"
-                                            />
-                                        </Carousel.Item>
-                                    </Carousel>
+                            {/* Slider điện thoại */}
+                            <Swiper
+                                spaceBetween={30}
+                                centeredSlides={true}
+                                autoplay={{
+                                    delay: 2500,
+                                    disableOnInteraction: false,
+                                }}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                navigation={true}
+                                modules={[Autoplay, Pagination, Navigation]}
+                                className="mySwiper"
+                            >
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/1.jpg' alt='zxc'/>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/2.jpg' alt='zxc' />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/3.jpg' alt='zxc' />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/4.jpg' alt='zxc' />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/5.jpg' alt='zxc' />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/6.jpg' alt='zxc' />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/7.jpg' alt='zxc' />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/8.jpg' alt='zxc' />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img className='w-100' src='/Images/detail/1/9.jpg' alt='zxc' />
+                                </SwiperSlide>
+                            </Swiper>
 
                                     {/* Bảo hành */}
                                     <Container className='mt-5 bg-light '>
@@ -182,7 +133,7 @@ const PhoneDetail = () => {
                                     {/* Ảnh thông tin điện thoại */}
                                     <Container className='bg-light '>
                                         <Row >
-                                            <img src='/Images/detail/1/note.jpg' style={{ width: '100%' }} alt='zxczxc' />
+                                            <img className='w-100' src='/Images/detail/1/note.jpg' style={{ width: '100%' }} alt='zxczxc' />
                                         </Row>
                                         <Row className='mt-5'>
                                             <h5>Thông tin sản phẩm</h5>
