@@ -9,12 +9,14 @@ import { getAllProducts, getBrand } from '../features/products/productSlice';
 function Home() {
     const dispatch = useDispatch();
     const productState = useSelector(state => state?.product?.phones);
-    // const brandState = useSelector(state => state?.product?.product);
     const [products, setProducts] = useState([]);
+    const [isProductStateReady, setIsProductStateReady] = useState(false);
+
     useEffect(() => {
         dispatch(getBrand());
         dispatch(getAllProducts());
     }, []);
+
     useEffect(() => {
         if (productState && productState.length > 0) {
             const newProducts = productState.filter(
@@ -22,8 +24,10 @@ function Home() {
                     index === self.findIndex(p => p.phoneId === product.phoneId)
             );
             setProducts(newProducts);
+            setIsProductStateReady(true);
         }
     }, [productState]);
+
     const formatNumber = (number) => {
         const formatter = new Intl.NumberFormat('vi-VN');
         return formatter.format(number);
@@ -44,11 +48,11 @@ function Home() {
                     </Container> */}
                 <Container className='mt-3'>
                     <Row>
-                        {
+                        {isProductStateReady ? (
                             products && products?.map((item, index) => {
                                 return (
                                     <div className='col-24 pb-4 pt-4' key={index} >
-                                        <Link to={`/dtdd/${item?.phoneId}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                        <Link to={`/dtdd/${item?.id}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
                                             <div className='p-3'>
                                                 <img className='card-image' width={"100%"} src={item?.phone.fileHinh} alt='iphone15promax' />
                                                 <div className='mt-4'>
@@ -70,7 +74,10 @@ function Home() {
                                     </div>
                                 )
                             })
-                        }
+                        ) : (<div className='w-100 d-flex justify-content-center' style={{height:'300px'}}>
+                            <div className="spinner"></div>
+                        </div>
+                        )}
                     </Row>
                 </Container>
             </div>

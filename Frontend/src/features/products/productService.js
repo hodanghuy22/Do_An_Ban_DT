@@ -8,7 +8,7 @@ const getPhone = async ()=> {
 }
 
 const getAPhone = async (id) => {
-    const response = await axios.get(`https://localhost:7056/api/Phones/${id}`)
+    const response = await axios.get(`https://localhost:7056/api/Products/${id}`)
 
     if (response.data) {
         return response.data;
