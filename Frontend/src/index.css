@@ -177,3 +177,65 @@ textarea {
       transform: rotate(.5turn);
    }
 }
+
+
+
+@media (max-width: 575px) {
+ .w-navbar {
+    width: 475px;
+  }
+   .w-item{
+    width: 80%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Breakpoint 2: 480px */
+@media (min-width: 576px) {
+  .w-navbar {
+    width: 476px;
+  }
+   .w-item{
+    width: 80%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Breakpoint 3: 768px */
+@media (min-width: 768px) {
+  .w-navbar {
+    width: 668px;
+  }
+  
+    .w-item{
+    width: 50%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Breakpoint 4: 1024px */
+@media (min-width: 992px) {
+  .w-navbar {
+    width: 892px;
+  }
+ 
+  .w-item{
+    width: 30%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Breakpoint 5: 1200px */
+@media (min-width: 1200px) {
+  .w-navbar {
+    width: 1200px;
+  }
+  
+  .w-item{
+    width: 20%;
+  }
+}

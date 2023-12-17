@@ -1,7 +1,12 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 
 const Doimatkhau = () => {
     return (
+        <>
+              <Helmet>
+                <title>Đổi mật khẩu | PHBshop</title>
+            </Helmet>
         <div className='bg-light shadow mb-3 bg-white rounded w-100 d-flex justify-content-center p-4'>
             <form id="quickForm" className='w-50'>
                 <div class="card-body">
@@ -23,6 +28,7 @@ const Doimatkhau = () => {
                 </div>
             </form>
         </div>
+        </>
     )
 }
 

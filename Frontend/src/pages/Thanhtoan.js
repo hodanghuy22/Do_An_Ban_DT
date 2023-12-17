@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Col, Container, Image,  Row } from 'react-bootstrap'
+import { Helmet } from 'react-helmet';
 import { IoMdArrowBack } from "react-icons/io";
 import { MdPayment } from "react-icons/md";
 import { Link } from 'react-router-dom';
@@ -12,6 +13,9 @@ const Thanhtoan = () => {
     };
     return (
         <div>
+            <Helmet>
+                <title>Thanh toán | PHBshop</title>
+            </Helmet>
             <Container className='w-50 m-auto '>
                 <Row >
                     <p className='text-center w-100 bg-transparent'><Link to="/cart"><IoMdArrowBack className='float-left mt-2 h3' /></Link> <p className='h4 mt-2'>THANH TOÁN</p></p>

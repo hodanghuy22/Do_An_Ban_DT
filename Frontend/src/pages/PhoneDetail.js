@@ -11,6 +11,7 @@ import Footer from '../Components/Footer';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { getAProduct } from '../features/products/productSlice';
+import { Helmet } from 'react-helmet';
 const PhoneDetail = () => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +39,10 @@ const PhoneDetail = () => {
     };
     return (
         <>
+                <Helmet>
+                        <title>{productState.phone.name} | PHBshop</title>
+                </Helmet>
+          
                     <div>
                         <Breadcrumb separator="›">
                             <Breadcrumb.Item>

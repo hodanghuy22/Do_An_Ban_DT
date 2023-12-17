@@ -1,9 +1,14 @@
 import React from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 const DanhSachYeuThich = () => {
-  return (
+    return (
+        <>
+            <Helmet>
+                <title>Danh sách yêu thích | PHBshop</title>
+            </Helmet>
     <div>
           <h6>Sản phẩm yêu thích</h6>
           <Container>
@@ -87,7 +92,8 @@ const DanhSachYeuThich = () => {
               </Row>
           </Container>
     </div>
-  )
+        </>
+    )
 }
 
 export default DanhSachYeuThich

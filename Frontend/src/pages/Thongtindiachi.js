@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { UpdateAUser } from '../features/users/userSlice';
+import { Helmet } from 'react-helmet';
 
 const userSchema = yup.object({
   name: yup.string().required('Username is Required'),
@@ -40,6 +41,10 @@ const Thongtindiachi = () => {
     },
   });
   return (
+    <>
+       <Helmet>
+                <title>Thông tin tải khoản | PHBshop</title>
+            </Helmet>
     <div>
       <form onSubmit={formik.handleSubmit} className='w-75 m-auto'>
         <div>
@@ -150,6 +155,7 @@ const Thongtindiachi = () => {
         <button type="submit" className="btn btn-primary btn-block mb-4 background-primary text-dark">Lưu Thông Tin</button>
       </form>
     </div>
+    </>
   )
 }
 

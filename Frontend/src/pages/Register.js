@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import { registerUser } from '../features/users/userSlice';
+import { Helmet } from 'react-helmet';
 
 const signUpSchema = yup.object({
   email: yup.string().email("Email Should be valid").required('Email is Required'),
@@ -43,6 +44,9 @@ const Register = () => {
   // },[authState])
   return (
     <Container>
+      <Helmet>
+        <title>Đăng ký | PHBshop</title>
+      </Helmet>
       <Row className='justify-content-center align-items-center'>
         <form onSubmit={formik.handleSubmit} className='w-50'>
           <div>

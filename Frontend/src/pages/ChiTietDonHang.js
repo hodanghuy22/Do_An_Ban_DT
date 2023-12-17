@@ -4,9 +4,13 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { PiSealWarningFill } from "react-icons/pi";
 import { IoBagOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 const ChiTietDonHang = () => {
     return (
         <div>
+            <Helmet>
+                <title>Chi tiết đơn hàng #1</title>
+            </Helmet>
             <Container>
                 <Row className='d-flex justify-content-between'>
                     <Col xl={7}>

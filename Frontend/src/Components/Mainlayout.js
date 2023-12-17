@@ -34,9 +34,9 @@ const Mainlayout = () => {
 
         <>
             <div className='m-auto background-primary p-3' >
-                <header className="m-auto " style={{ width: 1200 }}>
+                <header className="m-auto w-navbar">
                     <Navbar bg="body-tertiary" className="p-0 mb-4 ">
-                        <Container fluid>
+                        <Container className="">
                             <div className="background-primary w-25">
                                 <Link to="/" className="btn" style={{ fontSize: '28px' }}>
                                     <img src='/logo_no_bachground.png' width={50} alt="Logo" />
@@ -44,8 +44,7 @@ const Mainlayout = () => {
                                 </Link>
                             </div>
                             <Navbar.Toggle aria-controls="navbarSupportedContent" />
-                            <div className="d-flex ml-auto">
-
+                            <div className="">
                                 <Navbar.Collapse id="navbarSupportedContent">
                                     <Form className="d-flex ml-2 mr-2" role="search">
                                         <div className="d-flex bg-light" style={{ width: '380px' }}>

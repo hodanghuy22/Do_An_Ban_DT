@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, FormControl, Image, InputGroup, Row } from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
 import { BsCartXFill } from "react-icons/bs";
 import { Link } from 'react-router-dom';
 const Cart = () => {
@@ -23,6 +24,9 @@ const Cart = () => {
     };
     return (
         <>
+            <Helmet>
+            <title>Giỏ hàng | PHBshop</title>
+        </Helmet>
             {/* Cart rỗng */}
             <div className='text-center p-5' style={{ display: "none" }}>
                 <div className='icon-cart'><BsCartXFill /></div>
