@@ -2,18 +2,33 @@ import { FiSearch } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GoMoveToTop } from "react-icons/go";
 import { BsCartCheck, BsPhone } from "react-icons/bs";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { Link, Outlet } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { useLocation } from "react-router-dom";
 const Mainlayout = () => {
-    const handleScrollToTop = () => {
-        window.scrollTo(0, 0);
-    };
+    const [showGoToTop, setShowGoToTop] = useState(false)
+    const handleClickToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowGoToTop(window.scrollY >= 200)
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.pathname === "/") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    }, [location]);
 
     return (
 
@@ -70,21 +85,18 @@ const Mainlayout = () => {
 
 
             </div>
-            <button onClick={handleScrollToTop} className="scroll-to-top-button mb-3">
-                <GoMoveToTop style={{ fontSize: '30px' }} />
-            </button>
-            <ToastContainer 
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+            {showGoToTop && (
+                <button
+                    onClick={handleClickToTop}
+                    style={{
+                        position: 'fixed',
+                        right: 20,
+                        bottom: 20
+                    }}>
+                    <GoMoveToTop />
+                </button>
+            )}
+
         </>
     )
 }

@@ -28,7 +28,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route index element={<Home />} />
-          <Route path="dtdd/1" element={<Detail />} />
+          <Route path="/dtdd/:phoneId" element={<Detail />} />
           <Route path="cart" element={<Cart />} />
           <Route path="cart/thanh-toan" element={<Thanhtoan />} />
           <Route path="dien-thoai" element={<DienThoai />} />
