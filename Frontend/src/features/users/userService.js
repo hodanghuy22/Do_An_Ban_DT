@@ -31,10 +31,20 @@ const updateUser = async(userData) => {
     }
 }
 
+const changePassword = async(userData) => {
+    console.log(config);
+    console.log("Asdas",userData);
+    const response = await axios.put(`${base_url}Users/ChangePassword/${userData.id}`, userData.changePasswordModel, config);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const userService = {
     register,
     login,
-    updateUser
+    updateUser,
+    changePassword
 };
 
 export default userService;

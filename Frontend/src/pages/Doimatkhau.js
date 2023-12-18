@@ -1,33 +1,83 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChangePassword } from '../features/users/userSlice';
+
+const changePasswordSchema = yup.object({
+    currentPassword: yup.string().required("CurrentPassword is Required")
+        .min(6, 'Password must be at least 6 characters')
+        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character')
+        .matches(/[0-9]/, 'Password must contain at least one digit'),
+    newPassword: yup.string().required("NewPassword is Required")
+        .min(6, 'Password must be at least 6 characters')
+        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character')
+        .matches(/[0-9]/, 'Password must contain at least one digit')
+});
 
 const Doimatkhau = () => {
+    const authState = useSelector(state => state?.auth?.user?.userDto)
+    const dispatch = useDispatch()
+    const formik = useFormik({
+        initialValues: {
+            currentPassword: '',
+            newPassword: '',
+        },
+        validationSchema: changePasswordSchema,
+        onSubmit: values => {
+            const userData = { id: authState?.id, changePasswordModel: values }
+            dispatch(ChangePassword(userData));
+        },
+    });
     return (
         <>
-              <Helmet>
+            <Helmet>
                 <title>Đổi mật khẩu | PHBshop</title>
             </Helmet>
-        <div className='bg-light shadow mb-3 bg-white rounded w-100 d-flex justify-content-center p-4'>
-            <form id="quickForm" className='w-50'>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Mật khẩu cũ</label>
-                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Nhập mật khẩu cũ"/>
+            <div className='bg-light shadow mb-3 bg-white rounded w-100 d-flex justify-content-center p-4'>
+                <form onSubmit={formik.handleSubmit} className='w-75'>
+                <div class="form-group">
+                            <label>Current Password</label>
+                            <input
+                                type="password"
+                                name="currentPassword"
+                                class="form-control"
+                                placeholder="Current Password"
+                                value={formik.values.currentPassword}
+                                onChange={formik.handleChange('currentPassword')}
+                                onBlur={formik.handleBlur('currentPassword')}
+                            />
+                            <div className='error'>
+                                {
+                                    formik.touched.currentPassword && formik.errors.currentPassword
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <label>New Password</label>
+                            <input
+                                type="password"
+                                name="newPassword"
+                                class="form-control"
+                                placeholder="New Password"
+                                value={formik.values.newPassword}
+                                onChange={formik.handleChange('newPassword')}
+                                onBlur={formik.handleBlur('newPassword')}
+                            />
+                            <div className='error'>
+                                {
+                                    formik.touched.newPassword && formik.errors.newPassword
+                                }
+                            </div>
+                        </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Luu</button>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Mật khẩu mới</label>
-                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Nhập mật khẩu mới" />
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Xác nhận mật khẩu mới</label>
-                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập lại mật khẩu mới"/>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Luu</button>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
         </>
     )
 }

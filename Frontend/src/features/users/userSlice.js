@@ -26,6 +26,15 @@ export const UpdateAUser = createAsyncThunk("auth/update-user", async(userData,t
     }
 })
 
+export const ChangePassword = createAsyncThunk("auth/changePassword-user", async(userData,thunkAPI) =>{
+    console.log("slice ", userData);
+    try{
+        return await userService.changePassword(userData);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 const getCustomerfromLocalStorage = localStorage.getItem('customer')? JSON.parse(localStorage.getItem("customer")):null;
 
 const initialState = {
@@ -102,6 +111,23 @@ export const authSlice = createSlice({
             if(state.isError === true){
                 toast.error(action.payload.response.data.message);
             }
+        }).addCase(ChangePassword.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(ChangePassword.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            if(state.isSuccess === true){
+                toast.success("ChangePassword Successfully");
+            }
+        })
+        .addCase(ChangePassword.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+            toast.error("ChangePassword Unsuccessfully");
         })
     }
 })

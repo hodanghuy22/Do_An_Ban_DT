@@ -2,14 +2,15 @@ import { FiSearch } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GoMoveToTop } from "react-icons/go";
 import { BsCartCheck, BsPhone } from "react-icons/bs";
-
-
 import React, { useEffect, useState } from 'react'
 import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { Link, Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 const Mainlayout = () => {
     const [showGoToTop, setShowGoToTop] = useState(false)
     const handleClickToTop = () => {
@@ -82,6 +83,18 @@ const Mainlayout = () => {
 
                 <main className="mt-5 mb-5">
                     <Outlet />
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
                 </main>
 
 
