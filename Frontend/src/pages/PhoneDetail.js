@@ -6,7 +6,7 @@ import { RiRefund2Line } from "react-icons/ri";
 import { BsBox } from "react-icons/bs";
 import { CiCirclePlus } from "react-icons/ci";
 import { BsCartCheck } from "react-icons/bs";
-import { Container, Row, Col, Carousel, Button, Table, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table, Form } from 'react-bootstrap';
 import Footer from '../Components/Footer';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -21,6 +21,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useDispatch, useSelector } from 'react-redux'
 import { getAProduct } from '../features/products/productSlice';
 import { Helmet } from 'react-helmet';
+
 const PhoneDetail = () => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(true);
@@ -40,7 +41,8 @@ const PhoneDetail = () => {
     }
 
     if (!productState) {
-        return <div>Sản phẩm không khả dụng.</div>; 
+        window.location.href = '/404';
+        return null;
     }
     const formatNumber = (number) => {
         const formatter = new Intl.NumberFormat('vi-VN');
@@ -58,7 +60,7 @@ const PhoneDetail = () => {
                                 <Link to="/">Điện thoại</Link>
                             </Breadcrumb.Item>
                             <Breadcrumb.Item>
-                                <Link to="/iphone">Điện thoại iPhone (Apple)</Link>
+                                <Link to="/">Điện thoại iPhone (Apple)</Link>
                             </Breadcrumb.Item>
                         </Breadcrumb>
                         <Container className='pl-0 ml-0'>
