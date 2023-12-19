@@ -6,6 +6,7 @@ import { MdOutlineColorLens } from "react-icons/md";
 import { FaUser, FaUserCog } from "react-icons/fa";
 import { Layout, Menu, Button, theme } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
+
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);

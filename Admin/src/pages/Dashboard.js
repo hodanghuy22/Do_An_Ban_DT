@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Column } from '@ant-design/plots';
 import { Table } from 'antd';
 
@@ -123,10 +123,10 @@ const Dashboard = () => {
                     <div className='d-flex flex-column align-items-end'><h6>32%</h6><p>April 2023</p></div>
                 </div>
             </div>
-            <div className='mt-4 bg-white p-3'>
+            {/* <div className='mt-4 bg-white p-3'>
                 <h3 className='mb-4'>Income Statics</h3>
                 <div><Column {...config} /></div>
-            </div>
+            </div> */}
             <div className='mt-4 bg-white p-3'>
                 <h3 className='mb-4'>Recent Orders</h3>
                 <div><Table columns={columns} dataSource={data1} /></div>
