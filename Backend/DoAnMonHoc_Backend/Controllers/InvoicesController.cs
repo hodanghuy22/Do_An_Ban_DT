@@ -24,6 +24,13 @@ namespace DoAnMonHoc_Backend.Controllers
             return Ok(invoices);
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetInvoicesForAdmin()
+        {
+            var invoices = await _uow.InvoiceRepository.GetInvoicesForAdmin();
+            return Ok(invoices);
+        }
+        [HttpGet]
         [Route("GetInvoicesByStatus/{userId}/{status}")]
         public async Task<IActionResult> GetInvoicesByStatus(string userId, string status)
         {

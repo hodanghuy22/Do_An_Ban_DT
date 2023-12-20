@@ -1,31 +1,72 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetCoupons } from '../features/coupon/couponSlice';
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
+        title: 'Id',
+        dataIndex: 'id',
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
+        title: 'Title',
+        dataIndex: 'title',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
+        title: 'Code',
+        dataIndex: 'code',
+    },
+    {
+        title: 'DiscountPercent',
+        dataIndex: 'discountPercent',
+    },
+    {
+        title: 'DiscountMoney',
+        dataIndex: 'discountMoney',
+    },
+    {
+        title: 'RequiredTotal',
+        dataIndex: 'requiredTotal',
+    },
+    {
+        title: 'StartDate',
+        dataIndex: 'startDate',
+    },
+    {
+        title: 'EndDate',
+        dataIndex: 'endDate',
+    },
+    {
+        title: 'Quantity',
+        dataIndex: 'quantity',
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
     },
 ];
-const data1 = [];
-for (let i = 0; i < 46; i++) {
-    data1.push({
-        key: i,
-        name: `Name ${i}`,
-        age: 20,
-        address: `Address ${i}`,
-    });
-}
 
 const CouponList = () => {
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(GetCoupons())
+    },[]);
+    const couponState = useSelector(state => state?.coupon?.coupons)
+    const data1 = [];
+    for (let i = 0; i < couponState?.length; i++) {
+        data1.push({
+        id: couponState[i].id,
+        title: couponState[i].title,
+        code: couponState[i].code,
+        discountPercent: couponState[i].discountPercent,
+        discountMoney: couponState[i].discountMoney,
+        requiredTotal: couponState[i].requiredTotal,
+        startDate: couponState[i].startDate,
+        endDate: couponState[i].endDate,
+        quantity: couponState[i].quantity,
+        status: couponState[i].status,
+        });
+    }
     return (
 
         <div>

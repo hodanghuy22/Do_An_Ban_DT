@@ -50,6 +50,13 @@ namespace DoAnMonHoc_Backend.Repository
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Invoice>> GetInvoicesForAdmin()
+        {
+            return await _context.Invoices.Include(i => i.Coupon)
+                .Include(i => i.User)
+               .ToListAsync();
+        }
+
         public async Task<bool> InvoiceExist(int id)
         {
             return await _context.Invoices.AnyAsync(b => b.Id == id);

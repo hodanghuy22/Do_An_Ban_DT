@@ -9,8 +9,16 @@ const login = async(userData)=>{
     }
 }
 
+const getAllUsers = async()=>{
+    const response = await axios.get(`${base_url}Users`, config);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const authServer = {
     login,
+    getAllUsers,
 };
 
 export default authServer;

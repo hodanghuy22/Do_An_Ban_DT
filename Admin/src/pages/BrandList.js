@@ -1,31 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetBrands } from '../features/brand/brandSlice';
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
+        title: 'Id',
+        dataIndex: 'id',
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
+        title: 'Title',
+        dataIndex: 'title',
+        sorter: (a, b) => a.title.length - b.title.length,
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
+        title: 'Status',
+        dataIndex: 'status',
+    },
+    {
+        title: 'HinhPublicId',
+        dataIndex: 'hinhPublicId',
+    },
+    {
+        title: 'FileHinh',
+        dataIndex: 'fileHinh',
+    },
+    {
+        title: 'Function',
+        dataIndex: 'function',
     },
 ];
-const data1 = [];
-for (let i = 0; i < 46; i++) {
-    data1.push({
-        key: i,
-        name: `Name ${i}`,
-        age: 20,
-        address: `Address ${i}`,
-    });
-}
 
 const BrandList = () => {
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(GetBrands())
+    },[]);
+    const brandState = useSelector(state => state?.brand?.brands)
+    const data1 = [];
+    for (let i = 0; i < brandState?.length; i++) {
+        data1.push({
+        id: brandState[i].id,
+        title: brandState[i].title,
+        status: brandState[i].status,
+        hinhPublicId: brandState[i].hinhPublicId,
+        fileHinh: brandState[i].fileHinh,
+        
+        });
+    }
     return (
 
         <div>

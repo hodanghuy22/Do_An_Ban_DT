@@ -6,6 +6,7 @@ namespace DoAnMonHoc_Backend.Interfaces
     {
         Task CreateInvoice(Invoice invoice);
         Task<IEnumerable<Invoice>> GetInvoices(string userID);
+        Task<IEnumerable<Invoice>> GetInvoicesForAdmin();
         Task<IEnumerable<Invoice>> GetInvoicesByStatus(string userID, string status);
         Task<Invoice> GetInvoice(int id);
         Task<bool> InvoiceExist(int id);

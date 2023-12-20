@@ -1,31 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetProductTypes } from '../features/productType/productTypeSlice';
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
+        title: 'Id',
+        dataIndex: 'id',
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
+        title: 'Title',
+        dataIndex: 'title',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
+        title: 'Status',
+        dataIndex: 'status',
     },
 ];
-const data1 = [];
-for (let i = 0; i < 46; i++) {
-    data1.push({
-        key: i,
-        name: `Name ${i}`,
-        age: 20,
-        address: `Address ${i}`,
-    });
-}
 
 const ProductTypeList = () => {
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(GetProductTypes())
+    },[]);
+    const productTypeState = useSelector(state => state?.productType?.productTypes)
+    const data1 = [];
+    for (let i = 0; i < productTypeState?.length; i++) {
+        data1.push({
+        id: productTypeState[i].id,
+        title: productTypeState[i].title,
+        status: productTypeState[i].status,
+        });
+    }
     return (
 
         <div>

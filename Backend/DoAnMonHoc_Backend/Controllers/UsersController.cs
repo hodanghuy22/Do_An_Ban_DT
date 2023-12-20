@@ -40,6 +40,7 @@ namespace DoAnMonHoc_Backend.Controllers
             return await _uow.UserRepositoty.Login(account);
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IEnumerable<UserDto>> GetUsers()
         {
             return await _uow.UserRepositoty.GetUsers();

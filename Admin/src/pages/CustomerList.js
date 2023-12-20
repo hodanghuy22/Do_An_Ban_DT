@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetAllUsers } from '../features/auth/authSlice';
 
 const columns = [
+    {
+        title: 'Id',
+        dataIndex: 'id',
+    },
     {
         title: 'Name',
         dataIndex: 'name',
@@ -14,18 +20,38 @@ const columns = [
         title: 'Address',
         dataIndex: 'address',
     },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+    },
+    {
+        title: 'UserName',
+        dataIndex: 'userName',
+    },
+    {
+        title: 'PhoneNumber',
+        dataIndex: 'phoneNumber',
+    },
 ];
-const data1 = [];
-for (let i = 0; i < 46; i++) {
-    data1.push({
-        key: i,
-        name: `Name ${i}`,
-        age: 20,
-        address: `Address ${i}`,
-    });
-}
 
 const CustomerList = () => {
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(GetAllUsers())
+    },[]);
+    const userState = useSelector(state => state?.auth?.users)
+    const data1 = [];
+    for (let i = 0; i < userState?.length; i++) {
+        data1.push({
+        id: userState[i].id,
+        name: userState[i].name,
+        age: userState[i].age,
+        address: userState[i].address,
+        email: userState[i].email,
+        userName: userState[i].userName,
+        phoneNumber: userState[i].phoneNumber,
+        });
+    }
     return (
 
         <div>

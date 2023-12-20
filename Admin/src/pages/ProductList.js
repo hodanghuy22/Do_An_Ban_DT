@@ -3,12 +3,12 @@ import { Table } from 'antd';
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
+        title: 'Id',
+        dataIndex: 'id',
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
+        title: 'quantity',
+        dataIndex: 'quantity',
     },
     {
         title: 'Address',

@@ -1,31 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetColors } from '../features/color/colorSlice';
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
+        title: 'Id',
+        dataIndex: 'id',
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
+        title: 'ColorName',
+        dataIndex: 'colorName',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
+        title: 'Status',
+        dataIndex: 'status',
     },
 ];
-const data1 = [];
-for (let i = 0; i < 46; i++) {
-    data1.push({
-        key: i,
-        name: `Name ${i}`,
-        age: 20,
-        address: `Address ${i}`,
-    });
-}
 
 const ColorList = () => {
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(GetColors())
+    },[]);
+    const colorState = useSelector(state => state?.color?.colors)
+    const data1 = [];
+    for (let i = 0; i < colorState?.length; i++) {
+        data1.push({
+        id: colorState[i].id,
+        colorName: colorState[i].colorName,
+        status: colorState[i].status,
+        });
+    }
     return (
 
         <div>
