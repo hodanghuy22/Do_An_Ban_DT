@@ -1,15 +1,30 @@
-import axios from "axios"
-import { base_url,config } from "../../utils/axiosConfig";
+import axios from 'axios'
 
-const getProducts = async()=>{
-    const response = await axios.get(`${base_url}Products`);
-    if(response.data){
+const getPhone = async () => {
+    const response = await axios.get('https://localhost:7056/api/Products')
+    if (response.data) {
         return response.data;
     }
 }
 
-const productService = {
-    getProducts  
-};
+const getAPhone = async (id) => {
+    const response = await axios.get(`https://localhost:7056/api/Products/${id}`)
 
-export default productService;
+    if (response.data) {
+        return response.data;
+    }
+}
+const getBrand = async (id) => {
+    const response = await axios.get(`https://localhost:7056/api/Brands`)
+
+    if (response.data) {
+        return response.data;
+    }
+}
+const productService = {
+    getPhone,
+    getAPhone,
+    getBrand
+}
+
+export default productService

@@ -1,82 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProducts } from '../features/product/productSlice';
+import { Link } from 'react-router-dom';
 
-const columns = [
+const columns2 = [
     {
-        title: 'Id',
-        dataIndex: 'id',
+        title: '#',
+        dataIndex: 'key',
     },
     {
-        title: 'Name',
+        title: 'Tên',
         dataIndex: 'name',
     },
     {
-        title: 'Description',
-        dataIndex: 'desc',
+        title: 'Giá',
+        dataIndex: 'price',
     },
     {
-        title: 'Loai Man',
-        dataIndex: 'loaiMan',
+        title: 'Số lượng',
+        dataIndex: 'quantity',
     },
     {
-        title: 'Kich Thuoc',
-        dataIndex: 'kichThuoc',
-    },
-    {
-        title: 'Do Phan Giai',
-        dataIndex: 'doPhanGiai',
-    },
-    {
-        title: 'CPU',
-        dataIndex: 'cpu',
-    },
-    {
-        title: 'RAM',
-        dataIndex: 'ram',
-    },
-    {
-        title: 'ROM',
+        title: 'Bộ nhớ',
         dataIndex: 'rom',
     },
     {
-        title: 'Camera Truoc',
-        dataIndex: 'cameraTruoc',
+        title: 'Màu',
+        dataIndex: 'colorName',
     },
     {
-        title: 'Camera Sau',
-        dataIndex: 'cameraSau',
-    },
-    {
-        title: 'Pin',
-        dataIndex: 'pin',
-    },
-    {
-        title: 'So Luong',
-        dataIndex: 'soLuong',
-    },
-    {
-        title: 'Status',
-        dataIndex: 'status',
-    },
-    {
-        title: 'Brand',
-        dataIndex: 'brand',
+        title: 'Xem chi tiết',
+        dataIndex: 'viewDetails',
+        render: (record) => {
+            const productId = record;
+            return (
+                <>
+                    <Link to={`/admin/product-detail/${productId}`} className='btn btn-primary m-1'>
+                        Xem
+                    </Link>
+                </>
+            );
+        },
     },
 ];
-const data1 = [];
-for (let i = 0; i < 100; i++) {
-    data1.push({
-        //       
-    });
-}
 
 const ProductList = () => {
-    return (
+    const dispatch = useDispatch();
+    const productState = useSelector((state) => state?.product?.phones);
+    const [data2, setData2] = useState([]);
 
+    useEffect(() => {
+        dispatch(getAllProducts());
+    }, []);
+
+    useEffect(() => {
+        const modifiedData2 = productState.map((item, index) => {
+            return {
+                key: index,
+                price: item.price,
+                name: item.phone.name,
+                quantity: item.quantity,
+                rom: item.capacity.totalCapacity,
+                colorName: item.color.colorName,
+                viewDetails: item.id,
+            };
+        });
+        setData2(modifiedData2);
+    }, [productState]);
+
+    return (
         <div>
-            <h3>Product List</h3>
+            <h3>Danh sách sản phẩm</h3>
             <div>
-                <div><Table columns={columns} dataSource={data1} scroll={{ x: 2000, y: 500 }} /></div>
+                <Table columns={columns2} dataSource={data2} />
             </div>
         </div>
     );

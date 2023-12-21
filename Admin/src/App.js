@@ -20,6 +20,7 @@ import AddCustomer from './pages/AddCustomer';
 import AddCoupon from './pages/AddCoupun';
 import AddColor from './pages/AddColor';
 import AddBrand from './pages/AddBrand';
+import ProductDetail from './pages/ProductDetail';
 
 
 function App() {
@@ -45,7 +46,9 @@ function App() {
         <Route path='add-customer' element={<AddCustomer />}/>
         <Route path='add-coupon' element={<AddCoupon />}/>
         <Route path='add-color' element={<AddColor />}/>
-        <Route path='add-brand' element={<AddBrand />}/>
+        <Route path='add-brand' element={<AddBrand />} />
+        <Route path='product-detail/:phoneId' element={<ProductDetail />} />
+
       </Route>
       </Routes>
     </Router>

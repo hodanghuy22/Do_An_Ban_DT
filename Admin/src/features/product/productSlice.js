@@ -1,46 +1,78 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from 'react-toastify';
-import productService from "./productService";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import productService from './productService';
 
-
-export const GetProducts = createAsyncThunk("product/get-products", async(thunkAPI) =>{
-    try{
-        return await productService.getProducts();
-    }catch(err){
+export const getAllProducts = createAsyncThunk("product/get-products", async (thunkAPI) => {
+    try {
+        return await productService.getPhone();
+    } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-
-const initialState = {
-    products: [],
+export const getAProduct = createAsyncThunk("product/get-product", async (id, thunkAPI) => {
+    try {
+        return await productService.getAPhone(id);
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+export const getBrand = createAsyncThunk("product/get-brands", async (thunkAPI) => {
+    try {
+        return await productService.getBrand();
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+const initalState = {
+    phones: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: ""
 }
-
 export const productSlice = createSlice({
     name: "product",
-    initialState: initialState,
+    initialState: initalState,
     reducers: {},
-    extraReducers: (builder)=>{
-        builder.addCase(GetProducts.pending, (state)=>{
+    extraReducers: (builder) => {
+        builder.addCase(getAllProducts.pending, (state) => {
             state.isLoading = true;
-        })
-        .addCase(GetProducts.fulfilled, (state, action)=>{
+        }).addCase(getAllProducts.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.products = action.payload;
-        })
-        .addCase(GetProducts.rejected, (state, action)=>{
+            state.phones = action.payload;
+        }).addCase(getAllProducts.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        }).addCase(getAProduct.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(getAProduct.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.product = action.payload;
+        }).addCase(getAProduct.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        }).addCase(getBrand.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(getBrand.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.product = action.payload;
+        }).addCase(getBrand.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
         })
+
     }
 })
-
 export default productSlice.reducer;
