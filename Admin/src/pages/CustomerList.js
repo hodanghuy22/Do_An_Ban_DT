@@ -57,7 +57,7 @@ const CustomerList = () => {
         <div>
             <h3>Customer List</h3>
             <div>
-                <div><Table columns={columns} dataSource={data1} /></div>
+                <div><Table columns={columns} dataSource={data1} scroll={{y: 500}}/></div>
             </div>
         </div>
     );

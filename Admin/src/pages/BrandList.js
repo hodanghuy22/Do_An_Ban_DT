@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetBrands } from '../features/brand/brandSlice';
+import { Link } from "react-router-dom";
 
 const columns = [
     {
@@ -25,10 +26,6 @@ const columns = [
         title: 'FileHinh',
         dataIndex: 'fileHinh',
     },
-    {
-        title: 'Function',
-        dataIndex: 'function',
-    },
 ];
 
 const BrandList = () => {
@@ -45,7 +42,6 @@ const BrandList = () => {
         status: brandState[i].status,
         hinhPublicId: brandState[i].hinhPublicId,
         fileHinh: brandState[i].fileHinh,
-        
         });
     }
     return (
@@ -53,7 +49,7 @@ const BrandList = () => {
         <div>
             <h3>Brand List</h3>
             <div>
-                <div><Table columns={columns} dataSource={data1} /></div>
+                <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }}/></div>
             </div>
         </div>
     );

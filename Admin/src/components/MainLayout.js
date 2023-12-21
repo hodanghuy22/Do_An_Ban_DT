@@ -108,9 +108,9 @@ const MainLayout = () => {
               label: 'Comment',
             },
             {
-              key: 'orders',
+              key: 'invoice',
               icon: <RiMessage3Line className='fs-5' />,
-              label: 'Orders',
+              label: 'Invoice',
             },
             {
               key: 'slide-show',

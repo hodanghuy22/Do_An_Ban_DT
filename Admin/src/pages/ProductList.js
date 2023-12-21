@@ -7,21 +7,66 @@ const columns = [
         dataIndex: 'id',
     },
     {
-        title: 'quantity',
-        dataIndex: 'quantity',
+        title: 'Name',
+        dataIndex: 'name',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
+        title: 'Description',
+        dataIndex: 'desc',
+    },
+    {
+        title: 'Loai Man',
+        dataIndex: 'loaiMan',
+    },
+    {
+        title: 'Kich Thuoc',
+        dataIndex: 'kichThuoc',
+    },
+    {
+        title: 'Do Phan Giai',
+        dataIndex: 'doPhanGiai',
+    },
+    {
+        title: 'CPU',
+        dataIndex: 'cpu',
+    },
+    {
+        title: 'RAM',
+        dataIndex: 'ram',
+    },
+    {
+        title: 'ROM',
+        dataIndex: 'rom',
+    },
+    {
+        title: 'Camera Truoc',
+        dataIndex: 'cameraTruoc',
+    },
+    {
+        title: 'Camera Sau',
+        dataIndex: 'cameraSau',
+    },
+    {
+        title: 'Pin',
+        dataIndex: 'pin',
+    },
+    {
+        title: 'So Luong',
+        dataIndex: 'soLuong',
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
+    },
+    {
+        title: 'Brand',
+        dataIndex: 'brand',
     },
 ];
 const data1 = [];
-for (let i = 0; i < 46; i++) {
+for (let i = 0; i < 100; i++) {
     data1.push({
-        key: i,
-        name: `Name ${i}`,
-        age: 20,
-        address: `Address ${i}`,
+        //       
     });
 }
 
@@ -31,7 +76,7 @@ const ProductList = () => {
         <div>
             <h3>Product List</h3>
             <div>
-                <div><Table columns={columns} dataSource={data1} /></div>
+                <div><Table columns={columns} dataSource={data1} scroll={{ x: 2000, y: 500 }} /></div>
             </div>
         </div>
     );

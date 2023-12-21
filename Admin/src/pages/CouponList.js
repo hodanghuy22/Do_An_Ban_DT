@@ -72,7 +72,7 @@ const CouponList = () => {
         <div>
             <h3>Coupon List</h3>
             <div>
-                <div><Table columns={columns} dataSource={data1} /></div>
+                <div><Table columns={columns} dataSource={data1} scroll={{ x: 1500, y: 500 }}/></div>
             </div>
         </div>
     );

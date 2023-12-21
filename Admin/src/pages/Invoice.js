@@ -38,7 +38,7 @@ const columns = [
     },
 ];
 
-const Orders = () => {
+const Invoice = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(GetInvoices())
@@ -60,12 +60,12 @@ const Orders = () => {
     return (
 
         <div>
-            <h3>Orders</h3>
+            <h3>Invoice</h3>
             <div>
-                <div><Table columns={columns} dataSource={data1} /></div>
+                <div><Table columns={columns} dataSource={data1} scroll={{ x: 1500, y: 500 }}/></div>
             </div>
         </div>
     );
 };
 
-export default Orders;
+export default Invoice;

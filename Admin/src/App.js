@@ -7,7 +7,7 @@ import Forgotpassword from './pages/Forgotpassword';
 import MainLayout from './components/MainLayout';
 import Changepassword from './pages/Changepassword';
 import Comment from './pages/Comment';
-import Orders from './pages/Orders';
+import Invoice from './pages/Invoice';
 import CouponList from './pages/CouponList';
 import CustomerList from './pages/CustomerList';
 import ProductList from './pages/ProductList';
@@ -16,6 +16,10 @@ import ColorList from './pages/ColorList';
 import BrandList from './pages/BrandList';
 import AddProduct from './pages/AddProduct';
 import AddProductType from './pages/AddProductType';
+import AddCustomer from './pages/AddCustomer';
+import AddCoupon from './pages/AddCoupun';
+import AddColor from './pages/AddColor';
+import AddBrand from './pages/AddBrand';
 
 
 function App() {
@@ -29,7 +33,7 @@ function App() {
       <Route path='/admin' element={<MainLayout />}>
         <Route index element={<Dashboard />}/>
         <Route path='comment' element={<Comment />}/>
-        <Route path='orders' element={<Orders />}/>
+        <Route path='invoice' element={<Invoice />}/>
         <Route path='coupon-list' element={<CouponList />}/>
         <Route path='customer-list' element={<CustomerList />}/>
         <Route path='product-list' element={<ProductList />}/>
@@ -38,6 +42,10 @@ function App() {
         <Route path='add-product-type' element={<AddProductType />}/>
         <Route path='color-list' element={<ColorList />}/>
         <Route path='brand-list' element={<BrandList />}/>
+        <Route path='add-customer' element={<AddCustomer />}/>
+        <Route path='add-coupon' element={<AddCoupon />}/>
+        <Route path='add-color' element={<AddColor />}/>
+        <Route path='add-brand' element={<AddBrand />}/>
       </Route>
       </Routes>
     </Router>
