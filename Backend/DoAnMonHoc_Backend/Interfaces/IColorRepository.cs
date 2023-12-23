@@ -5,7 +5,7 @@ namespace DoAnMonHoc_Backend.Interfaces
 {
     public interface IColorRepository
     {
-        Task CreateColor(Color color);
+        Task<IActionResult> CreateColor(Color color);
         Task<IEnumerable<Color>> GetColors();
         Task<Color> GetColor(int id);
         Task<bool> ColorExist(int id);

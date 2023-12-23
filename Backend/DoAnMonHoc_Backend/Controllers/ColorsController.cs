@@ -38,18 +38,8 @@ namespace DoAnMonHoc_Backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateColor(Color color)
         {
-            var checkColor = await _uow.ColorRepository.ColorExist(color.Id);
-            if (checkColor == true)
-            {
-                return BadRequest();
-            }
-            _uow.ColorRepository.CreateColor(color);
-            var result = await _uow.SaveAsync();
-            if (!result)
-            {
-                return BadRequest();
-            }
-            return Ok();
+            Console.WriteLine("ad " + color);
+            return await _uow.ColorRepository.CreateColor(color);
         }
         [HttpPut]
         [Route("{id}")]

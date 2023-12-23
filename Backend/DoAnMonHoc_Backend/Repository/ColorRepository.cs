@@ -19,9 +19,20 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Colors.AnyAsync(c => c.Id == id);
         }
 
-        public async Task CreateColor(Color color)
+        public async Task<IActionResult> CreateColor(Color color)
         {
+            var check = await _context.Colors.FirstOrDefaultAsync(c => c.ColorName == color.ColorName);
+            if(check != null)
+            {
+                return new BadRequestObjectResult("This color was exsist!!!");
+            }
             await _context.Colors.AddAsync(color);
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                return new OkResult();
+            }
+            return new BadRequestObjectResult("Something went wrong!!!");
         }
 
         public async Task DeleteColor(int id)
