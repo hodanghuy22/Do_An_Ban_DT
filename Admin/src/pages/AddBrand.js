@@ -1,24 +1,83 @@
-import React from 'react';
-import CustomInput from '../components/CustomInput';
+import React, { useEffect } from 'react';
 import { Checkbox } from 'antd';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { CreateBrand, GetABrand, UpdateBrand, resetState } from '../features/brand/brandSlice';
 
-const onChange = (e) => {
-    return e.target.checked;
-  };
+const brandSchema = yup.object({
+    title: yup.string().required('Title is Required'),
+    status: yup.boolean()
+});
 
 const AddBrand = () => {
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const getBrandId = location.pathname.split("/")[3];
+    const brandState = useSelector(state => state?.brand?.ABrand)
+    useEffect(()=>{
+        if(getBrandId !== undefined){
+          dispatch(GetABrand(getBrandId))
+        }else{
+          dispatch(resetState())
+        }
+      },[getBrandId])
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+            title: brandState?.title || "",
+            status: brandState?.status || true,
+            hinhPublicId: "",
+            fileHinh: "",
+        },
+        validationSchema: brandSchema,
+        onSubmit: values => {
+            if(getBrandId !== undefined){
+                const data = { id:getBrandId, brandData: {...values, id:getBrandId }}
+                dispatch(UpdateBrand(data))
+                dispatch(resetState())
+            }else{
+                dispatch(CreateBrand(values));
+                formik.resetForm();
+                setTimeout(() => {
+                    dispatch(resetState())
+                }, 300)
+            }
+        },
+    });
     return (
         <div>
-            <h3 className='mb-4'>Add Brand</h3>
+            <h3 className='mb-4'>{getBrandId!==undefined?"Edit":"Add"} Brand</h3>
             <div>
-                <form action=''>
-                    <CustomInput type='text' lable='Title' />
-                    <CustomInput type='text' lable='HinhPublicId' />
-                    <CustomInput type='text' lable='FileHinh' />
-                    <CustomInput type='text' lable='Function' />
-                    <Checkbox onChange={onChange}>Status</Checkbox><br/>
-                    <br/>
-                    <button className='btn btn-success' type='submit'>Add Brand</button>
+                <form onSubmit={formik.handleSubmit}>
+                    <div className='mb-3'>
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control"
+                            placeholder="Title"
+                            value={formik.values.title.toUpperCase()}
+                            onChange={formik.handleChange('title')}
+                            onBlur={formik.handleBlur('title')}
+                        />
+                        <div className='error'>
+                            {
+                                formik.touched.title && formik.errors.title
+                            }
+                        </div>
+                    </div>
+                    <Checkbox 
+                        name="status"
+                        checked={formik.values.status}
+                        onChange={formik.handleChange('status')}
+                        defaultChecked={formik.values.status}
+                    >
+                        Status
+                    </Checkbox><br />
+                    <br />
+                    <button className='btn btn-success' type='submit'>{getBrandId!==undefined?"Edit":"Add"} Brand</button>
                 </form>
             </div>
         </div>

@@ -19,9 +19,20 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Brands.AnyAsync(b => b.Id == id);
         }
 
-        public async Task CreateBrand(Brand brand)
+        public async Task<IActionResult> CreateBrand(Brand brand)
         {
+            var check = await _context.Brands.FirstOrDefaultAsync(c => c.Title == brand.Title);
+            if (check != null)
+            {
+                return new BadRequestObjectResult("This brand was exsist!!!");
+            }
             await _context.Brands.AddAsync(brand);
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                return new OkResult();
+            }
+            return new BadRequestObjectResult("Something went wrong!!!");
         }
 
         public async Task DeleteBrand(int id)

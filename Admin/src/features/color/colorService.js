@@ -16,8 +16,6 @@ const getAColor = async(id)=>{
 }
 
 const createColor = async(colorData)=>{
-    console.log(colorData);
-    console.log(config);
     const response = await axios.post(`${base_url}Colors`, colorData, config);
     if(response.data){
         return response.data;
@@ -32,7 +30,6 @@ const deleteColor = async(id)=>{
 }
 
 const updateColor = async(colorData)=>{
-    console.log(colorData);
     const response = await axios.put(`${base_url}Colors/${colorData.id}`,colorData.colorData,config);
     if(response.data){
         return response.data;

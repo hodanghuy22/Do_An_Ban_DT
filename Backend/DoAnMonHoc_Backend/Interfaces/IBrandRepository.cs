@@ -5,7 +5,7 @@ namespace DoAnMonHoc_Backend.Interfaces
 {
     public interface IBrandRepository
     {
-        Task CreateBrand(Brand brand);
+        Task<IActionResult> CreateBrand(Brand brand);
         Task<IEnumerable<Brand>> GetBrands();
         Task<Brand> GetBrand(int id);
         Task<bool> BrandExist(int id);

@@ -40,18 +40,7 @@ namespace DoAnMonHoc_Backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateBrand(Brand brand)
         {
-            var checkBrand = await _uow.BrandRepository.BrandExist(brand.Id);
-            if(checkBrand == true)
-            {
-                return BadRequest();
-            }
-            _uow.BrandRepository.CreateBrand(brand);
-            var result = await _uow.SaveAsync();
-            if (!result)
-            {
-                return BadRequest();
-            }
-            return Ok();
+            return await _uow.BrandRepository.CreateBrand(brand);
         }
         [HttpPut]
         [Route("{id}")]
@@ -64,8 +53,8 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             return await _uow.BrandRepository.UpdateBrand(brand);
         }
-        [HttpPut]
-        [Route("DeleteBrand/{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteBrand(int id)
         {
@@ -76,46 +65,50 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             await _uow.BrandRepository.DeleteBrand(id);
             var result = await _uow.SaveAsync();
-            return Ok();
-        }
-        [HttpPost]
-        [Route("add/photo/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddBrandPhoto(int id,IFormFile file)
-        {
-            var result = await _photoService.UploadPhotoAsync(file);
-            if(result.Error != null)
-            {
-                return BadRequest(result.Error.Message);
-            }
-            var brand = await _uow.BrandRepository.GetBrand(id);
-            if(brand != null && result != null && result.SecureUrl != null)
-            {
-                brand.FileHinh = result.SecureUrl.ToString();
-                brand.HinhPublicId = result.PublicId;
-            }
-            await _uow.SaveAsync();
-            return Ok(201);
-        }
-        [HttpPost]
-        [Route("delete-photo/{brandId}/{publicId}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteBrandPhoto(int brandId, string publicId)
-        {
-            var brand = await _uow.BrandRepository.GetBrand(brandId);
-            if(brand == null || brand.HinhPublicId != publicId)
+            if (!result)
             {
                 return BadRequest();
             }
-            var result = await _photoService.DeletePhotoAsync(brand.HinhPublicId);
-            if(result.Error != null)
-            {
-                return BadRequest(result.Error.Message);
-            }
-            brand.FileHinh = "";
-            brand.HinhPublicId = "";
-            await _uow.SaveAsync();
-            return Ok(201);
+            return Ok();
         }
+        //[HttpPost]
+        //[Route("add/photo/{id}")]
+        //[Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> AddBrandPhoto(int id,IFormFile file)
+        //{
+        //    var result = await _photoService.UploadPhotoAsync(file);
+        //    if(result.Error != null)
+        //    {
+        //        return BadRequest(result.Error.Message);
+        //    }
+        //    var brand = await _uow.BrandRepository.GetBrand(id);
+        //    if(brand != null && result != null && result.SecureUrl != null)
+        //    {
+        //        brand.FileHinh = result.SecureUrl.ToString();
+        //        brand.HinhPublicId = result.PublicId;
+        //    }
+        //    await _uow.SaveAsync();
+        //    return Ok(201);
+        //}
+        //[HttpPost]
+        //[Route("delete-photo/{brandId}/{publicId}")]
+        //[Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> DeleteBrandPhoto(int brandId, string publicId)
+        //{
+        //    var brand = await _uow.BrandRepository.GetBrand(brandId);
+        //    if(brand == null || brand.HinhPublicId != publicId)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var result = await _photoService.DeletePhotoAsync(brand.HinhPublicId);
+        //    if(result.Error != null)
+        //    {
+        //        return BadRequest(result.Error.Message);
+        //    }
+        //    brand.FileHinh = "";
+        //    brand.HinhPublicId = "";
+        //    await _uow.SaveAsync();
+        //    return Ok(201);
+        //}
     }
 }

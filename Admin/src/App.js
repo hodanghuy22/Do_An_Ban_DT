@@ -17,7 +17,7 @@ import BrandList from './pages/BrandList';
 import AddProduct from './pages/AddProduct';
 import AddProductType from './pages/AddProductType';
 import AddCustomer from './pages/AddCustomer';
-import AddCoupon from './pages/AddCoupun';
+import AddCoupon from './pages/AddCoupon';
 import AddColor from './pages/AddColor';
 import AddBrand from './pages/AddBrand';
 import ProductDetail from './pages/ProductDetail';
@@ -45,9 +45,11 @@ function App() {
         <Route path='brand-list' element={<BrandList />}/>
         <Route path='add-customer' element={<AddCustomer />}/>
         <Route path='add-coupon' element={<AddCoupon />}/>
+        <Route path='add-coupon/:id' element={<AddCoupon />}/>
         <Route path='add-color' element={<AddColor />}/>
         <Route path='add-color/:id' element={<AddColor />}/>
         <Route path='add-brand' element={<AddBrand />} />
+        <Route path='add-brand/:id' element={<AddBrand />} />
         <Route path='product-detail/:phoneId' element={<ProductDetail />} />
 
       </Route>

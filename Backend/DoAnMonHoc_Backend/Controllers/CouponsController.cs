@@ -55,8 +55,8 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             return await _uow.CouponRepository.UpdateCoupon(coupon);
         }
-        [HttpPut]
-        [Route("DeleteCoupon/{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCoupon(int id)
         {

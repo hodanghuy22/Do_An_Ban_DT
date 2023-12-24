@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetCoupons } from '../features/coupon/couponSlice';
+import { DeleteCoupon, GetCoupons, resetState } from '../features/coupon/couponSlice';
+import CustomModal from '../components/CustomModal';
+import { AiFillDelete } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
 const columns = [
     {
@@ -44,13 +48,23 @@ const columns = [
         title: 'Status',
         dataIndex: 'status',
     },
+    {
+        title: 'Action',
+        dataIndex: 'action',
+    },
 ];
 
 const CouponList = () => {
+    const [open, setOpen] = useState(false);
+    const [couponId, setcouponId] = useState("");
     const dispatch = useDispatch();
     useEffect(()=>{
+        dispatch(resetState())
         dispatch(GetCoupons())
-    },[]);
+      },[]);
+    const hideModal = () => {
+        setOpen(false);
+      };
     const couponState = useSelector(state => state?.coupon?.coupons)
     const data1 = [];
     for (let i = 0; i < couponState?.length; i++) {
@@ -64,9 +78,25 @@ const CouponList = () => {
         startDate: couponState[i].startDate,
         endDate: couponState[i].endDate,
         quantity: couponState[i].quantity,
-        status: couponState[i].status,
+        status: couponState[i].status?"Hoạt động":"Không hoạt động",
+        action: (<>
+            <Link className='fs-3 text-danger' to={`/admin/add-coupon/${couponState[i].id}`}><BiEdit /></Link>
+            <button className='fs-3 text-danger ms-3 text-danger bg-transparent border-0' 
+            onClick={()=>showModal(couponState[i].id)}><AiFillDelete /></button>
+          </>)
         });
     }
+    const showModal = (e) => {
+        setOpen(true);
+        setcouponId(e)
+      };
+    const deleteCoupon = (e) =>{
+        dispatch(DeleteCoupon(e))
+        setOpen(false);
+        setTimeout(()=>{
+          dispatch(GetCoupons())
+        },300)
+      }
     return (
 
         <div>
@@ -74,6 +104,12 @@ const CouponList = () => {
             <div>
                 <div><Table columns={columns} dataSource={data1} scroll={{ x: 1500, y: 500 }}/></div>
             </div>
+            <CustomModal 
+                title="Are you sure you want to delete this coupon?" 
+                hideModal={hideModal}
+                open={open}
+                performAction={()=>{deleteCoupon(couponId)}}
+            />
         </div>
     );
 };

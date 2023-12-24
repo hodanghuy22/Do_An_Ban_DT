@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import CustomInput from '../components/CustomInput';
 import { Checkbox } from 'antd';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -28,14 +27,13 @@ const AddColor = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            id: getColorState?.id || "",
             colorName: getColorState?.colorName || "",
             status: getColorState?.status || true,
         },
         validationSchema: Colorschema,
         onSubmit: values => {
             if(getColorId !== undefined){
-                const data = { id:getColorId, colorData: values}
+                const data = { id:getColorId, colorData: {...values, id: getColorId}}
                 dispatch(UpdateColor(data))
                 dispatch(resetState())
             }else{
@@ -59,7 +57,7 @@ const AddColor = () => {
                             name="colorName"
                             class="form-control"
                             placeholder="ColorName"
-                            value={formik.values.colorName}
+                            value={formik.values.colorName.toUpperCase()}
                             onChange={formik.handleChange('colorName')}
                             onBlur={formik.handleBlur('colorName')}
                         />

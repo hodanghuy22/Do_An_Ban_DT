@@ -71,7 +71,7 @@ const ColorList = () => {
                 <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }}/></div>
             </div>
             <CustomModal 
-                title="Are you sure you want to delete this brand?" 
+                title="Are you sure you want to delete this color?" 
                 hideModal={hideModal}
                 open={open}
                 performAction={()=>{deleteColor(colorId)}}
