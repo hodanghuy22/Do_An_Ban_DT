@@ -8,6 +8,13 @@ const getColors = async()=>{
     }
 }
 
+const getAColor = async(id)=>{
+    const response = await axios.get(`${base_url}Colors/${id}`);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const createColor = async(colorData)=>{
     console.log(colorData);
     console.log(config);
@@ -17,9 +24,27 @@ const createColor = async(colorData)=>{
     }
 }
 
+const deleteColor = async(id)=>{
+    const response = await axios.delete(`${base_url}Colors/DeleteColor/${id}`,config);
+    if(response.data){
+        return response.data;
+    }
+}
+
+const updateColor = async(colorData)=>{
+    console.log(colorData);
+    const response = await axios.put(`${base_url}Colors/${colorData.id}`,colorData.colorData,config);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const colorService = {
     getColors,
-    createColor
+    createColor,
+    deleteColor,
+    getAColor,
+    updateColor
 };
 
 export default colorService;

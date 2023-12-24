@@ -38,7 +38,6 @@ namespace DoAnMonHoc_Backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateColor(Color color)
         {
-            Console.WriteLine("ad " + color);
             return await _uow.ColorRepository.CreateColor(color);
         }
         [HttpPut]
@@ -52,7 +51,7 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             return await _uow.ColorRepository.UpdateColor(color);
         }
-        [HttpPut]
+        [HttpDelete]
         [Route("DeleteColor/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteColor(int id)
@@ -64,6 +63,10 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             await _uow.ColorRepository.DeleteColor(id);
             var result = await _uow.SaveAsync();
+            if (!result)
+            {
+                return BadRequest();
+            }
             return Ok();
         }
     }

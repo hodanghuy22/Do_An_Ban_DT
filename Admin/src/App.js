@@ -46,6 +46,7 @@ function App() {
         <Route path='add-customer' element={<AddCustomer />}/>
         <Route path='add-coupon' element={<AddCoupon />}/>
         <Route path='add-color' element={<AddColor />}/>
+        <Route path='add-color/:id' element={<AddColor />}/>
         <Route path='add-brand' element={<AddBrand />} />
         <Route path='product-detail/:phoneId' element={<ProductDetail />} />
 

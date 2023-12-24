@@ -39,7 +39,7 @@ namespace DoAnMonHoc_Backend.Repository
         {
             var pt = await GetColor(id);
 
-            pt.Status = false;
+            _context.Colors.Remove(pt);
         }
 
         public async Task<Color> GetColor(int id)

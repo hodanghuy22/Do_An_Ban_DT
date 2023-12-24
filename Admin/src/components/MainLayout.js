@@ -6,6 +6,8 @@ import { MdOutlineColorLens } from "react-icons/md";
 import { FaUser, FaUserCog } from "react-icons/fa";
 import { Layout, Menu, Button, theme } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
@@ -189,6 +191,17 @@ const MainLayout = () => {
           }}
         >
           <Outlet />
+          <ToastContainer 
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="light"
+          />
         </Content>
       </Layout>
     </Layout>

@@ -11,9 +11,33 @@ export const GetColors = createAsyncThunk("color/get-colors", async(thunkAPI) =>
     }
 })
 
+export const GetAColor = createAsyncThunk("color/get-color", async(id,thunkAPI) =>{
+    try{
+        return await colorService.getAColor(id);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 export const CreateColor = createAsyncThunk("color/create-color", async(colorData,thunkAPI) =>{
     try{
         return await colorService.createColor(colorData);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
+export const UpdateColor = createAsyncThunk("color/update-color", async(colorData,thunkAPI) =>{
+    try{
+        return await colorService.updateColor(colorData);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
+export const DeleteColor = createAsyncThunk("color/delete-color", async(id,thunkAPI) =>{
+    try{
+        return await colorService.deleteColor(id);
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }
@@ -47,7 +71,7 @@ export const colorSlice = createSlice({
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
-            state.message = action.error;
+            state.message = action.error.message;
         }).addCase(CreateColor.pending, (state)=>{
             state.isLoading = true;
         })
@@ -64,9 +88,65 @@ export const colorSlice = createSlice({
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
-            state.message = action.error;
+            state.message = action.error.message;
             if(state.isError) {
                 toast.error("Create Color was not successfully!!!");
+            }
+        }).addCase(DeleteColor.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(DeleteColor.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            if(state.isSuccess) {
+                toast.success("Delete Color is successfully!!!");
+            }
+        })
+        .addCase(DeleteColor.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error.message; 
+            if(state.isError){
+                toast.error("Something went wrong!!!");
+            }
+        }).addCase(GetAColor.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(GetAColor.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.Acolor = action.payload;
+        })
+        .addCase(GetAColor.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error.message; 
+            if(state.isError){
+                toast.error("Something went wrong!!!");
+            }
+        }).addCase(UpdateColor.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(UpdateColor.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.updatedColor = action.payload;
+            if(state.isSuccess){
+                toast.success("Update color is successfully!!!");
+            }
+        })
+        .addCase(UpdateColor.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error.message; 
+            if(state.isError){
+                toast.error("Something went wrong!!!");
             }
         }).addCase(resetState, () => initialState);
     }
