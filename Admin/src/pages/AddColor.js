@@ -28,7 +28,7 @@ const AddColor = () => {
         enableReinitialize: true,
         initialValues: {
             colorName: getColorState?.colorName || "",
-            status: getColorState?.status || true,
+            status: getColorState?.status || false,
         },
         validationSchema: Colorschema,
         onSubmit: values => {

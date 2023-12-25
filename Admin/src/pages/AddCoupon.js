@@ -46,10 +46,10 @@ const AddCoupon = () => {
             discountPercent: couponState?.discountPercent || "",
             discountMoney: couponState?.discountMoney || "",
             requiredTotal: couponState?.requiredTotal || "",
-            startDate: changeDateFormat(couponState?.startDate) || changeDateFormat(new Date()),
-            endDate: changeDateFormat(couponState?.endDate) || "",
+            startDate: (couponState?.startDate) || new Date().toISOString().substr(0, 10),
+            endDate: (couponState?.endDate) || "",
             quantity: couponState?.quantity || "",
-            status: couponState?.status || true,
+            status: couponState?.status || false,
         },
         validationSchema: couponSchema,
         onSubmit: values => {
@@ -69,7 +69,7 @@ const AddCoupon = () => {
     });
     return (
         <div>
-            <h3 className='mb-4'>{getCouponId!==undefined?"Edit":"Add"} Product</h3>
+            <h3 className='mb-4'>{getCouponId!==undefined?"Edit":"Add"} Coupon</h3>
             <div>
                 <form onSubmit={formik.handleSubmit}>
                     <div className='mb-3'>

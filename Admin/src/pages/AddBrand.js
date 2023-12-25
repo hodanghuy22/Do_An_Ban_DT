@@ -28,7 +28,7 @@ const AddBrand = () => {
         enableReinitialize: true,
         initialValues: {
             title: brandState?.title || "",
-            status: brandState?.status || true,
+            status: brandState?.status || false,
             hinhPublicId: "",
             fileHinh: "",
         },

@@ -46,7 +46,6 @@ function Home() {
             <Helmet>
                 <title>PHBshop - Điện thoại chính hãng</title>
             </Helmet>
-            <SliderShow />
             <div>
                 <SliderShow />
             </div>

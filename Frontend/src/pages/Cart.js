@@ -34,7 +34,7 @@ const Cart = () => {
                 <Link to="/" className='btn btn-outline-primary w-50 bg-light text-primary bold'>Về trang chủ</Link>
             </div>
             {/* Có sản phẩm */}
-            {/* <div className='d-flex justify-content-center w-50 m-auto py-5'>
+             <div className='d-flex justify-content-center w-50 m-auto py-5'>
                 <Container>
                     <Row className=' pb-2 mb-4  border-bottom border-info'>
                         <Col xl={2} md={2} sm={2} className='p-2'>
@@ -142,7 +142,7 @@ const Cart = () => {
                     </Row>
 
                 </Container>
-            </div> */}
+            </div> 
         </>
     )
 }

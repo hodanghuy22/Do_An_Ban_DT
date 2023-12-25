@@ -55,8 +55,8 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             return await _uow.ProductTypeRepository.UpdateProductType(productType);
         }
-        [HttpPut]
-        [Route("DeleteProductType/{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProductType(int id)
         {
