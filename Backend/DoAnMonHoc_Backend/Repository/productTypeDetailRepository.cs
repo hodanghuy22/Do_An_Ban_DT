@@ -13,6 +13,18 @@ namespace DoAnMonHoc_Backend.Repository
         {
             _context = context;
         }
+
+        public async Task<bool> CheckExist(int phoneId, int productTypeId)
+        {
+            var check = await _context.ProductTypeDetails
+                            .FirstOrDefaultAsync(p => p.PhoneId == phoneId && p.ProductTypeId == productTypeId);
+            if(check == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task CreateProductTypeDetail(ProductTypeDetail productTypeDetail)
         {
             await _context.ProductTypeDetails.AddAsync(productTypeDetail);

@@ -42,10 +42,11 @@ namespace DoAnMonHoc_Backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProductTypeDetail(ProductTypeDetail productTypeDetail)
         {
-            var checkProductTypeDetail = await _uow.ProductTypeDetailRepository.ProductTypeDetailExist(productTypeDetail.Id);
-            if (checkProductTypeDetail == true)
+            var check = await _uow.ProductTypeDetailRepository
+                            .CheckExist(productTypeDetail.PhoneId, productTypeDetail.ProductTypeId);
+            if(check == false)
             {
-                return BadRequest();
+                return BadRequest("This alredy exists!");
             }
             _uow.ProductTypeDetailRepository.CreateProductTypeDetail(productTypeDetail);
             var result = await _uow.SaveAsync();

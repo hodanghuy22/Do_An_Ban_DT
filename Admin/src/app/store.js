@@ -6,6 +6,7 @@ import invoiceReducer from '../features/invoice/invoiceSlice';
 import couponReducer from '../features/coupon/couponSlice';
 import productReducer from '../features/product/productSlice';
 import productTypeReducer from '../features/productType/productTypeSlice';
+import phoneReducer from '../features/phone/phoneSlice';
 
 export const store = configureStore({
     reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
         coupon: couponReducer,
         product: productReducer,
         productType: productTypeReducer,
+        phone: phoneReducer,
     }
 })

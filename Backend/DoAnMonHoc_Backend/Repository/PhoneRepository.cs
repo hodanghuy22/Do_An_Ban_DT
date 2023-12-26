@@ -1,4 +1,6 @@
-﻿using DoAnMonHoc_Backend.Data;
+﻿using AutoMapper;
+using DoAnMonHoc_Backend.Data;
+using DoAnMonHoc_Backend.Dto;
 using DoAnMonHoc_Backend.Interfaces;
 using DoAnMonHoc_Backend.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +11,51 @@ namespace DoAnMonHoc_Backend.Repository
     public class PhoneRepository : IPhoneRepository
     {
         private readonly CSDLContext _context;
-        public PhoneRepository(CSDLContext context)
+        private readonly IMapper _mapper;
+
+        public PhoneRepository(CSDLContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task CreatePhone(Phone phone)
+        public async Task<IActionResult> CreatePhone(PhoneDto phoneDto)
         {
+            var check = await _context.Phones.FirstOrDefaultAsync(p => p.Name == phoneDto.Name);
+            if (check != null)
+            {
+                return new BadRequestObjectResult("Da ton tai!!!");
+            }
+            var phone = _mapper.Map<Phone>(phoneDto);
             await _context.Phones.AddAsync(phone);
+            var result = await _context.SaveChangesAsync();
+            if (result <= 0)
+            {
+                return new BadRequestObjectResult("Khong luu duoc!!!");
+            }
+            Console.WriteLine("==================================");
+            Console.WriteLine("==================================");
+            if(phoneDto.productTypeIds != null)
+            {
+                var getPhone = await _context.Phones.FirstOrDefaultAsync(p => p.Name == phone.Name);
+                foreach (var prodTypeId in phoneDto.productTypeIds)
+                {
+                    Console.WriteLine("=============aaaaaaaaaaaa=====================");
+                    var prodTypeDetail = new ProductTypeDetail
+                    {
+                        PhoneId = getPhone.Id,
+                        ProductTypeId = prodTypeId,
+                    };
+                    await _context.ProductTypeDetails.AddAsync(prodTypeDetail);
+                    Console.WriteLine("=======co vao dc===========");
+                    Console.WriteLine("=============co vao dc=====================");
+                }
+                var result2 = await _context.SaveChangesAsync();
+                if (result2 <= 0)
+                {
+                    return new BadRequestObjectResult("Khong luu duoc!!!");
+                }
+            }
+            return new OkResult();
         }
 
         public async Task DeletePhone(int id)
@@ -29,6 +69,11 @@ namespace DoAnMonHoc_Backend.Repository
         {
             return await _context.Phones.Include(p => p.Brand)
                 .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<Phone> GetPhoneByName(string name)
+        {
+            return await _context.Phones.FirstOrDefaultAsync(p => p.Name == name);
         }
 
         public async Task<IEnumerable<Phone>> GetPhones()

@@ -1,4 +1,5 @@
-﻿using DoAnMonHoc_Backend.Interfaces;
+﻿using DoAnMonHoc_Backend.Dto;
+using DoAnMonHoc_Backend.Interfaces;
 using DoAnMonHoc_Backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,20 +39,14 @@ namespace DoAnMonHoc_Backend.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreatePhone(Phone phone)
+        public async Task<IActionResult> CreatePhone(PhoneDto phoneDto)
         {
-            var checkPhone = await _uow.PhoneRepository.PhoneExist(phone.Id);
-            if (checkPhone == true)
+            Console.WriteLine("======VAO DC CONTROLLER");
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Không hợp lệ");
             }
-            _uow.PhoneRepository.CreatePhone(phone);
-            var result = await _uow.SaveAsync();
-            if (!result)
-            {
-                return BadRequest();
-            }
-            return Ok();
+            return await _uow.PhoneRepository.CreatePhone(phoneDto);
         }
         [HttpPut]
         [Route("{id}")]

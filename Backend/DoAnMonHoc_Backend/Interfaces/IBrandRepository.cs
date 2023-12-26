@@ -7,6 +7,7 @@ namespace DoAnMonHoc_Backend.Interfaces
     {
         Task<IActionResult> CreateBrand(Brand brand);
         Task<IEnumerable<Brand>> GetBrands();
+        Task<IEnumerable<Brand>> GetBrandsShow();
         Task<Brand> GetBrand(int id);
         Task<bool> BrandExist(int id);
         Task<IActionResult> UpdateBrand(Brand brand);

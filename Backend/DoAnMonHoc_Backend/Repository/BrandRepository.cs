@@ -52,6 +52,11 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Brands.ToListAsync();
         }
 
+        public async Task<IEnumerable<Brand>> GetBrandsShow()
+        {
+            return await _context.Brands.Where(b => b.Status == true).ToListAsync();
+        }
+
         public async Task<IActionResult> UpdateBrand(Brand brand)
         {
             _context.Entry(brand).State = EntityState.Modified;

@@ -11,6 +11,7 @@ namespace DoAnMonHoc_Backend.Helpers
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Brand, BrandDto>().ReverseMap();
             CreateMap<Color, ColorDto>().ReverseMap();
+            CreateMap<Phone, PhoneDto>().ReverseMap();
         }
     }
 }

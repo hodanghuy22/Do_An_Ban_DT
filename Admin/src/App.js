@@ -14,13 +14,15 @@ import ProductList from './pages/ProductList';
 import ProductTypeList from './pages/ProductTypeList';
 import ColorList from './pages/ColorList';
 import BrandList from './pages/BrandList';
-import AddProduct from './pages/AddProduct';
 import AddProductType from './pages/AddProductType';
 import AddCustomer from './pages/AddCustomer';
 import AddCoupon from './pages/AddCoupon';
 import AddColor from './pages/AddColor';
 import AddBrand from './pages/AddBrand';
 import ProductDetail from './pages/ProductDetail';
+import AddPhone from './pages/AddPhone';
+import PhoneList from './pages/PhoneList';
+import AddProduct from './pages/AddProduct';
 
 
 function App() {
@@ -37,8 +39,10 @@ function App() {
         <Route path='invoice' element={<Invoice />}/>
         <Route path='coupon-list' element={<CouponList />}/>
         <Route path='customer-list' element={<CustomerList />}/>
-        <Route path='product-list' element={<ProductList />}/>
         <Route path='add-product' element={<AddProduct />}/>
+        <Route path='product-list' element={<ProductList />}/>
+        <Route path='add-phone' element={<AddPhone />}/>
+        <Route path='phone-list' element={<PhoneList />}/>
         <Route path='product-type-list' element={<ProductTypeList />}/>
         <Route path='add-product-type' element={<AddProductType />}/>
         <Route path='add-product-type/:id' element={<AddProductType />}/>

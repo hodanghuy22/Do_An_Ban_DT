@@ -29,6 +29,14 @@ namespace DoAnMonHoc_Backend.Controllers
             return Ok(brandsDto);
         }
         [HttpGet]
+        [Route("Show")]
+        public async Task<IActionResult> GetBrandsShow()
+        {
+            var brands = await _uow.BrandRepository.GetBrandsShow();
+            var brandsDto = _mapper.Map<IEnumerable<BrandDto>>(brands);
+            return Ok(brandsDto);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetBrand(int id)
         {

@@ -1,51 +1,44 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { toast } from 'react-toastify';
-import brandService from "./brandService";
+import phoneService from "./phoneService";
 
 
-export const GetBrands = createAsyncThunk("brand/get-brands", async(thunkAPI) =>{
+
+export const GetPhones = createAsyncThunk("phone/get-phones", async(thunkAPI) =>{
     try{
-        return await brandService.getBrands();
+        return await phoneService.getPhones();
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const GetBrandsShow = createAsyncThunk("brand/get-brandsShow", async(thunkAPI) =>{
+export const GetAPhone = createAsyncThunk("Phone/get-Phone", async(id,thunkAPI) =>{
     try{
-        return await brandService.getBrandsShow();
+        return await phoneService.getAPhone(id);
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const GetABrand = createAsyncThunk("brand/get-brand", async(id,thunkAPI) =>{
+export const CreatePhone = createAsyncThunk("phone/create-phone", async(phoneData,thunkAPI) =>{
     try{
-        return await brandService.getABrand(id);
+        return await phoneService.createPhone(phoneData);
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const CreateBrand = createAsyncThunk("brand/create-brand", async(brandData,thunkAPI) =>{
+export const UpdatePhone = createAsyncThunk("Phone/update-Phone", async(PhoneData,thunkAPI) =>{
     try{
-        return await brandService.createBrand(brandData);
+        return await phoneService.updatePhone(PhoneData);
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const UpdateBrand = createAsyncThunk("brand/update-brand", async(brandData,thunkAPI) =>{
+export const DeletePhone = createAsyncThunk("Phone/delete-Phone", async(id,thunkAPI) =>{
     try{
-        return await brandService.updateBrand(brandData);
-    }catch(err){
-        return thunkAPI.rejectWithValue(err);
-    }
-})
-
-export const DeleteBrand = createAsyncThunk("brand/delete-brand", async(id,thunkAPI) =>{
-    try{
-        return await brandService.deleteBrand(id);
+        return await phoneService.deletePhone(id);
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }
@@ -54,45 +47,45 @@ export const DeleteBrand = createAsyncThunk("brand/delete-brand", async(id,thunk
 export const resetState = createAction('Reset_all')
 
 const initialState = {
-    brands: [],
+    phones: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: ""
 }
 
-export const brandSlice = createSlice({
-    name: "brand",
+export const phoneSlice = createSlice({
+    name: "phone",
     initialState: initialState,
     reducers: {},
     extraReducers: (builder)=>{
-        builder.addCase(GetBrands.pending, (state)=>{
+        builder.addCase(GetPhones.pending, (state)=>{
             state.isLoading = true;
         })
-        .addCase(GetBrands.fulfilled, (state, action)=>{
+        .addCase(GetPhones.fulfilled, (state, action)=>{
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.brands = action.payload;
+            state.phones = action.payload;
         })
-        .addCase(GetBrands.rejected, (state, action)=>{
+        .addCase(GetPhones.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
-        }).addCase(CreateBrand.pending, (state)=>{
+        }).addCase(CreatePhone.pending, (state)=>{
             state.isLoading = true;
         })
-        .addCase(CreateBrand.fulfilled, (state, action)=>{
+        .addCase(CreatePhone.fulfilled, (state, action)=>{
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.newBrand = action.payload;
+            state.newPhone = action.payload;
             if(state.isSuccess){
-                toast.success("Create Brand is successfully!!!");
+                toast.success("Create Phone is successfully!!!");
             }
         })
-        .addCase(CreateBrand.rejected, (state, action)=>{
+        .addCase(CreatePhone.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
@@ -100,18 +93,18 @@ export const brandSlice = createSlice({
             if(state.isError){
                 toast.error(action.error.message);
             }
-        }).addCase(DeleteBrand.pending, (state)=>{
+        }).addCase(DeletePhone.pending, (state)=>{
             state.isLoading = true;
         })
-        .addCase(DeleteBrand.fulfilled, (state, action)=>{
+        .addCase(DeletePhone.fulfilled, (state, action)=>{
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
             if(state.isSuccess){
-                toast.success("Delete Brand is successfully!!!");
+                toast.success("Delete Phone is successfully!!!");
             }
         })
-        .addCase(DeleteBrand.rejected, (state, action)=>{
+        .addCase(DeletePhone.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
@@ -119,16 +112,16 @@ export const brandSlice = createSlice({
             if(state.isError){
                 toast.error(action.error.message);
             }
-        }).addCase(GetABrand.pending, (state)=>{
+        }).addCase(GetAPhone.pending, (state)=>{
             state.isLoading = true;
         })
-        .addCase(GetABrand.fulfilled, (state, action)=>{
+        .addCase(GetAPhone.fulfilled, (state, action)=>{
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.ABrand = action.payload;
+            state.APhone = action.payload;
         })
-        .addCase(GetABrand.rejected, (state, action)=>{
+        .addCase(GetAPhone.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
@@ -136,36 +129,19 @@ export const brandSlice = createSlice({
             if(state.isError){
                 toast.error(action.error.message);
             }
-        }).addCase(UpdateBrand.pending, (state)=>{
+        }).addCase(UpdatePhone.pending, (state)=>{
             state.isLoading = true;
         })
-        .addCase(UpdateBrand.fulfilled, (state, action)=>{
+        .addCase(UpdatePhone.fulfilled, (state, action)=>{
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.updateBrand = action.payload;
+            state.updatePhone = action.payload;
             if(state.isSuccess){
-                toast.success("Update Brand is successfully!!!");
+                toast.success("Update Phone is successfully!!!");
             }
         })
-        .addCase(UpdateBrand.rejected, (state, action)=>{
-            state.isLoading = false;
-            state.isError = true;
-            state.isSuccess = false;
-            state.message = action.error.message;
-            if(state.isError){
-                toast.error(action.error.message);
-            }
-        }).addCase(GetBrandsShow.pending, (state)=>{
-            state.isLoading = true;
-        })
-        .addCase(GetBrandsShow.fulfilled, (state, action)=>{
-            state.isLoading = false;
-            state.isError = false;
-            state.isSuccess = true;
-            state.brandShow = action.payload;
-        })
-        .addCase(GetBrandsShow.rejected, (state, action)=>{
+        .addCase(UpdatePhone.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
@@ -177,4 +153,4 @@ export const brandSlice = createSlice({
     }
 })
 
-export default brandSlice.reducer;
+export default phoneSlice.reducer;

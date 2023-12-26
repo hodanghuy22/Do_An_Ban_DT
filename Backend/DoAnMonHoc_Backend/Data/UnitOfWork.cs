@@ -42,7 +42,7 @@ namespace DoAnMonHoc_Backend.Data
             new CapacityRepository(_context);
 
         public IPhoneRepository PhoneRepository => 
-            new PhoneRepository(_context);
+            new PhoneRepository(_context, _mapper);
 
         public IProductTypeDetailRepository ProductTypeDetailRepository => 
             new productTypeDetailRepository(_context);

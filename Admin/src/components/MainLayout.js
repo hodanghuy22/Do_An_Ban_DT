@@ -39,10 +39,20 @@ const MainLayout = () => {
               label: 'Dashboard',
             },
             {
-              key: 'product',
+              key: 'phone',
               icon: <TbShoppingCart className='fs-5' />,
-              label: 'Product',
+              label: 'Phone',
               children: [
+                {
+                  key: 'add-phone',
+                  icon: <TbShoppingCartCog className='fs-5' />,
+                  label: 'Add Phone',
+                },
+                {
+                  key: 'phone-list',
+                  icon: <TbCategory className='fs-5' />,
+                  label: 'Phone list',
+                },
                 {
                   key: 'add-product',
                   icon: <TbShoppingCartCog className='fs-5' />,
@@ -50,12 +60,12 @@ const MainLayout = () => {
                 },
                 {
                   key: 'product-list',
-                  icon: <TbShoppingCartCog className='fs-5' />,
+                  icon: <TbCategory className='fs-5' />,
                   label: 'Product List',
                 },
                 {
                   key: 'add-product-type',
-                  icon: <TbCategory className='fs-5' />,
+                  icon: <TbShoppingCart className='fs-5' />,
                   label: 'Add Product Type',
                 },
                 {
