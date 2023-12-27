@@ -32,22 +32,17 @@ namespace DoAnMonHoc_Backend.Repository
             {
                 return new BadRequestObjectResult("Khong luu duoc!!!");
             }
-            Console.WriteLine("==================================");
-            Console.WriteLine("==================================");
             if(phoneDto.productTypeIds != null)
             {
                 var getPhone = await _context.Phones.FirstOrDefaultAsync(p => p.Name == phone.Name);
                 foreach (var prodTypeId in phoneDto.productTypeIds)
                 {
-                    Console.WriteLine("=============aaaaaaaaaaaa=====================");
                     var prodTypeDetail = new ProductTypeDetail
                     {
                         PhoneId = getPhone.Id,
                         ProductTypeId = prodTypeId,
                     };
                     await _context.ProductTypeDetails.AddAsync(prodTypeDetail);
-                    Console.WriteLine("=======co vao dc===========");
-                    Console.WriteLine("=============co vao dc=====================");
                 }
                 var result2 = await _context.SaveChangesAsync();
                 if (result2 <= 0)
@@ -91,7 +86,7 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<bool> PhoneExist(int id)
         {
-            return await _context.Brands.AnyAsync(b => b.Id == id);
+            return await _context.Phones.AnyAsync(b => b.Id == id);
         }
 
         public async Task<IActionResult> UpdatePhone(Phone phone)

@@ -42,6 +42,7 @@ function App() {
         <Route path='add-product' element={<AddProduct />}/>
         <Route path='product-list' element={<ProductList />}/>
         <Route path='add-phone' element={<AddPhone />}/>
+        <Route path='add-phone/:id' element={<AddPhone />}/>
         <Route path='phone-list' element={<PhoneList />}/>
         <Route path='product-type-list' element={<ProductTypeList />}/>
         <Route path='add-product-type' element={<AddProductType />}/>

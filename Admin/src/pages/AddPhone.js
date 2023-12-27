@@ -4,9 +4,10 @@ import { Field, FieldArray, useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CreatePhone, resetState } from '../features/phone/phoneSlice';
+import { CreatePhone, resetState, GetAPhone, UpdatePhone } from '../features/phone/phoneSlice';
 import { GetProductTypes } from '../features/productType/productTypeSlice';
 import { GetBrandsShow } from '../features/brand/brandSlice';
+import { GetProductTypeByPhoneId } from '../features/productTypeDetail/productTypeDetailSlice';
 
 const phoneSchema = yup.object({
     name: yup.string().required('Name is Required'),
@@ -28,53 +29,87 @@ const phoneSchema = yup.object({
 
 const AddPhone = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const getPhoneId = location.pathname.split("/")[3];
+    const phoneState = useSelector(state => state?.phone?.APhone)
+    const productTypeDetailState = useSelector(state => state?.productTypeDetail?.productTypesDetails)
+
     useEffect(() => {
         dispatch(GetProductTypes())
         dispatch(GetBrandsShow())
     }, [])
+
+    useEffect(() => {
+        if (getPhoneId !== undefined) {
+            dispatch(GetAPhone(getPhoneId))
+            dispatch(GetProductTypeByPhoneId(getPhoneId))
+        } else {
+            dispatch(resetState())
+        }
+    }, [getPhoneId])
+
     const handleChange = (event) => {
         const { value } = event.target;
-      
+
         if (!isNaN(value)) {
-          formik.setFieldValue('brandId', Number(value));
+            formik.setFieldValue('brandId', Number(value));
         }
-      };
+    };
+    
+ 
+    const productTypeIdsBanDau = []
+    productTypeDetailState && productTypeDetailState.forEach(item => {
+        productTypeIdsBanDau.push(item.productTypeId)
+    })
+    
+    useEffect(()=>{
+        formik.values.productTypeIds = productTypeIdsBanDau;
+      },[]);
+    
     const productTypeState = useSelector(state => state?.productType?.productTypes)
     const brandState = useSelector(state => state?.brand?.brandShow)
     const formik = useFormik({
-        //enableReinitialize: true,
+        enableReinitialize: true,
         initialValues: {
-            name: "",
-            desc: "",
-            loaiMan: "",
-            kichThuoc: "",
-            doPhanGiai: "",
-            cpu: "",
-            ram: "",
-            rom: "",
-            cameraTruoc: "",
-            cameraSau: "",
-            pin: "",
-            soLuong: "",
-            status: false,
-            brandId: "",
-            hinhPublicId: "",
-            fileHinh: "",
-            productTypeIds: [],
+            name: phoneState?.name || "",
+            desc: phoneState?.desc || "",
+            loaiMan: phoneState?.loaiMan || "",
+            kichThuoc: phoneState?.kichThuoc || "",
+            doPhanGiai: phoneState?.doPhanGiai || "",
+            cpu: phoneState?.cpu || "",
+            ram: phoneState?.ram || "",
+            rom: phoneState?.rom || "",
+            cameraTruoc: phoneState?.cameraTruoc || "",
+            cameraSau: phoneState?.cameraSau || "",
+            pin: phoneState?.pin || "",
+            soLuong: phoneState?.soLuong || "",
+            status: phoneState?.status || false,
+            brandId: phoneState?.brandId || "",
+            hinhPublicId: phoneState?.hinhPublicId || "",
+            fileHinh: phoneState?.fileHinh || "",
+            productTypeIds: productTypeIdsBanDau || [],
         },
         validationSchema: phoneSchema,
         onSubmit: values => {
-            console.log(values);
-            dispatch(CreatePhone(values));
-            formik.resetForm();
-            setTimeout(() => {
+            if (getPhoneId !== undefined) {
+                console.log(values.productTypeIds);
+                const data = { id: getPhoneId, phoneData: { ...values, id: getPhoneId } }
+                dispatch(UpdatePhone(data))
                 dispatch(resetState())
-            }, 300)
+            } else {
+                dispatch(CreatePhone(values));
+                formik.resetForm();
+                setTimeout(() => {
+                    dispatch(resetState())
+                }, 300)
+            }
         },
     });
+    
     return (
         <div>
-            <h3 className='mb-4'> Phone</h3>
+            <h3 className='mb-4'>{getPhoneId !== undefined ? "Edit" : "Add"} Phone</h3>
             <div>
                 <form onSubmit={formik.handleSubmit}>
                     <div className='mb-3'>
@@ -269,7 +304,7 @@ const AddPhone = () => {
                             }
                         </div>
                     </div>
-                    
+
                     <div className='mb-3'>
                         <select name="brandId"
                             type="number"
@@ -296,13 +331,13 @@ const AddPhone = () => {
                             {
                                 productTypeState && productTypeState?.map((item, index) => {
                                     return (
-                                        <Checkbox 
+                                        <Checkbox
                                             key={index}
                                             value={item.id}
                                             name="productTypeIds"
                                             checked={formik.values.productTypeIds.includes(item.id)}
                                             onChange={formik.handleChange('productTypeIds')}
-                                            //defaultChecked={formik.values.productTypeDetails}
+                                            defaultChecked={formik.values.productTypeIds.includes(item.id)}
                                         >
                                             {item.title}
                                         </Checkbox>
@@ -325,7 +360,7 @@ const AddPhone = () => {
                         Status
                     </Checkbox><br />
                     <br />
-                    <button className='btn btn-success' type='submit'> Phone</button>
+                    <button className='btn btn-success' type='submit'>{getPhoneId !== undefined ? "Edit" : "Add"} Phone</button>
                 </form>
             </div>
         </div>

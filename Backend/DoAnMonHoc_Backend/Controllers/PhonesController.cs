@@ -41,7 +41,6 @@ namespace DoAnMonHoc_Backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreatePhone(PhoneDto phoneDto)
         {
-            Console.WriteLine("======VAO DC CONTROLLER");
             if (!ModelState.IsValid)
             {
                 return BadRequest("Không hợp lệ");
@@ -59,8 +58,8 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             return await _uow.PhoneRepository.UpdatePhone(phone);
         }
-        [HttpPut]
-        [Route("DeletePhone/{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePhone(int id)
         {
@@ -71,6 +70,10 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             await _uow.PhoneRepository.DeletePhone(id);
             var result = await _uow.SaveAsync();
+            if (!result)
+            {
+                return BadRequest();
+            }
             return Ok();
         }
         [HttpPost]

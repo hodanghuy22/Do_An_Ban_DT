@@ -9,6 +9,7 @@ namespace DoAnMonHoc_Backend.Interfaces
         Task<IEnumerable<ProductTypeDetail>> GetProductTypeDetails();
         Task<IEnumerable<ProductTypeDetail>> GetProductsByProductType(int productTypeId);
         Task<ProductTypeDetail> GetProductTypeDetail(int id);
+        Task<IEnumerable<ProductTypeDetail>> GetProductTypeByPhoneId(int phoneId);
         Task<bool> ProductTypeDetailExist(int id);
         Task<bool> CheckExist(int phoneId, int productTypeId);
         Task<IActionResult> UpdateProductTypeDetail(ProductTypeDetail productTypeDetail);

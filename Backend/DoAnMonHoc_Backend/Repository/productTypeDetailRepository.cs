@@ -43,6 +43,13 @@ namespace DoAnMonHoc_Backend.Repository
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<ProductTypeDetail>> GetProductTypeByPhoneId(int phoneId)
+        {
+            return await _context.ProductTypeDetails
+                        .Where(p => p.PhoneId == phoneId)
+                        .ToListAsync();
+        }
+
         public async Task<ProductTypeDetail> GetProductTypeDetail(int id)
         {
             return await _context.ProductTypeDetails.Include(pt => pt.ProductType)

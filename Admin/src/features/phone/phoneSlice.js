@@ -12,7 +12,7 @@ export const GetPhones = createAsyncThunk("phone/get-phones", async(thunkAPI) =>
     }
 })
 
-export const GetAPhone = createAsyncThunk("Phone/get-Phone", async(id,thunkAPI) =>{
+export const GetAPhone = createAsyncThunk("phone/get-Phone", async(id,thunkAPI) =>{
     try{
         return await phoneService.getAPhone(id);
     }catch(err){
@@ -28,15 +28,15 @@ export const CreatePhone = createAsyncThunk("phone/create-phone", async(phoneDat
     }
 })
 
-export const UpdatePhone = createAsyncThunk("Phone/update-Phone", async(PhoneData,thunkAPI) =>{
+export const UpdatePhone = createAsyncThunk("phone/update-Phone", async(phoneData,thunkAPI) =>{
     try{
-        return await phoneService.updatePhone(PhoneData);
+        return await phoneService.updatePhone(phoneData);
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const DeletePhone = createAsyncThunk("Phone/delete-Phone", async(id,thunkAPI) =>{
+export const DeletePhone = createAsyncThunk("phone/delete-phone", async(id,thunkAPI) =>{
     try{
         return await phoneService.deletePhone(id);
     }catch(err){

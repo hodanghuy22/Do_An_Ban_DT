@@ -16,9 +16,6 @@ const getAPhone = async(id)=>{
 }
 
 const createPhone = async(phoneData)=>{
-    console.log("Service");
-    console.log(phoneData);
-    console.log(config);
     const response = await axios.post(`${base_url}Phones`, phoneData, config);
     if(response.data){
         return response.data;
@@ -32,8 +29,8 @@ const deletePhone = async(id)=>{
     }
 }
 
-const updatePhone = async(PhoneData)=>{
-    const response = await axios.put(`${base_url}Phones/${PhoneData.id}`,PhoneData.PhoneData,config);
+const updatePhone = async(phoneData)=>{
+    const response = await axios.put(`${base_url}Phones/${phoneData.id}`,phoneData.phoneData,config);
     if(response.data){
         return response.data;
     }
