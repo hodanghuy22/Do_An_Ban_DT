@@ -8,6 +8,30 @@ body {
   width: 20%;
   border: 1px solid #f3f3f3;
 }
+.heart{
+  display: inline;
+}
+/* .heart svg path {
+  stroke: #ff0000;
+  stroke-width: 2px;
+}
+.heart:hover {
+  fill: #ff0000;
+} */
+.heart2{
+  display: none;
+}
+.heart1:hover ~ .heart2 {
+  display: inline;
+  fill: rgb(137, 8, 8);
+}
+.heart1:hover{
+  display: none;
+}
+ .heart1 {
+  display: inline;
+}
+
 /* Home */
 .text-title{
     display: -webkit-box;

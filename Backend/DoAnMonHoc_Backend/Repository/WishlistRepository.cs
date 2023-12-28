@@ -21,17 +21,18 @@ namespace DoAnMonHoc_Backend.Repository
         public async Task DeleteWishList(int id)
         {
             var wishlist = await _context.WishLists.FindAsync(id);
-            if(wishlist != null)
+            if (wishlist != null)
             {
                 _context.WishLists.Remove(wishlist);
             }
         }
-
-        public async Task<WishList> GetWishList(int id)
+        public async Task<IEnumerable<WishList>> GetWishList(string userId)
         {
-            return await _context.WishLists.Include(wl => wl.User)
-                .Include(wl => wl.Product)
-                .FirstOrDefaultAsync(wl => wl.Id == id);
+            return await _context.WishLists
+        .Include(wl => wl.Product)
+            .ThenInclude(p => p.Phone)
+        .Where(wl => wl.UserId == userId)
+        .ToListAsync();
         }
 
         public async Task<IEnumerable<WishList>> GetWishLists()

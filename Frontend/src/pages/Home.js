@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllProducts, getBrand } from '../features/products/productSlice';
 import { Helmet } from 'react-helmet';
 import SliderShow from '../Components/SliderShow';
+
 function Home() {
     const dispatch = useDispatch();
     const productState = useSelector(state => state?.product?.phones);
@@ -18,7 +19,8 @@ function Home() {
         dispatch(getBrand())
             .then(() => setIsLoading(false))
             .catch(() => 'error');
-    }, []);
+    }, [dispatch]);
+
     useEffect(() => {
         if (productState && productState.length > 0) {
             const newProducts = productState.filter(

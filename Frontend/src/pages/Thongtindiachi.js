@@ -76,7 +76,9 @@ const Thongtindiachi = () => {
             placeholder='Age'
             value={formik.values.age}
             onChange={formik.handleChange('age')}
-            onBlur={formik.handleBlur('age')}
+              onBlur={formik.handleBlur('age')}
+              min={0}
+              max={100}
           />
           <div className='error'>
             {

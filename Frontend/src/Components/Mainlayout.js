@@ -3,16 +3,20 @@ import { FaRegUser } from "react-icons/fa";
 import { GoMoveToTop } from "react-icons/go";
 import { BsCartCheck, BsPhone } from "react-icons/bs";
 import React, { useEffect, useState } from 'react'
-import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { Link, Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from "react-redux";
 
 const Mainlayout = () => {
     const [showGoToTop, setShowGoToTop] = useState(false)
+
+    const userDto = useSelector(state => state.auth.user);
+
     const handleClickToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -61,7 +65,15 @@ const Mainlayout = () => {
                                 <Nav className="me-auto">
                                     <Link to='/user' active className="btn button-primary ml-2 mr-2 mb-2">Tài khoản và đơn hàng</Link>
                                     <Link to="/cart" className="btn button-primary ml-2 mr-2 mb-2"><BsCartCheck /> Giỏ hàng</Link>
-                                    <Link to="/login" className="btn button-primary ml-2 mr-2 mb-2" ><FaRegUser /> Đăng Nhập</Link>
+
+                                    {!userDto ? (
+                                        <Link to="/login" className="btn button-primary ml-2 mr-2 mb-2">
+                                            <FaRegUser /> Đăng Nhập
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                    )}
+
                                 </Nav>
                             </Navbar.Collapse>
                         </Container>

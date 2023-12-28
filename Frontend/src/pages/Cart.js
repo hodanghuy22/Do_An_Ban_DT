@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, FormControl, Image, InputGroup, Row } from 'react-bootstrap';
+import { Button, Col, Container, FormControl, Image, InputGroup, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 import { BsCartXFill } from "react-icons/bs";
 import { Link } from 'react-router-dom';

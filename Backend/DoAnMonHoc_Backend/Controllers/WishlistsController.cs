@@ -22,13 +22,13 @@ namespace DoAnMonHoc_Backend.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetWishlist(int id)
+        public async Task<IActionResult> GetWishlist(string id)
         {
             var wishlist = await _uow.WishlistRepository.GetWishList(id);
             return Ok(wishlist);
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> CreateWishlist(WishList wishList)
         {
             var checkWishlist = await _uow.WishlistRepository.WishListExist(wishList.Id);

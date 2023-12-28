@@ -44,7 +44,7 @@ const userService = {
     register,
     login,
     updateUser,
-    changePassword
+    changePassword,
 };
 
 export default userService;

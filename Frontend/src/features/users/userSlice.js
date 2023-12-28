@@ -34,6 +34,12 @@ export const ChangePassword = createAsyncThunk("auth/changePassword-user", async
         return thunkAPI.rejectWithValue(err);
     }
 })
+export const logoutUser = createAsyncThunk('auth/logout', async () => {
+    // Xóa thông tin người dùng khỏi local storage
+    localStorage.removeItem('customer');
+    localStorage.removeItem('token');
+    // Bạn có thể thêm các hành động đăng xuất bổ sung ở đây nếu cần, ví dụ: gọi API để hủy bỏ token phía máy chủ
+});
 
 const getCustomerfromLocalStorage = localStorage.getItem('customer')? JSON.parse(localStorage.getItem("customer")):null;
 
@@ -129,6 +135,14 @@ export const authSlice = createSlice({
             state.message = action.error;
             toast.error("ChangePassword Unsuccessfully");
         })
+        .addCase(logoutUser.fulfilled, (state) => {
+            state.user = null;
+            state.wishlist = []; // Xóa danh sách mong muốn nếu cần
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            toast.success("Logged out successfully");
+        });
     }
 })
 

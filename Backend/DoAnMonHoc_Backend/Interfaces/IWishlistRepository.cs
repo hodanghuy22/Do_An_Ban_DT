@@ -7,7 +7,7 @@ namespace DoAnMonHoc_Backend.Interfaces
     {
         Task CreateWishList(WishList wishList);
         Task<IEnumerable<WishList>> GetWishLists();
-        Task<WishList> GetWishList(int id);
+        Task<IEnumerable<WishList>> GetWishList(string userId);
         Task<bool> WishListExist(int id);
         Task<IActionResult> UpdateWishList(WishList wishList);
         Task DeleteWishList(int id);

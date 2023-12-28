@@ -1,97 +1,61 @@
-import React from 'react'
-import { Card, Col, Container, Row } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Container, Row } from 'react-bootstrap'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { getWishlist } from '../features/wishlists/wishlistSlice';
 const DanhSachYeuThich = () => {
+    const authState = useSelector(state => state?.auth?.user?.userDto);
+
+    const dispatch = useDispatch();
+    // const wishlistState = useSelector(state => state?.auth?.wishlist);
+    const wishlistState = useSelector(state => state?.wishlist?.wishlist);
+    useEffect(() => {
+        dispatch(getWishlist(authState.id));
+    }, [dispatch, authState.id]);
+
+    const formatNumber = (number) => {
+        const formatter = new Intl.NumberFormat('vi-VN');
+        return formatter.format(number);
+    };
     return (
         <>
             <Helmet>
                 <title>Danh sách yêu thích | PHBshop</title>
             </Helmet>
-    <div>
-          <h6>Sản phẩm yêu thích</h6>
-          <Container>
-              <Row>
-                  <Col xl={2} md={4} sm={6} className='mr-5 mb-1 p-2'>
-                      <Card className='p-2' border='1' style={{width: '10rem' }}>
-                          <Link to="/dtdd/1" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <Card className='border-0'>
-                                  <Card.Img className='card-image' variant="top" src="/Images/products/1.jpg" />
-                                  <Card.Body>
-                                      <Card.Title style={{ fontSize: '1rem'}}>Samsung Galaxy A34 5G 128GB</Card.Title>
-                                      <Card.Text className='text-danger font-size-bold'>
-                                          6.990.000 đ
-                                      </Card.Text>
-                                  </Card.Body>
-                              </Card>
-                          </Link>
-                      </Card>
-                  </Col>
-                  <Col xl={2} md={4} sm={6} className='mr-5 mb-1 p-2'>
-                      <Card className='p-2' border='1' style={{ width: '10rem' }}>
-                          <Link to="/dtdd/1" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <Card className='border-0'>
-                                  <Card.Img className='card-image' variant="top" src="/Images/products/1.jpg" />
-                                  <Card.Body>
-                                      <Card.Title style={{ fontSize: '1rem' }}>Samsung Galaxy A34 5G 128GB</Card.Title>
-                                      <Card.Text className='text-danger font-size-bold'>
-                                          6.990.000 đ
-                                      </Card.Text>
-                                  </Card.Body>
-                              </Card>
-                          </Link>
-                      </Card>
-                  </Col>
-                  <Col xl={2} md={4} sm={6} className='mr-5 mb-1 p-2'>
-                      <Card className='p-2' border='1' style={{width: '10rem' }}>
-                          <Link to="/dtdd/1" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <Card className='border-0'>
-                                  <Card.Img className='card-image' variant="top" src="/Images/products/1.jpg" />
-                                  <Card.Body>
-                                      <Card.Title style={{ fontSize: '1rem'}}>Samsung Galaxy A34 5G 128GB</Card.Title>
-                                      <Card.Text className='text-danger font-size-bold'>
-                                          6.990.000 đ
-                                      </Card.Text>
-                                  </Card.Body>
-                              </Card>
-                          </Link>
-                      </Card>
-                  </Col>
-                  <Col xl={2} md={4} sm={6} className='mr-5 mb-1 p-2'>
-                      <Card className='p-2' border='1' style={{ width: '10rem' }}>
-                          <Link to="/dtdd/1" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <Card className='border-0'>
-                                  <Card.Img className='card-image' variant="top" src="/Images/products/1.jpg" />
-                                  <Card.Body>
-                                      <Card.Title style={{ fontSize: '1rem' }}>Samsung Galaxy A34 5G 128GB</Card.Title>
-                                      <Card.Text className='text-danger font-size-bold'>
-                                          6.990.000 đ
-                                      </Card.Text>
-                                  </Card.Body>
-                              </Card>
-                          </Link>
-                      </Card>
-                  </Col>
-                  <Col xl={2} md={4} sm={6} className='mr-5 mb-1 p-2'>
-                      <Card className='p-2' border='1' style={{ width: '10rem' }}>
-                          <Link to="/dtdd/1" className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <Card className='border-0'>
-                                  <Card.Img className='card-image' variant="top" src="/Images/products/1.jpg" />
-                                  <Card.Body>
-                                      <Card.Title style={{ fontSize: '1rem' }}>Samsung Galaxy A34 5G 128GB</Card.Title>
-                                      <Card.Text className='text-danger font-size-bold'>
-                                          6.990.000 đ
-                                      </Card.Text>
-                                  </Card.Body>
-                              </Card>
-                          </Link>
-                      </Card>
-                  </Col>
-                  
-              </Row>
-          </Container>
-    </div>
+            <div>
+                <h6>Sản phẩm yêu thích</h6>
+                <Container className='mt-3'>
+                    <Row>
+
+                        {
+                            wishlistState && wishlistState?.map((item, index) => {
+                                return (
+                                    <div className='col-xl-3 col-md-4 col-sm-5' key={index}>
+                                        <Link to={`/dtdd/${item.productId}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <div className='p-3'>
+                                                <img className='card-image' width={"100%"} src={item.product.phone.fileHinh} alt='iphone15promax' />
+                                                <div className='mt-4'>
+                                                    <p className='text-title'>{ item.product.phone.name}</p>
+                                                    <div>
+                                                        <p className='text-price  font-size-bold amount' >
+                                                            {formatNumber(item.product.price)}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                )
+                            })
+                        }
+                        
+
+
+
+                    </Row>
+                </Container>
+            </div>
         </>
     )
 }
