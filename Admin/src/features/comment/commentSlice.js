@@ -1,44 +1,44 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { toast } from 'react-toastify';
-import couponService from "./couponService";
+import couponService from "./commentService";
 
 
-export const GetCoupons = createAsyncThunk("coupon/get-coupons", async (thunkAPI) => {
+export const GetComments = createAsyncThunk("comment/get-comments", async (thunkAPI) => {
     try {
-        return await couponService.getCoupons();
+        return await couponService.getComments();
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
 
-export const GetACoupon = createAsyncThunk("coupon/get-coupon", async (id, thunkAPI) => {
+export const GetAComment = createAsyncThunk("comment/get-comment", async (id, thunkAPI) => {
     try {
-        return await couponService.getACoupon(id);
+        return await couponService.getAComment(id);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const CreateCoupon = createAsyncThunk("coupon/create-coupon", async (couponData, thunkAPI) => {
+export const CreateComment = createAsyncThunk("comment/create-comment", async (commentData, thunkAPI) => {
     try {
-        return await couponService.createCoupon(couponData);
+        return await couponService.createComment(commentData);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const UpdateCoupon = createAsyncThunk("coupon/update-coupon", async (couponData, thunkAPI) => {
+export const UpdateComment = createAsyncThunk("comment/update-comment", async (commentData, thunkAPI) => {
     try {
-        return await couponService.updateCoupon(couponData);
+        return await couponService.updateComment(commentData);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const DeleteCoupon = createAsyncThunk("coupon/delete-coupon", async (couponData, thunkAPI) => {
+export const DeleteComment = createAsyncThunk("comment/delete-comment", async (commentData, thunkAPI) => {
     try {
-        return await couponService.deleteCoupon(couponData);
+        return await couponService.deleteComment(commentData);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
@@ -48,36 +48,36 @@ export const resetState = createAction('Reset_all')
 
 
 const initialState = {
-    coupons: [],
+    comments: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: ""
 }
 
-export const couponSlice = createSlice({
-    name: "coupon",
+export const commentSlice = createSlice({
+    name: "comment",
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(GetCoupons.pending, (state) => {
+        builder.addCase(GetComments.pending, (state) => {
             state.isLoading = true;
         })
-            .addCase(GetCoupons.fulfilled, (state, action) => {
+            .addCase(GetComments.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
                 state.coupons = action.payload;
             })
-            .addCase(GetCoupons.rejected, (state, action) => {
+            .addCase(GetComments.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }).addCase(CreateCoupon.pending, (state) => {
+            }).addCase(CreateComment.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(CreateCoupon.fulfilled, (state, action) => {
+            .addCase(CreateComment.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
@@ -86,15 +86,15 @@ export const couponSlice = createSlice({
                     toast.success("Create A Coupon is successfully!!!");
                 }
             })
-            .addCase(CreateCoupon.rejected, (state, action) => {
+            .addCase(CreateComment.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }).addCase(DeleteCoupon.pending, (state) => {
+            }).addCase(DeleteComment.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(DeleteCoupon.fulfilled, (state, action) => {
+            .addCase(DeleteComment.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
@@ -103,7 +103,7 @@ export const couponSlice = createSlice({
                     toast.success("Delete A Coupon is successfully!!!");
                 }
             })
-            .addCase(DeleteCoupon.rejected, (state, action) => {
+            .addCase(DeleteComment.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -111,16 +111,16 @@ export const couponSlice = createSlice({
                 if (state.isError) {
                     toast.success("Something went wrong!!!");
                 }
-            }).addCase(GetACoupon.pending, (state) => {
+            }).addCase(GetAComment.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(GetACoupon.fulfilled, (state, action) => {
+            .addCase(GetAComment.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
                 state.ACoupon = action.payload;
             })
-            .addCase(GetACoupon.rejected, (state, action) => {
+            .addCase(GetAComment.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -128,19 +128,19 @@ export const couponSlice = createSlice({
                 if (state.isError) {
                     toast.success("Something went wrong!!!");
                 }
-            }).addCase(UpdateCoupon.pending, (state) => {
+            }).addCase(UpdateComment.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(UpdateCoupon.fulfilled, (state, action) => {
+            .addCase(UpdateComment.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
                 state.updatedCoupon = action.payload;
                 if (state.isSuccess) {
-                    toast.success("Update A Coupon is successfully!!!");
+                    toast.success("Update A Comment is successfully!!!");
                 }
             })
-            .addCase(UpdateCoupon.rejected, (state, action) => {
+            .addCase(UpdateComment.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -152,4 +152,4 @@ export const couponSlice = createSlice({
     }
 })
 
-export default couponSlice.reducer;
+export default commentSlice.reducer;

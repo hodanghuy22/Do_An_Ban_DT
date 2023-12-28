@@ -1,44 +1,44 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { toast } from 'react-toastify';
-import couponService from "./couponService";
+import slideshowService from "./slideshowService";
 
 
-export const GetCoupons = createAsyncThunk("coupon/get-coupons", async (thunkAPI) => {
+export const GetSlideShows = createAsyncThunk("slideshow/get-slideshows", async (thunkAPI) => {
     try {
-        return await couponService.getCoupons();
+        return await slideshowService.getSlideShows();
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
 
-export const GetACoupon = createAsyncThunk("coupon/get-coupon", async (id, thunkAPI) => {
+export const GetASlideShow = createAsyncThunk("slideshow/get-slideshow", async (id, thunkAPI) => {
     try {
-        return await couponService.getACoupon(id);
+        return await slideshowService.getASlideShow(id);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const CreateCoupon = createAsyncThunk("coupon/create-coupon", async (couponData, thunkAPI) => {
+export const CreateSlideShow = createAsyncThunk("slideshow/create-slideshow", async (slideshowData, thunkAPI) => {
     try {
-        return await couponService.createCoupon(couponData);
+        return await slideshowService.createSlideShow(slideshowData);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const UpdateCoupon = createAsyncThunk("coupon/update-coupon", async (couponData, thunkAPI) => {
+export const UpdateSlideShow = createAsyncThunk("slideshow/update-slideshow", async (slideshowData, thunkAPI) => {
     try {
-        return await couponService.updateCoupon(couponData);
+        return await slideshowService.updateSlideShow(slideshowData);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const DeleteCoupon = createAsyncThunk("coupon/delete-coupon", async (couponData, thunkAPI) => {
+export const DeleteSlideShow = createAsyncThunk("slideshow/delete-slideshow", async (slideshowData, thunkAPI) => {
     try {
-        return await couponService.deleteCoupon(couponData);
+        return await slideshowService.deleteSlideShow(slideshowData);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
@@ -48,62 +48,62 @@ export const resetState = createAction('Reset_all')
 
 
 const initialState = {
-    coupons: [],
+    slideshows: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: ""
 }
 
-export const couponSlice = createSlice({
-    name: "coupon",
+export const slideshowSlice = createSlice({
+    name: "slideshow",
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(GetCoupons.pending, (state) => {
+        builder.addCase(GetSlideShows.pending, (state) => {
             state.isLoading = true;
         })
-            .addCase(GetCoupons.fulfilled, (state, action) => {
+            .addCase(GetSlideShows.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.coupons = action.payload;
+                state.slideshows = action.payload;
             })
-            .addCase(GetCoupons.rejected, (state, action) => {
+            .addCase(GetSlideShows.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }).addCase(CreateCoupon.pending, (state) => {
+            }).addCase(CreateSlideShow.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(CreateCoupon.fulfilled, (state, action) => {
+            .addCase(CreateSlideShow.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.newCoupon = action.payload;
+                state.newslideshow = action.payload;
                 if (state.isSuccess) {
-                    toast.success("Create A Coupon is successfully!!!");
+                    toast.success("Create A slideshow is successfully!!!");
                 }
             })
-            .addCase(CreateCoupon.rejected, (state, action) => {
+            .addCase(CreateSlideShow.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }).addCase(DeleteCoupon.pending, (state) => {
+            }).addCase(DeleteSlideShow.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(DeleteCoupon.fulfilled, (state, action) => {
+            .addCase(DeleteSlideShow.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.deletedCoupon = action.payload;
+                state.deletedslideshow = action.payload;
                 if (state.isSuccess) {
-                    toast.success("Delete A Coupon is successfully!!!");
+                    toast.success("Delete A slideshow is successfully!!!");
                 }
             })
-            .addCase(DeleteCoupon.rejected, (state, action) => {
+            .addCase(DeleteSlideShow.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -111,16 +111,16 @@ export const couponSlice = createSlice({
                 if (state.isError) {
                     toast.success("Something went wrong!!!");
                 }
-            }).addCase(GetACoupon.pending, (state) => {
+            }).addCase(GetASlideShow.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(GetACoupon.fulfilled, (state, action) => {
+            .addCase(GetASlideShow.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.ACoupon = action.payload;
+                state.Aslideshow = action.payload;
             })
-            .addCase(GetACoupon.rejected, (state, action) => {
+            .addCase(GetASlideShow.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -128,19 +128,19 @@ export const couponSlice = createSlice({
                 if (state.isError) {
                     toast.success("Something went wrong!!!");
                 }
-            }).addCase(UpdateCoupon.pending, (state) => {
+            }).addCase(UpdateSlideShow.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(UpdateCoupon.fulfilled, (state, action) => {
+            .addCase(UpdateSlideShow.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.updatedCoupon = action.payload;
+                state.updatedslideshow = action.payload;
                 if (state.isSuccess) {
-                    toast.success("Update A Coupon is successfully!!!");
+                    toast.success("Update A slideshow is successfully!!!");
                 }
             })
-            .addCase(UpdateCoupon.rejected, (state, action) => {
+            .addCase(UpdateSlideShow.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -152,4 +152,4 @@ export const couponSlice = createSlice({
     }
 })
 
-export default couponSlice.reducer;
+export default slideshowSlice.reducer;

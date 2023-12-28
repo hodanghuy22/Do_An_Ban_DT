@@ -8,8 +8,19 @@ import { CreatePhone, resetState, GetAPhone, UpdatePhone } from '../features/pho
 import { GetProductTypes } from '../features/productType/productTypeSlice';
 import { GetBrandsShow } from '../features/brand/brandSlice';
 import { GetProductTypeByPhoneId } from '../features/productTypeDetail/productTypeDetailSlice';
+<<<<<<< Updated upstream
 import { DeleteImg, UploadImg, resetUploadState } from '../features/uploadImage/uploadSlice';
 import Dropzone from 'react-dropzone';
+=======
+<<<<<<< HEAD
+import { DeleteImg, UploadImg } from '../features/uploadImage/uploadSlice';
+import Dropzone from 'react-dropzone';
+
+=======
+import { DeleteImg, UploadImg, resetUploadState } from '../features/uploadImage/uploadSlice';
+import Dropzone from 'react-dropzone';
+>>>>>>> 7844d31dbd96aafd8df039f0c7c6237ea6922cf4
+>>>>>>> Stashed changes
 
 const phoneSchema = yup.object({
     name: yup.string().required('Name is Required'),

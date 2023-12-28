@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HiArrowCircleLeft, HiArrowCircleRight } from "react-icons/hi";
-import { RiCoupon2Line, RiCoupon3Line, RiDashboard2Line, RiBarChart2Fill, RiMessage3Line, RiSlideshow4Line } from "react-icons/ri";
+import { RiCoupon2Line, RiCoupon3Line, RiDashboard2Line, RiMessage3Line, RiSlideshow4Line } from "react-icons/ri";
 import { TbCategory, TbShoppingCart, TbShoppingCartCog, TbBrandBlogger } from "react-icons/tb";
 import { MdOutlineColorLens } from "react-icons/md";
 import { FaUser, FaUserCog } from "react-icons/fa";
@@ -110,11 +110,6 @@ const MainLayout = () => {
               ],
             },
             {
-              key: 'statistic',
-              icon: <RiBarChart2Fill className='fs-5' />,
-              label: 'Statistic',
-            },
-            {
               key: 'comment',
               icon: <RiMessage3Line className='fs-5' />,
               label: 'Comment',
@@ -125,9 +120,21 @@ const MainLayout = () => {
               label: 'Invoice',
             },
             {
-              key: 'slide-show',
+              key: 'slideshow',
               icon: <RiSlideshow4Line className='fs-5' />,
-              label: 'Slide Show',
+              label: 'SlideShow',
+              children: [
+                {
+                  key: 'add-slideshow',
+                  icon: <RiSlideshow4Line className='fs-5' />,
+                  label: 'Add SlideShow',
+                },
+                {
+                  key: 'slideshows',
+                  icon: <RiSlideshow4Line className='fs-5' />,
+                  label: 'SlideShows',
+                },
+              ]
             },
             {
               key: 'color',

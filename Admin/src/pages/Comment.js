@@ -1,35 +1,96 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeleteComment, GetComments, resetState } from '../features/comment/commentSlice';
+import CustomModal from '../components/CustomModal';
+import { AiFillDelete } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
+        title: 'id',
+        dataIndex: 'Id',
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
+        title: 'FileHinh',
+        dataIndex: 'fileHinh',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
+        title: 'UserId',
+        dataIndex: 'userId',
+    },
+    {
+        title: 'ProductId',
+        dataIndex: 'productId',
+    },
+    {
+        title: 'CommentId',
+        dataIndex: 'commentId',
+    },
+    {
+        title: 'Content',
+        dataIndex: 'content',
+    },
+    {
+        title: 'HinhPublicId',
+        dataIndex: 'hinhPublicId',
     },
 ];
-const data1 = [];
-for (let i = 0; i < 46; i++) {
-    data1.push({
-        //
-    });
-}
 
 const Comment = () => {
+    const [open, setOpen] = useState(false);
+    const [commentId, setcommentId] = useState("");
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(resetState())
+        dispatch(GetComments())
+    }, []);
+    const hideModal = () => {
+        setOpen(false);
+    };
+    const commentState = useSelector(state => state?.comment?.comments)
+    const data1 = [];
+    for (let i = 0; i < commentState?.length; i++) {
+        data1.push({
+            id: commentState[i].id,
+            fileHinh: commentState[i].fileHinh,
+            userId: commentState[i].userId,
+            productId: commentState[i].productId,
+            commentId: commentState[i].commentId,
+            content: commentState[i].content,
+            hinhPublicId: commentState[i].hinhPublicId,
+            action: (<>
+                <Link className='fs-3 text-danger' to={`/admin/add-comment/${commentState[i].id}`}><BiEdit /></Link>
+                <button className='fs-3 text-danger ms-3 text-danger bg-transparent border-0'
+                    onClick={() => showModal(commentState[i].id)}><AiFillDelete /></button>
+            </>)
+        });
+    }
+    const showModal = (e) => {
+        setOpen(true);
+        setcommentId(e)
+    };
+    const DeleteComment = (e) => {
+        dispatch(DeleteComment(e))
+        setOpen(false);
+        setTimeout(() => {
+            dispatch(GetComments())
+        }, 300)
+    }
     return (
 
         <div>
-            <h3>Comment</h3>
+            <h3>Comments</h3>
             <div>
-                <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }}/></div>
+                <div><Table columns={columns} dataSource={data1} scroll={{ x: 1500, y: 500 }} /></div>
             </div>
+            <CustomModal
+                title="Are you sure you want to delete this comment?"
+                hideModal={hideModal}
+                open={open}
+                performAction={() => { DeleteComment(commentId) }}
+            />
         </div>
     );
 };
