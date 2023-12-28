@@ -156,10 +156,6 @@ namespace DoAnMonHoc_Backend.Repository
 
             }
             var result = await _context.SaveChangesAsync();
-            if (result <= 0)
-            {
-                return new BadRequestObjectResult("Khong luu duoc!!!");
-            }
             return new OkResult();
         }
     }
