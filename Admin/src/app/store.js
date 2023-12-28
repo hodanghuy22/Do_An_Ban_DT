@@ -11,7 +11,7 @@ import productTypeDetailReducer from '../features/productTypeDetail/productTypeD
 import capacityReducer from '../features/capacity/capacitySlice';
 import uploadReducer from '../features/uploadImage/uploadSlice';
 import commentReducer from '../features/comment/commentSlice';
-import slideshowReducer from '../features/slideshow/slideshowtSlice';
+import slideshowReducer from '../features/slideshow/slideshowSlice';
 
 export const store = configureStore({
     reducer: {
