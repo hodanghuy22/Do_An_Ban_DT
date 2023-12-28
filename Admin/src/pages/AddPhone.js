@@ -8,6 +8,7 @@ import { CreatePhone, resetState, GetAPhone, UpdatePhone } from '../features/pho
 import { GetProductTypes } from '../features/productType/productTypeSlice';
 import { GetBrandsShow } from '../features/brand/brandSlice';
 import { GetProductTypeByPhoneId } from '../features/productTypeDetail/productTypeDetailSlice';
+import { DeleteImg, UploadImg } from '../features/uploadImage/uploadSlice';
 
 const phoneSchema = yup.object({
     name: yup.string().required('Name is Required'),
@@ -21,7 +22,6 @@ const phoneSchema = yup.object({
     cameraTruoc: yup.string(),
     cameraSau: yup.string(),
     pin: yup.string(),
-    soLuong: yup.number().required('SoLuong is Required'),
     status: yup.bool(),
     brandId: yup.number().required('Brand is Required'),
     productTypeIds: yup.array().min(1, 'Please select at least one product type detail'),
@@ -34,6 +34,8 @@ const AddPhone = () => {
     const getPhoneId = location.pathname.split("/")[3];
     const phoneState = useSelector(state => state?.phone?.APhone)
     const productTypeDetailState = useSelector(state => state?.productTypeDetail?.productTypesDetails)
+  const uploadState = useSelector(state => state?.upload?.images)
+
 
     useEffect(() => {
         dispatch(GetProductTypes())
@@ -48,6 +50,16 @@ const AddPhone = () => {
             dispatch(resetState())
         }
     }, [getPhoneId])
+
+    useEffect(() => {
+        if(uploadState && uploadState.publicId){
+          formik.setFieldValue('hinhPublicId', uploadState?.publicId);
+          formik.setFieldValue('fileHinh', uploadState?.url);
+        }else{
+          formik.setFieldValue('hinhPublicId', "");
+          formik.setFieldValue('fileHinh', "");
+        }
+      }, [uploadState])
 
     const handleChange = (event) => {
         const { value } = event.target;
@@ -83,12 +95,12 @@ const AddPhone = () => {
             cameraTruoc: phoneState?.cameraTruoc || "",
             cameraSau: phoneState?.cameraSau || "",
             pin: phoneState?.pin || "",
-            soLuong: phoneState?.soLuong || "",
+            soLuong: phoneState?.soLuong || 0,
             status: phoneState?.status || false,
             brandId: phoneState?.brandId || "",
             hinhPublicId: phoneState?.hinhPublicId || "",
             fileHinh: phoneState?.fileHinh || "",
-            productTypeIds: productTypeIdsBanDau || [],
+            productTypeIds: productTypeIdsBanDau,
         },
         validationSchema: phoneSchema,
         onSubmit: values => {
@@ -289,23 +301,6 @@ const AddPhone = () => {
                         </div>
                     </div>
                     <div className='mb-3'>
-                        <input
-                            type="number"
-                            name="soLuong"
-                            class="form-control"
-                            placeholder="Số Lượng"
-                            value={formik.values.soLuong}
-                            onChange={formik.handleChange('soLuong')}
-                            onBlur={formik.handleBlur('soLuong')}
-                        />
-                        <div className='error'>
-                            {
-                                formik.touched.soLuong && formik.errors.soLuong
-                            }
-                        </div>
-                    </div>
-
-                    <div className='mb-3'>
                         <select name="brandId"
                             type="number"
                             value={formik.values.brandId}
@@ -360,6 +355,26 @@ const AddPhone = () => {
                         Status
                     </Checkbox><br />
                     <br />
+                    <div className='bg-white border-1 p-5 text-center'>
+            <Dropzone onDrop={acceptedFiles => dispatch(UploadImg(acceptedFiles))}>
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p>Drag 'n' drop some files here, or click to select files</p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+            <div className='showImages d-flex flex-wrap gap-3'>
+              {uploadState && uploadState.publicId && (
+                <div className='position-relative'>
+                  <button type="button" onClick={() => dispatch(DeleteImg(uploadState.publicId))} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
+                  <img src={uploadState.url} alt="" width={200} height={200} />
+                </div>
+              )}
+            </div>
+          </div>
                     <button className='btn btn-success' type='submit'>{getPhoneId !== undefined ? "Edit" : "Add"} Phone</button>
                 </form>
             </div>

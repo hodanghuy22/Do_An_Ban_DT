@@ -14,9 +14,26 @@ namespace DoAnMonHoc_Backend.Repository
         {
             _context = context;
         }
-        public async Task CreateProduct(Product product)
+        public async Task<IActionResult> CreateProduct(Product product)
         {
+            var checkExist = await _context.Products
+                .FirstOrDefaultAsync(p => 
+                p.PhoneId == product.PhoneId && 
+                p.CapacityId == product.CapacityId &&
+                p.ColorId == product.ColorId);
+            if (checkExist != null)
+            {
+                return new BadRequestObjectResult("Da ton tai!!!");
+            }
             await _context.Products.AddAsync(product);
+            var getPhone = await _context.Phones.FirstOrDefaultAsync(p => p.Id == product.PhoneId);
+            getPhone.SoLuong += product.Quantity;
+            var result = await _context.SaveChangesAsync();
+            if (result <= 0)
+            {
+                return new BadRequestObjectResult("Khong luu duoc!!!");
+            }
+            return new OkResult();
         }
 
         public async Task DeleteProduct(int id)
@@ -24,6 +41,11 @@ namespace DoAnMonHoc_Backend.Repository
             var pt = await GetProduct(id);
 
             pt.Status = false;
+            var phone = await _context.Phones.FirstOrDefaultAsync(p => p.Id == pt.PhoneId);
+            if (phone != null)
+            {
+                phone.SoLuong -= pt.Quantity;
+            }
         }
 
         public async Task<Product> GetProduct(int id)

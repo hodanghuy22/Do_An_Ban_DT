@@ -1,9 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit'
 import productService from './productService';
+import { toast } from 'react-toastify';
 
 export const getAllProducts = createAsyncThunk("product/get-products", async (thunkAPI) => {
     try {
-        return await productService.getPhone();
+        return await productService.getProduct();
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
@@ -11,7 +12,7 @@ export const getAllProducts = createAsyncThunk("product/get-products", async (th
 
 export const getAProduct = createAsyncThunk("product/get-product", async (id, thunkAPI) => {
     try {
-        return await productService.getAPhone(id);
+        return await productService.getAProduct(id);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
@@ -23,8 +24,19 @@ export const getBrand = createAsyncThunk("product/get-brands", async (thunkAPI) 
         return thunkAPI.rejectWithValue(err);
     }
 })
-const initalState = {
-    phones: [],
+
+export const CreateProduct = createAsyncThunk("product/create-product", async (productData, thunkAPI) => {
+    try {
+        return await productService.createProduct(productData);
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
+export const resetState = createAction('Reset_all')
+
+const initialState = {
+    products: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -32,7 +44,7 @@ const initalState = {
 }
 export const productSlice = createSlice({
     name: "product",
-    initialState: initalState,
+    initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getAllProducts.pending, (state) => {
@@ -41,7 +53,7 @@ export const productSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.phones = action.payload;
+            state.products = action.payload;
         }).addCase(getAllProducts.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
@@ -71,8 +83,27 @@ export const productSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
-        })
+        }).addCase(CreateProduct.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(CreateProduct.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.newProduct = action.payload;
+            if(state.isSuccess){
+                toast.success("Create Product is successfully!!!");
+            }
+        }).addCase(CreateProduct.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+            if(state.isError){
+                toast.error(action.error.message);
+            }
+        }).addCase(resetState, () => initialState);
 
     }
 })
+
 export default productSlice.reducer;

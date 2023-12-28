@@ -4,7 +4,7 @@ namespace DoAnMonHoc_Backend.Interfaces
 {
     public interface IProductRepository
     {
-        Task CreateProduct(Product product);
+        Task<IActionResult> CreateProduct(Product product);
         Task<IEnumerable<Product>> GetProducts();
         Task<Product> GetProduct(int id);
         Task<bool> ProductExist(int id);

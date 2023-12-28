@@ -38,8 +38,7 @@ namespace DoAnMonHoc_Backend.Repository
         public async Task DeleteColor(int id)
         {
             var pt = await GetColor(id);
-
-            _context.Colors.Remove(pt);
+            pt.Status = false;
         }
 
         public async Task<Color> GetColor(int id)
@@ -50,6 +49,11 @@ namespace DoAnMonHoc_Backend.Repository
         public async Task<IEnumerable<Color>> GetColors()
         {
             return await _context.Colors.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Color>> GetColorsShow()
+        {
+            return await _context.Colors.Where(c => c.Status == true).ToListAsync();
         }
 
         public async Task<IActionResult> UpdateColor(Color color)

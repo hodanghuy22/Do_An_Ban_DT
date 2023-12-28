@@ -8,6 +8,13 @@ const getColors = async()=>{
     }
 }
 
+const getColorsShow = async()=>{
+    const response = await axios.get(`${base_url}Colors/GetColorsShow`);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const getAColor = async(id)=>{
     const response = await axios.get(`${base_url}Colors/${id}`);
     if(response.data){
@@ -41,7 +48,8 @@ const colorService = {
     createColor,
     deleteColor,
     getAColor,
-    updateColor
+    updateColor,
+    getColorsShow,
 };
 
 export default colorService;

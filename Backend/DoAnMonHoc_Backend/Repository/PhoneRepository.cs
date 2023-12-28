@@ -84,13 +84,20 @@ namespace DoAnMonHoc_Backend.Repository
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Phone>> GetPhonesShow()
+        {
+            return await _context.Phones.Where(p => p.Status == true)
+                .ToListAsync(); ;
+        }
+
         public async Task<bool> PhoneExist(int id)
         {
             return await _context.Phones.AnyAsync(b => b.Id == id);
         }
 
-        public async Task<IActionResult> UpdatePhone(Phone phone)
+        public async Task<IActionResult> UpdatePhone(PhoneDto phoneDto)
         {
+            var phone = _mapper.Map<Phone>(phoneDto);
             _context.Entry(phone).State = EntityState.Modified;
             try
             {
@@ -106,6 +113,52 @@ namespace DoAnMonHoc_Backend.Repository
                 {
                     throw;
                 }
+            }
+            if (phoneDto.productTypeIds != null)
+            {
+                foreach (var prodTypeId in phoneDto.productTypeIds)
+                {
+                    var checkProdTypeExist = await _context.ProductTypeDetails
+                        .FirstOrDefaultAsync(p => p.PhoneId == phoneDto.Id && p.ProductTypeId == prodTypeId);
+                    if (checkProdTypeExist != null)
+                    {
+                        continue;
+                    }
+                    var prodTypeDetail = new ProductTypeDetail
+                    {
+                        PhoneId = phoneDto.Id,
+                        ProductTypeId = prodTypeId,
+                    };
+                    await _context.ProductTypeDetails.AddAsync(prodTypeDetail);
+                }
+                var listProductType = await _context.ProductTypeDetails
+                    .Where(p => p.PhoneId == phoneDto.Id).ToListAsync();
+                foreach (var productTypeDetail in listProductType)
+                {
+                    var checkToDelete = false;
+                    foreach(var prodTypeId in phoneDto.productTypeIds)
+                    {
+                        if(productTypeDetail.ProductTypeId == prodTypeId)
+                        {
+                            checkToDelete = false;
+                            break;
+                        }
+                        if (productTypeDetail.ProductTypeId != prodTypeId)
+                        {
+                            checkToDelete = true;
+                        }
+                    }
+                    if (checkToDelete == true)
+                    {
+                        _context.ProductTypeDetails.Remove(productTypeDetail);
+                    }
+                }
+
+            }
+            var result = await _context.SaveChangesAsync();
+            if (result <= 0)
+            {
+                return new BadRequestObjectResult("Khong luu duoc!!!");
             }
             return new OkResult();
         }

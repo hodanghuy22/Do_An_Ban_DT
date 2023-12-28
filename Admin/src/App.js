@@ -56,7 +56,7 @@ function App() {
         <Route path='add-color/:id' element={<AddColor />}/>
         <Route path='add-brand' element={<AddBrand />} />
         <Route path='add-brand/:id' element={<AddBrand />} />
-        <Route path='product-detail/:phoneId' element={<ProductDetail />} />
+        <Route path='product-detail/:id' element={<ProductDetail />} />
 
       </Route>
       </Routes>

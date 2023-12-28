@@ -26,6 +26,13 @@ namespace DoAnMonHoc_Backend.Controllers
             return Ok(capacities);
         }
         [HttpGet]
+        [Route("GetCapacitiesShow")]
+        public async Task<IActionResult> GetCapacitiesShow()
+        {
+            var capacities = await _uow.CapacityRepository.GetCapacitiesShow();
+            return Ok(capacities);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetCapacity(int id)
         {

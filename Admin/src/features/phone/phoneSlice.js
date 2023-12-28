@@ -12,6 +12,14 @@ export const GetPhones = createAsyncThunk("phone/get-phones", async(thunkAPI) =>
     }
 })
 
+export const GetPhonesShow = createAsyncThunk("phone/get-phonesShow", async(thunkAPI) =>{
+    try{
+        return await phoneService.getPhonesShow();
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 export const GetAPhone = createAsyncThunk("phone/get-Phone", async(id,thunkAPI) =>{
     try{
         return await phoneService.getAPhone(id);
@@ -149,6 +157,20 @@ export const phoneSlice = createSlice({
             if(state.isError){
                 toast.error(action.error.message);
             }
+        }).addCase(GetPhonesShow.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(GetPhonesShow.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.phoneShow = action.payload;
+        })
+        .addCase(GetPhonesShow.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error.message;
         }).addCase(resetState, () => initialState);
     }
 })

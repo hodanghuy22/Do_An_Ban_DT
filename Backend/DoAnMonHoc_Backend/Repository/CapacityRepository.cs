@@ -61,5 +61,10 @@ namespace DoAnMonHoc_Backend.Repository
             }
             return new OkResult();
         }
+
+        public async Task<IEnumerable<Capacity>> GetCapacitiesShow()
+        {
+            return await _context.Capacitys.Where(c => c.Status == true).ToListAsync();
+        }
     }
 }

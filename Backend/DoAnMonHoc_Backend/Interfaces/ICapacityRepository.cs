@@ -7,6 +7,7 @@ namespace DoAnMonHoc_Backend.Interfaces
     {
         Task CreateCapacity(Capacity capacity);
         Task<IEnumerable<Capacity>> GetCapacities();
+        Task<IEnumerable<Capacity>> GetCapacitiesShow();
         Task<Capacity> GetCapacity(int id);
         Task<bool> CapacityExist(int id);
         Task<IActionResult> UpdateCapacity(Capacity capacity);

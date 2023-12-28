@@ -24,6 +24,13 @@ namespace DoAnMonHoc_Backend.Controllers
             return Ok(phones);
         }
         [HttpGet]
+        [Route("GetPhonesShow")]
+        public async Task<IActionResult> GetPhonesShow()
+        {
+            var phones = await _uow.PhoneRepository.GetPhonesShow();
+            return Ok(phones);
+        }
+        [HttpGet]
         [Route("GetPhoneByBrand/{brandId}")]
         public async Task<IActionResult> GetPhoneByBrand(int brandId)
         {
@@ -50,13 +57,13 @@ namespace DoAnMonHoc_Backend.Controllers
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdatePhone(int id, Phone phone)
+        public async Task<IActionResult> UpdatePhone(int id, PhoneDto phoneDto)
         {
-            if (id != phone.Id)
+            if (id != phoneDto.Id)
             {
                 return BadRequest();
             }
-            return await _uow.PhoneRepository.UpdatePhone(phone);
+            return await _uow.PhoneRepository.UpdatePhone(phoneDto);
         }
         [HttpDelete]
         [Route("{id}")]

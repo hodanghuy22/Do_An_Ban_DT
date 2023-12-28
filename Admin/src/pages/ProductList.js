@@ -8,18 +8,22 @@ const columns2 = [
     {
         title: '#',
         dataIndex: 'key',
+        sorter: (a, b) => a.key - b.key,
     },
     {
         title: 'Tên',
         dataIndex: 'name',
+        sorter: (a, b) => a.name.length - b.name.length,
     },
     {
         title: 'Giá',
         dataIndex: 'price',
+        sorter: (a, b) => a.price.length - b.price.length,
     },
     {
         title: 'Số lượng',
         dataIndex: 'quantity',
+        sorter: (a, b) => a.quantity.length - b.quantity.length,
     },
     {
         title: 'Bộ nhớ',
@@ -47,7 +51,7 @@ const columns2 = [
 
 const ProductList = () => {
     const dispatch = useDispatch();
-    const productState = useSelector((state) => state?.product?.phones);
+    const productState = useSelector((state) => state?.product?.products);
     const [data2, setData2] = useState([]);
 
     useEffect(() => {

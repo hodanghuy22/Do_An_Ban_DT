@@ -27,6 +27,13 @@ namespace DoAnMonHoc_Backend.Controllers
             return Ok(colors);
         }
         [HttpGet]
+        [Route("GetColorsShow")]
+        public async Task<IActionResult> GetColorsShow()
+        {
+            var colors = await _uow.ColorRepository.GetColorsShow();
+            return Ok(colors);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetColor(int id)
         {

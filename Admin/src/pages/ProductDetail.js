@@ -14,13 +14,13 @@ import { getAProduct } from '../features/product/productSlice';
 import { useParams } from 'react-router-dom';
 const ProductDetail = () => {
     const dispatch = useDispatch();
-    const productState = useSelector(state => state?.product.product);
-    const phoneId = useParams().phoneId;
+    const productState = useSelector(state => state?.product?.product);
+    const productId = useParams().id;
 
     useEffect(() => {
-        dispatch(getAProduct(phoneId))
+        dispatch(getAProduct(productId))
             .catch(() => 'error');
-    }, [dispatch, phoneId]);
+    }, [dispatch, productId]);
 
     if (!productState) {
         return <div>Loading...</div>;
@@ -33,7 +33,7 @@ const ProductDetail = () => {
                 <Row>
                     <Col className='d-flex justify-content-between' >
                         <div className="product-image w-50">
-                            <img src={productState.phone.fileHinh} alt='ád' width={300} height={300}  />
+                            <img src={productState.fileHinh} alt='ád' width={300} height={300}  />
                         </div>
                         <div className='w-50'>
                             <Swiper

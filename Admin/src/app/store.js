@@ -8,6 +8,8 @@ import productReducer from '../features/product/productSlice';
 import productTypeReducer from '../features/productType/productTypeSlice';
 import phoneReducer from '../features/phone/phoneSlice';
 import productTypeDetailReducer from '../features/productTypeDetail/productTypeDetailSlice';
+import capacityReducer from '../features/capacity/capacitySlice';
+import uploadReducer from '../features/uploadImage/uploadSlice';
 
 export const store = configureStore({
     reducer: {
@@ -20,5 +22,7 @@ export const store = configureStore({
         productType: productTypeReducer,
         phone: phoneReducer,
         productTypeDetail: productTypeDetailReducer,
+        capacity: capacityReducer,
+        upload: uploadReducer,
     }
 })

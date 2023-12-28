@@ -8,6 +8,13 @@ const getPhones = async()=>{
     }
 }
 
+const getPhonesShow = async()=>{
+    const response = await axios.get(`${base_url}Phones/GetPhonesShow`);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const getAPhone = async(id)=>{
     const response = await axios.get(`${base_url}Phones/${id}`);
     if(response.data){
@@ -41,6 +48,7 @@ const phoneService = {
     createPhone,
     deletePhone,
     updatePhone,
+    getPhonesShow,
 };
 
 export default phoneService;
