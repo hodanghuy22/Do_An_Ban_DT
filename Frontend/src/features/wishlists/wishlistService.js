@@ -2,7 +2,7 @@ import axios from "axios"
 import { base_url, config } from "../../utils/axiosConfigure";
 
 const getWishlist = async (id) => {
-    const response = await axios.get(`https://localhost:7056/api/Wishlists/${id}`);
+    const response = await axios.get(`https://localhost:7056/api/Wishlists/${id}`, config);
     if (response.data) {
         return response.data;
     }

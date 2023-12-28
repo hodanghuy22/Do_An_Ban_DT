@@ -7,6 +7,7 @@ namespace DoAnMonHoc_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WishlistsController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
@@ -28,7 +29,7 @@ namespace DoAnMonHoc_Backend.Controllers
             return Ok(wishlist);
         }
         [HttpPost]
-        [Authorize(Roles = "User")]
+        [Authorize]
         public async Task<IActionResult> CreateWishlist(WishList wishList)
         {
             var checkWishlist = await _uow.WishlistRepository.WishListExist(wishList.Id);
@@ -46,7 +47,6 @@ namespace DoAnMonHoc_Backend.Controllers
         }
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateWishList(int id, WishList wishList)
         {
             if (id != wishList.Id)
@@ -57,7 +57,6 @@ namespace DoAnMonHoc_Backend.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteWishList(int id)
         {
             await _uow.WishlistRepository.DeleteWishList(id);
