@@ -63,6 +63,7 @@ namespace DoAnMonHoc_Backend.Repository
         public async Task<Phone> GetPhone(int id)
         {
             return await _context.Phones.Include(p => p.Brand)
+                .Include(p => p.Products)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -79,9 +80,33 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<IEnumerable<Phone>> GetPhonesByBrand(int brandId)
         {
-            return await _context.Phones.Include(p => p.Brand)
-                .Where(p => p.BrandId == brandId)
-                .ToListAsync();
+            return await _context.Phones
+        .Include(p => p.Brand)
+        .Include(p => p.Products)
+        .Where(p => p.BrandId == brandId)
+        .Select(p => new Phone
+        {
+            Id = p.Id,
+            Brand = p.Brand,
+            Name = p.Name,  
+            BrandId = p.BrandId,
+            CameraSau = p.CameraSau,
+            CameraTruoc = p.CameraTruoc,
+            CPU = p.CPU,
+            Desc = p.Desc,
+            DoPhanGiai = p.DoPhanGiai,
+            FileHinh = p.FileHinh,
+            HinhPublicId = p.HinhPublicId,
+            KichThuoc = p.KichThuoc,
+            LoaiMan = p.LoaiMan,
+            Pin = p.Pin,
+            RAM = p.RAM,
+            ROM = p.ROM,    
+            SoLuong = p.SoLuong,
+            Status = p.Status,
+            Products = new List<Product> { p.Products.OrderBy(pr => pr.Price).FirstOrDefault() }
+        })
+        .ToListAsync();
         }
 
         public async Task<IEnumerable<Phone>> GetPhonesShow()
