@@ -1,12 +1,12 @@
 import { FiSearch } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GoMoveToTop } from "react-icons/go";
-import { BsCartCheck, BsPhone } from "react-icons/bs";
+import { BsCartCheck } from "react-icons/bs";
 import React, { useEffect, useState } from 'react'
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,12 +14,13 @@ import { useSelector } from "react-redux";
 
 const Mainlayout = () => {
     const [showGoToTop, setShowGoToTop] = useState(false)
-
     const userDto = useSelector(state => state.auth.user);
 
     const handleClickToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+
     useEffect(() => {
         const handleScroll = () => {
             setShowGoToTop(window.scrollY >= 200)
@@ -29,8 +30,8 @@ const Mainlayout = () => {
             window.removeEventListener('scroll', handleScroll)
         }
     }, [])
-    const location = useLocation();
 
+    const location = useLocation();
     useEffect(() => {
         if (location.pathname === "/") {
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -63,7 +64,13 @@ const Mainlayout = () => {
                             </Navbar.Collapse>
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
-                                    <Link to='/user' active className="btn button-primary ml-2 mr-2 mb-2">Tài khoản và đơn hàng</Link>
+                                    {!userDto ? (
+                                        <Link to='/login' active className="btn button-primary ml-2 mr-2 mb-2" >Tài khoản và đơn hàng</Link>
+
+                                    ) : (
+                                        <Link to='/user' active className="btn button-primary ml-2 mr-2 mb-2" >Tài khoản và đơn hàng</Link>
+                                    )}
+
                                     <Link to="/cart" className="btn button-primary ml-2 mr-2 mb-2"><BsCartCheck /> Giỏ hàng</Link>
 
                                     {!userDto ? (
@@ -80,13 +87,11 @@ const Mainlayout = () => {
                     </Navbar>
                     <Container className="p-0 m-0 ml-3" >
                         <Row className="d-flex justify-content-start">
-                            <Link>
-                                <Link to="/dien-thoai" className="btn mr-3"><BsPhone className="icon-link" />Điện thoại</Link>
-                            </Link>
-                            <Link className="btn mr-3">Hỗ trợ 5G</Link>
-                            <Link className="btn mr-3">Kháng bui, nước</Link>
-                            <Link className="btn mr-3">Sạc không dây</Link>
-                            <Link className="btn mr-3">Sạc nhanh</Link>
+
+                            <Link to={'/dienthoai/1'} className="btn mr-3">Hỗ trợ 5G</Link>
+                            <Link to={'/dienthoai/2'} className="btn mr-3">Kháng bui, nước</Link>
+                            <Link to={'/dienthoai/3'} className="btn mr-3">Sạc không dây</Link>
+                            <Link to={'/dienthoai/4'} className="btn mr-3">Sạc nhanh</Link>
                         </Row>
                     </Container>
                 </header>

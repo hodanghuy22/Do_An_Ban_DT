@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const getPhone = async ()=> {
+const getPhone = async () => {
     const response = await axios.get('https://localhost:7056/api/Products')
     if (response.data) {
         return response.data;
@@ -21,10 +21,18 @@ const getBrand = async (id) => {
         return response.data;
     }
 }
+const getProductBrand = async (id) => {
+    const response = await axios.get(`https://localhost:7056/api/ProductTypeDetails/GetProductsByProductType/${id}`)
+
+    if (response.data) {
+        return response.data;
+    }
+}
 const productService = {
     getPhone,
     getAPhone,
-    getBrand
+    getBrand,
+    getProductBrand
 }
 
 export default productService

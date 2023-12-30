@@ -31,7 +31,7 @@ function App() {
           <Route path="/dtdd/:phoneId" element={<Detail />} />
           <Route path="cart" element={<Cart />} />
           <Route path="cart/thanh-toan" element={<Thanhtoan />} />
-          <Route path="dien-thoai" element={<DienThoai />} />
+          <Route path="dienthoai/:productTypeId" element={<DienThoai />} />
           <Route path="so-sanh" element={<Sosanh />} />
           <Route path="user/" element={<AccountLayout />}>
             <Route index element={<DonHang />} />
