@@ -17,6 +17,7 @@
         ICommentRepository CommentRepository { get; }
         IRatingRepository RatingRepository { get; }
         ISlideshowRepository SlideshowRepository { get; }
+        ICartRepository CartRepository { get; }
         Task<bool> SaveAsync();
     }
 }

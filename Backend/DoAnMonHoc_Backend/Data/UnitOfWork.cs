@@ -70,6 +70,10 @@ namespace DoAnMonHoc_Backend.Data
 
         public ISlideshowRepository SlideshowRepository => 
             new SlideshowRepository(_context);
+
+        public ICartRepository CartRepository => 
+            new CartRepository(_context);
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() > 0;

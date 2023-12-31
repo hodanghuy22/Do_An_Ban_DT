@@ -13,13 +13,11 @@ namespace DoAnMonHoc_Backend.Controllers
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        private readonly IPhotoService _photoService;
 
-        public BrandsController(IUnitOfWork uow, IMapper mapper, IPhotoService photoService)
+        public BrandsController(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
             _mapper = mapper;
-            _photoService = photoService;
         }
         [HttpGet]
         public async Task<IActionResult> GetBrands()

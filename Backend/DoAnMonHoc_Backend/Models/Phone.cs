@@ -15,6 +15,7 @@
         public string CameraSau { get; set; }
         public string Pin { get; set; }
         public int SoLuong { get; set; }
+        public int Price { get; set; } = 0;
         public bool Status { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }

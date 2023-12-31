@@ -28,6 +28,10 @@ namespace DoAnMonHoc_Backend.Repository
             await _context.Products.AddAsync(product);
             var getPhone = await _context.Phones.FirstOrDefaultAsync(p => p.Id == product.PhoneId);
             getPhone.SoLuong += product.Quantity;
+            if(getPhone.Price < product.Price)
+            {
+                getPhone.Price = product.Price;
+            }
             var result = await _context.SaveChangesAsync();
             if (result <= 0)
             {
