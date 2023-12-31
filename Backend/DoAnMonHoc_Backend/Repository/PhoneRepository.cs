@@ -69,44 +69,26 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<Phone> GetPhoneByName(string name)
         {
-            return await _context.Phones.FirstOrDefaultAsync(p => p.Name == name);
+            return await _context.Phones
+                .Include(p => p.Brand)
+                .Include(p => p.Products)
+                .FirstOrDefaultAsync(p => p.Name == name);
         }
 
         public async Task<IEnumerable<Phone>> GetPhones()
         {
             return await _context.Phones.Include(p => p.Brand)
+                .Include(p => p.Products)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Phone>> GetPhonesByBrand(int brandId)
         {
             return await _context.Phones
-        .Include(p => p.Brand)
-        .Include(p => p.Products)
-        .Where(p => p.BrandId == brandId)
-        .Select(p => new Phone
-        {
-            Id = p.Id,
-            Brand = p.Brand,
-            Name = p.Name,  
-            BrandId = p.BrandId,
-            CameraSau = p.CameraSau,
-            CameraTruoc = p.CameraTruoc,
-            CPU = p.CPU,
-            Desc = p.Desc,
-            DoPhanGiai = p.DoPhanGiai,
-            FileHinh = p.FileHinh,
-            HinhPublicId = p.HinhPublicId,
-            KichThuoc = p.KichThuoc,
-            LoaiMan = p.LoaiMan,
-            Pin = p.Pin,
-            RAM = p.RAM,
-            ROM = p.ROM,    
-            SoLuong = p.SoLuong,
-            Status = p.Status,
-            Products = new List<Product> { p.Products.OrderBy(pr => pr.Price).FirstOrDefault() }
-        })
-        .ToListAsync();
+                    .Include(p => p.Brand)
+                    .Include(p => p.Products)
+                    .Where(p => p.BrandId == brandId)
+                    .ToListAsync();
         }
 
         public async Task<IEnumerable<Phone>> GetPhonesShow()

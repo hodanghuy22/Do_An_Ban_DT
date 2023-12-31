@@ -20,6 +20,7 @@ const productSchema = yup.object({
   hinhPublicId: yup.string(),
   fileHinh: yup.string(),
   status: yup.boolean(),
+  images: yup.array()
 });
 
 
@@ -38,11 +39,14 @@ const AddProduct = () => {
   }, [])
   useEffect(() => {
     if(uploadState && uploadState.publicId){
-      formik.setFieldValue('hinhPublicId', uploadState?.publicId);
-      formik.setFieldValue('fileHinh', uploadState?.url);
-    }else{
-      formik.setFieldValue('hinhPublicId', "");
-      formik.setFieldValue('fileHinh', "");
+      const newImage = {
+        hinhPublicId: uploadState?.publicId,
+        url: uploadState?.url
+      };
+      const currentImages = formik.values.images || [];
+      const updatedImages = [...currentImages, newImage];
+      formik.setFieldValue("images", updatedImages);
+      
     }
   }, [uploadState])
   const formik = useFormik({
@@ -56,8 +60,7 @@ const AddProduct = () => {
       capacityId: "",
       colorId: "",
       status: false,
-      hinhPublicId: "",
-      fileHinh: "",
+      images: []
     },
     validationSchema: productSchema,
     onSubmit: values => {
@@ -69,6 +72,7 @@ const AddProduct = () => {
       }, 300)
     },
   });
+
   return (
     <div>
       <h3 className='mb-4'> Product</h3>
@@ -188,14 +192,16 @@ const AddProduct = () => {
                 </section>
               )}
             </Dropzone>
-            <div className='showImages d-flex flex-wrap gap-3'>
-              {uploadState && uploadState.publicId && (
-                <div className='position-relative'>
-                  <button type="button" onClick={() => dispatch(DeleteImg(uploadState.publicId))} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
-                  <img src={uploadState.url} alt="" width={200} height={200} />
-                </div>
-              )}
-            </div>
+            {formik.values.images.length > 0 && formik.values.images.map((item,index) => {
+              return (
+                <div key={index} className='showImages d-flex flex-wrap gap-3 mb-3'>
+                  <div className='position-relative'>
+                    <button type="button" onClick={() => dispatch(DeleteImg(item?.hinhPublicId))} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
+                    <img src={item?.url} alt="" width={200} height={200} />
+                  </div>
+              </div>
+              )
+            })}
           </div>
           <button className='btn btn-success' type='submit'> Product</button>
         </form>

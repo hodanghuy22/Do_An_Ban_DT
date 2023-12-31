@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { base_url, config } from '../../utils/axiosConfig';
 
-const getProduct = async () => {
-    const response = await axios.get(`${base_url}/Products`)
+const getProducts = async () => {
+    const response = await axios.get(`${base_url}Products`)
     if (response.data) {
         return response.data;
     }
@@ -38,7 +38,7 @@ const createProduct = async(productData)=>{
 }
 
 const productService = {
-    getProduct,
+    getProducts,
     getAPhone,
     getBrand,
     createProduct,

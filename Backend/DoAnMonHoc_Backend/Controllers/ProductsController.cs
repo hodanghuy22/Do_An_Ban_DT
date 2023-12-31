@@ -30,7 +30,7 @@ namespace DoAnMonHoc_Backend.Controllers
             };
 
             string json = JsonSerializer.Serialize(products, options);
-            return Ok(products);
+            return Ok(json);
         }
         [HttpGet]
         [Route("{id}")]
