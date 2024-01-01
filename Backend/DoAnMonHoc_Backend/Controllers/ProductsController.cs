@@ -30,7 +30,7 @@ namespace DoAnMonHoc_Backend.Controllers
             };
 
             string json = JsonSerializer.Serialize(products, options);
-            return Ok(json);
+            return Ok(products);
         }
         [HttpGet]
         [Route("{id}")]
@@ -73,50 +73,6 @@ namespace DoAnMonHoc_Backend.Controllers
                 return BadRequest();
             }
             return Ok();
-        }
-        [HttpPost]
-        [Route("add/photo/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddProductPhoto(int id, IFormFile file)
-        {
-            var result = await _photoService.UploadPhotoAsync(file);
-            if (result.Error != null)
-            {
-                return BadRequest(result.Error.Message);
-            }
-            var product = await _uow.ProductRepository.GetProduct(id);
-            if (product != null && result != null && result.SecureUrl != null)
-            {
-                var image = new Image
-                {
-                    HinhPublicId = result.PublicId,
-                    Url = result.SecureUrl.ToString(),
-                    ProductId = product.Id,
-                };
-                product.Images.Add(image);
-                await _uow.SaveAsync();
-            }
-            return Ok(201);
-        }
-        [HttpDelete]
-        [Route("delete-photo/{productId}/{publicId}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteProductPhoto(int productId, string publicId)
-        {
-            var product = await _uow.ProductRepository.GetProduct(productId);
-            var image = product.Images.FirstOrDefault(i => i.HinhPublicId == publicId);
-            if (product == null || image == null)
-            {
-                return BadRequest();
-            }
-            var result = await _photoService.DeletePhotoAsync(image.HinhPublicId);
-            if (result.Error != null)
-            {
-                return BadRequest(result.Error.Message);
-            }
-            product.Images.Remove(image);
-            await _uow.SaveAsync();
-            return Ok(201);
         }
     }
 }

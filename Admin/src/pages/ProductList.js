@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllProducts } from '../features/product/productSlice';
+import { DeleteProduct, getAllProducts, resetState } from '../features/product/productSlice';
 import { Link } from 'react-router-dom';
+import CustomModal from '../components/CustomModal';
+import { AiFillDelete } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
 
 const columns2 = [
     {
         title: '#',
-        dataIndex: 'key',
-        sorter: (a, b) => a.key - b.key,
+        dataIndex: 'id',
+        sorter: (a, b) => a.id - b.id,
     },
     {
         title: 'Tên',
@@ -34,52 +37,74 @@ const columns2 = [
         dataIndex: 'colorName',
     },
     {
-        title: 'Xem chi tiết',
-        dataIndex: 'viewDetails',
-        render: (record) => {
-            const productId = record;
-            return (
-                <>
-                    <Link to={`/admin/product-detail/${productId}`} className='btn btn-primary m-1'>
-                        Xem
-                    </Link>
-                </>
-            );
-        },
+        title: 'Status',
+        dataIndex: 'status',
+    },
+    {
+        title: 'Action',
+        dataIndex: 'action',
     },
 ];
 
 const ProductList = () => {
     const dispatch = useDispatch();
+    const [open, setOpen] = useState(false);
+    const [productId, setProductId] = useState("");
+    useEffect(()=>{
+        dispatch(resetState())
+        dispatch(getAllProducts())
+      },[]);
+      const hideModal = () => {
+        setOpen(false);
+      };
     const productState = useSelector((state) => state?.product?.products);
-    const [data2, setData2] = useState([]);
 
-    useEffect(() => {
-        dispatch(getAllProducts());
-    }, []);
-
-    useEffect(() => {
-        const modifiedData2 = productState.map((item, index) => {
-            return {
-                key: index,
-                price: item.price,
-                name: item.phone.name,
-                quantity: item.quantity,
-                rom: item.capacity.totalCapacity,
-                colorName: item.color.colorName,
-                viewDetails: item.id,
-            };
+    const data1 = [];
+    for (let i = 0; i < productState?.length; i++) {
+        data1.push({
+            id: productState[i]?.id,
+            name: productState[i]?.phone?.name,
+            price: productState[i]?.price,
+            quantity: productState[i]?.quantity,
+            rom: productState[i]?.phone?.rom,
+            colorName: productState[i]?.color?.colorName,
+            status: productState[i]?.status?"Hoạt động":"Không hoạt động",
+            action: (<>
+                <Link to={`/admin/product-detail/${productState[i].id}`} className='btn btn-primary m-1'>
+                <BiEdit />
+                </Link>
+                <button className='fs-3 text-danger ms-3 text-danger bg-transparent border-0'
+                    onClick={() => showModal(productState[i]?.id)}><AiFillDelete /></button>
+            </>)
         });
-        setData2(modifiedData2);
-    }, [productState]);
+    }
+
+    const showModal = (e) => {
+        setOpen(true);
+        setProductId(e)
+      };
+    const deleteProduct = (e) =>{
+        dispatch(DeleteProduct(e))
+        setOpen(false);
+        setTimeout(()=>{
+          dispatch(getAllProducts())
+        },300)
+      }
 
     return (
         <div>
             <h3>Danh sách sản phẩm</h3>
             <div>
-                <Table columns={columns2} dataSource={data2} />
+                <Table columns={columns2} dataSource={data1} />
             </div>
+            <CustomModal
+                title="Are you sure you want to delete this product?"
+                hideModal={hideModal}
+                open={open}
+                performAction={() => { deleteProduct(productId) }}
+            />
         </div>
+        
     );
 };
 

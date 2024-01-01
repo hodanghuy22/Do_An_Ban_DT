@@ -1,4 +1,5 @@
 ﻿using DoAnMonHoc_Backend.Data;
+using DoAnMonHoc_Backend.Dto;
 using DoAnMonHoc_Backend.Interfaces;
 using DoAnMonHoc_Backend.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -63,15 +64,39 @@ namespace DoAnMonHoc_Backend.Repository
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<ProductDto>> GetProducts()
         {
-            return await _context.Products.Include(p => p.Phone)
-                .Include(p => p.Capacity)
-                .Include(p => p.Color)
-                .Include(p => p.Images)
-                .Include(p => p.Comments)
-                .Include(p => p.Ratings)
-                .ToListAsync();
+            return await _context.Products
+                        .Include(p => p.Capacity)
+                        .Include(p => p.Color)
+                        .Include(p => p.Images)
+                        .Include(p => p.Comments)
+                        .Include(p => p.Ratings)
+                        .Include(p => p.Phone)
+                        .Select(p => new ProductDto
+                        {
+                            Id = p.Id,
+                            Price = p.Price,
+                            Quantity = p.Quantity,
+                            Status = p.Status,
+                            Phone = new Phone
+                            {
+                                Id = p.Phone.Id,
+                                Name = p.Phone.Name,
+                                ROM = p.Phone.ROM
+                            },
+                            Capacity = new Capacity
+                            {
+                                Id = p.Capacity.Id,
+                                TotalCapacity = p.Capacity.TotalCapacity,
+                            },
+                            Color = new Color
+                            {
+                                Id = p.Color.Id,
+                                ColorName = p.Color.ColorName
+                            }
+                        })
+                        .ToListAsync(); 
         }
 
         public async Task<bool> ProductExist(int id)
