@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Container, Nav, Row, Col, Card } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductBrand, getBrand } from '../features/products/productSlice';
+import { GetProductsByProductType, getBrand } from '../features/products/productSlice';
 const DienThoai = () => {
     const dispatch = useDispatch();
     const productState = useSelector(state => state?.product?.product);
@@ -12,7 +12,7 @@ const DienThoai = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        dispatch(getProductBrand(productTypeId))
+        dispatch(GetProductsByProductType(productTypeId))
             .then(() => setIsLoading(false))
             .catch(() => 'error');
         setIsProductStateReady(true);
@@ -45,7 +45,7 @@ const DienThoai = () => {
                         productState && productState?.map((item, index) => {
                             return (
                                 <div className=' w-item' key={index} >
-                                    <Link to={`/dtdd/${item?.id}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <Link to={`/dtdd/${item?.phoneId}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <div className='p-3'>
                                             <img className='card-image' width={"100%"} src={item?.phone.fileHinh} alt='iphone15promax' />
                                             <div className='mt-4'>
@@ -57,7 +57,9 @@ const DienThoai = () => {
                                                         <i className='btn'> {item?.phone.rom} GB</i>
                                                         <i className='btn'> {item?.phone.cpu}</i>
                                                     </div>
-
+                                                    <p className='text-price  font-size-bold amount' >
+                                                        {formatNumber((item?.phone?.products[0]?.price))}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

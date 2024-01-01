@@ -32,7 +32,7 @@ namespace DoAnMonHoc_Backend.Repository
             {
                 return new BadRequestObjectResult("Khong luu duoc!!!");
             }
-            if(phoneDto.productTypeIds != null)
+            if (phoneDto.productTypeIds != null)
             {
                 var getPhone = await _context.Phones.FirstOrDefaultAsync(p => p.Name == phone.Name);
                 foreach (var prodTypeId in phoneDto.productTypeIds)
@@ -64,6 +64,10 @@ namespace DoAnMonHoc_Backend.Repository
         {
             return await _context.Phones.Include(p => p.Brand)
                 .Include(p => p.Products)
+                .Include(p => p.Products)
+                    .ThenInclude(p => p.Capacity)
+                .Include(p => p.Products)
+                    .ThenInclude(p => p.Color)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -79,6 +83,7 @@ namespace DoAnMonHoc_Backend.Repository
         {
             return await _context.Phones.Include(p => p.Brand)
                 .Include(p => p.Products)
+
                 .ToListAsync();
         }
 
@@ -143,9 +148,9 @@ namespace DoAnMonHoc_Backend.Repository
                 foreach (var productTypeDetail in listProductType)
                 {
                     var checkToDelete = false;
-                    foreach(var prodTypeId in phoneDto.productTypeIds)
+                    foreach (var prodTypeId in phoneDto.productTypeIds)
                     {
-                        if(productTypeDetail.ProductTypeId == prodTypeId)
+                        if (productTypeDetail.ProductTypeId == prodTypeId)
                         {
                             checkToDelete = false;
                             break;
