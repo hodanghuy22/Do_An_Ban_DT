@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using DoAnMonHoc_Backend.Dto;
-using DoAnMonHoc_Backend.Interfaces;
+﻿using DoAnMonHoc_Backend.Interfaces;
 using DoAnMonHoc_Backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +10,8 @@ namespace DoAnMonHoc_Backend.Controllers
     public class SlideshowsController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
-        private readonly IPhotoService _photoService;
-        public SlideshowsController(IPhotoService photoService, IUnitOfWork uow)
+        public SlideshowsController(IUnitOfWork uow)
         {
-            _photoService = photoService;
             _uow = uow;
         }
         [HttpGet("Admin")]
@@ -39,6 +35,7 @@ namespace DoAnMonHoc_Backend.Controllers
             return await _uow.SlideshowRepository.CreateSlideshow(slideshow);
         }
         [HttpDelete]
+        [Route("{slideshowId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSlideShow (int slideshowId)
         {
@@ -48,6 +45,24 @@ namespace DoAnMonHoc_Backend.Controllers
                 return NotFound();
             }
             await _uow.SlideshowRepository.DeleteSlideshow(slideshowId);
+            var save = await _uow.SaveAsync();
+            if (!save)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+        [HttpPut]
+        [Route("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateSlideShow(int id)
+        {
+            var slideshow = await _uow.SlideshowRepository.GetSlideshow(id);
+            if (slideshow == null)
+            {
+                return NotFound();
+            }
+            await _uow.SlideshowRepository.UpdateSlideshow(id);
             var save = await _uow.SaveAsync();
             if (!save)
             {

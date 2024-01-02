@@ -10,7 +10,7 @@ namespace DoAnMonHoc_Backend.Interfaces
         Task<Slideshow> GetSlideshow(int id);
         Task<IEnumerable<Slideshow>> GetSlideshowsForPresent();
         Task<bool> SlideshowExist(int id);
-        Task<IActionResult> UpdateSlideshow(Slideshow slideshow);
+        Task UpdateSlideshow(int id);
         Task DeleteSlideshow(int id);
     }
 }

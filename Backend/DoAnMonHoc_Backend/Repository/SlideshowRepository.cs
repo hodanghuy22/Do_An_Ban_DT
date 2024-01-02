@@ -51,25 +51,11 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Slideshows.Where(s => s.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateSlideshow(Slideshow slideshow)
+        public async Task UpdateSlideshow(int id)
         {
-            _context.Entry(slideshow).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                if (!await SlideshowExist(slideshow.Id))
-                {
-                    return new NotFoundResult();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return new OkResult();
+            var pt = await GetSlideshow(id);
+
+            pt.Status = true;
         }
     }
 }
