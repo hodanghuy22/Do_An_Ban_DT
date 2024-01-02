@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit'
 import productService from './productService';
 import { toast } from 'react-toastify';
 
-export const getAllProducts = createAsyncThunk("product/get-products", async (thunkAPI) => {
+export const GetAllProducts = createAsyncThunk("product/get-products", async (thunkAPI) => {
     try {
         return await productService.getProducts();
     } catch (err) {
@@ -10,24 +10,26 @@ export const getAllProducts = createAsyncThunk("product/get-products", async (th
     }
 })
 
-export const getAProduct = createAsyncThunk("product/get-product", async (id, thunkAPI) => {
+export const GetAProduct = createAsyncThunk("product/get-product", async (id, thunkAPI) => {
     try {
         return await productService.getAProduct(id);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
-export const getBrand = createAsyncThunk("product/get-brands", async (thunkAPI) => {
+
+
+export const CreateProduct = createAsyncThunk("product/create-product", async (productData, thunkAPI) => {
     try {
-        return await productService.getBrand();
+        return await productService.createProduct(productData);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const CreateProduct = createAsyncThunk("product/create-product", async (productData, thunkAPI) => {
+export const UpdateProduct = createAsyncThunk("product/update-product", async (productData, thunkAPI) => {
     try {
-        return await productService.createProduct(productData);
+        return await productService.updateProduct(productData);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
@@ -55,38 +57,26 @@ export const productSlice = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getAllProducts.pending, (state) => {
+        builder.addCase(GetAllProducts.pending, (state) => {
             state.isLoading = true;
-        }).addCase(getAllProducts.fulfilled, (state, action) => {
+        }).addCase(GetAllProducts.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
             state.products = action.payload;
-        }).addCase(getAllProducts.rejected, (state, action) => {
+        }).addCase(GetAllProducts.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
-        }).addCase(getAProduct.pending, (state) => {
+        }).addCase(GetAProduct.pending, (state) => {
             state.isLoading = true;
-        }).addCase(getAProduct.fulfilled, (state, action) => {
+        }).addCase(GetAProduct.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.product = action.payload;
-        }).addCase(getAProduct.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.isSuccess = false;
-            state.message = action.error;
-        }).addCase(getBrand.pending, (state) => {
-            state.isLoading = true;
-        }).addCase(getBrand.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isError = false;
-            state.isSuccess = true;
-            state.product = action.payload;
-        }).addCase(getBrand.rejected, (state, action) => {
+            state.AProduct = action.payload;
+        }).addCase(GetAProduct.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
@@ -120,6 +110,24 @@ export const productSlice = createSlice({
                 toast.success("Delete Product is successfully!!!");
             }
         }).addCase(DeleteProduct.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+            if(state.isError){
+                toast.error(action.error.message);
+            }
+        }).addCase(UpdateProduct.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(UpdateProduct.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.updatedProduct = action.payload;
+            if(state.isSuccess){
+                toast.success("Update Product is successfully!!!");
+            }
+        }).addCase(UpdateProduct.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

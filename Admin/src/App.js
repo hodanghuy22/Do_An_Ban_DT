@@ -42,6 +42,7 @@ function App() {
           <Route path='coupon-list' element={<CouponList />} />
           <Route path='customer-list' element={<CustomerList />} />
           <Route path='add-product' element={<AddProduct />} />
+          <Route path='add-product/:id' element={<AddProduct />} />
           <Route path='product-list' element={<ProductList />} />
           <Route path='add-phone' element={<AddPhone />} />
           <Route path='add-phone/:id' element={<AddPhone />} />
@@ -60,6 +61,7 @@ function App() {
           <Route path='add-brand/:id' element={<AddBrand />} />
           <Route path='product-detail/:id' element={<ProductDetail />} />
           <Route path='slideshows' element={<SlideShows />} />
+          <Route path='add-slideshow' element={<AddSlideShow />} />
           <Route path='add-slideshow/:id' element={<AddSlideShow />} />
         </Route>
       </Routes>

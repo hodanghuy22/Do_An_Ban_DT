@@ -9,22 +9,7 @@ const getProducts = async () => {
 }
 
 const getAProduct = async (id) => {
-    const response = await axios.get(`${base_url}/Products/${id}`)
-    if (response.data) {
-        return response.data;
-    }
-}
-
-const getAPhone = async (id) => {
-    const response = await axios.get(`https://localhost:7056/api/Products/${id}`)
-
-    if (response.data) {
-        return response.data;
-    }
-}
-const getBrand = async (id) => {
-    const response = await axios.get(`https://localhost:7056/api/Brands`)
-
+    const response = await axios.get(`${base_url}Products/${id}`)
     if (response.data) {
         return response.data;
     }
@@ -32,6 +17,13 @@ const getBrand = async (id) => {
 
 const createProduct = async(productData)=>{
     const response = await axios.post(`${base_url}Products`, productData, config);
+    if(response.data){
+        return response.data;
+    }
+}
+
+const updateProduct = async(productData)=>{
+    const response = await axios.put(`${base_url}Products/${productData.id}`, productData.productData, config);
     if(response.data){
         return response.data;
     }
@@ -46,11 +38,10 @@ const deleteProduct = async(id)=>{
 
 const productService = {
     getProducts,
-    getAPhone,
-    getBrand,
     createProduct,
     getAProduct,
     deleteProduct,
+    updateProduct,
 }
 
 export default productService

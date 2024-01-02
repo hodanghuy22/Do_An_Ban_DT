@@ -91,6 +91,9 @@ export const slideshowSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if (state.isError) {
+                    toast.success(action.error.message);
+                }
             }).addCase(DeleteSlideShow.pending, (state) => {
                 state.isLoading = true;
             })

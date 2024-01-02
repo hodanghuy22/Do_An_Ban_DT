@@ -3,8 +3,8 @@ import { Checkbox } from 'antd';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { CreateProduct, resetState } from '../features/product/productSlice';
+import { useLocation } from 'react-router-dom';
+import { CreateProduct, GetAProduct, UpdateProduct, resetState } from '../features/product/productSlice';
 import { GetPhonesShow } from '../features/phone/phoneSlice';
 import { GetCapacitiesShow } from '../features/capacity/capacitySlice';
 import { GetColorsShow } from '../features/color/colorSlice';
@@ -30,6 +30,17 @@ const AddProduct = () => {
   const capacityState = useSelector(state => state?.capacity?.capacitiesShow)
   const colorState = useSelector(state => state?.color?.colorShow)
   const uploadState = useSelector(state => state?.upload?.images)
+  const location = useLocation();
+  const getProductId = location.pathname.split("/")[3];
+  const productState = useSelector(state => state?.product?.AProduct)
+
+useEffect(() => {
+    if (getProductId !== undefined) {
+        dispatch(GetAProduct(getProductId))
+    } else {
+        dispatch(resetState())
+    }
+}, [getProductId])
 
 
   useEffect(() => {
@@ -50,32 +61,39 @@ const AddProduct = () => {
     }
   }, [uploadState])
   const formik = useFormik({
-    //enableReinitialize: true,
+    enableReinitialize: true,
     initialValues: {
-      quantity: 0,
-      price: 0,
-      soldQuantity: 0,
-      averageRating: 0,
-      phoneId: "",
-      capacityId: "",
-      colorId: "",
-      status: false,
-      images: []
+      quantity: productState?.quantity || 0,
+      price: productState?.price || 0,
+      soldQuantity: productState?.soldQuantity || 0,
+      averageRating: productState?.averageRating || 0,
+      phoneId: productState?.phoneId || "",
+      capacityId: productState?.capacityId || "",
+      colorId: productState?.colorId || "",
+      status: productState?.status || false,
+      images: productState?.images || []
     },
     validationSchema: productSchema,
     onSubmit: values => {
       console.log(values);
+      if (getProductId !== undefined) {
+        console.log(values);
+        const data = { id: getProductId, productData: { ...values, id: getProductId } }
+        dispatch(UpdateProduct(data))
+        dispatch(resetState())
+    } else {
       dispatch(CreateProduct(values));
       formik.resetForm();
       setTimeout(() => {
         dispatch(resetState())
       }, 300)
+    }
     },
   });
 
   return (
     <div>
-      <h3 className='mb-4'> Product</h3>
+      <h3 className='mb-4'>{getProductId !== undefined ? "Edit" : "Add"} Product</h3>
       <div>
         <form onSubmit={formik.handleSubmit}>
           <div className='mb-3'>
@@ -172,6 +190,42 @@ const AddProduct = () => {
               }
             </div>
           </div>
+          <div className='mb-3'>
+            <label class="form-label">Sold Quantity</label>
+            <input
+              readOnly
+              type="number"
+              name="soldQuantity"
+              class="form-control"
+              placeholder="Sold Quantity"
+              value={formik.values.soldQuantity}
+              onChange={formik.handleChange('soldQuantity')}
+              onBlur={formik.handleBlur('soldQuantity')}
+            />
+            <div className='error'>
+              {
+                formik.touched.soldQuantity && formik.errors.soldQuantity
+              }
+            </div>
+          </div>
+          <div className='mb-3'>
+            <label class="form-label">Average Rating</label>
+            <input
+              readOnly
+              type="number"
+              name="averageRating"
+              class="form-control"
+              placeholder="Average Rating"
+              value={formik.values.averageRating}
+              onChange={formik.handleChange('averageRating')}
+              onBlur={formik.handleBlur('averageRating')}
+            />
+            <div className='error'>
+              {
+                formik.touched.averageRating && formik.errors.averageRating
+              }
+            </div>
+          </div>
           <Checkbox
             name="status"
             checked={formik.values.status}
@@ -203,7 +257,7 @@ const AddProduct = () => {
               )
             })}
           </div>
-          <button className='btn btn-success' type='submit'> Product</button>
+          <button className='btn btn-success' type='submit'>{getProductId !== undefined ? "Edit" : "Add"} Product</button>
         </form>
       </div>
     </div>

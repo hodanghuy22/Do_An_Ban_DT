@@ -5,7 +5,7 @@ namespace DoAnMonHoc_Backend.Interfaces
 {
     public interface ISlideshowRepository
     {
-        Task CreateSlideshow(Slideshow slideshow);
+        Task<IActionResult> CreateSlideshow(Slideshow slideshow);
         Task<IEnumerable<Slideshow>> GetSlideshows();
         Task<Slideshow> GetSlideshow(int id);
         Task<IEnumerable<Slideshow>> GetSlideshowsForPresent();

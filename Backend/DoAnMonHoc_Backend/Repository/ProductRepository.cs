@@ -53,15 +53,45 @@ namespace DoAnMonHoc_Backend.Repository
             }
         }
 
-        public async Task<Product> GetProduct(int id)
+        public async Task<ProductDto> GetProduct(int id)
         {
-            return await _context.Products.Include(p => p.Phone)
-                .Include(p => p.Capacity)
-                .Include(p => p.Color)
-                .Include(p => p.Images)
-                .Include(p => p.Comments)
-                .Include(p => p.Ratings)
-                .FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Products
+                        .Include(p => p.Capacity)
+                        .Include(p => p.Color)
+                        .Include(p => p.Images)
+                        .Include(p => p.Comments)
+                        .Include(p => p.Ratings)
+                        .Include(p => p.Phone)
+                        .Select(p => new ProductDto
+                        {
+                            Id = p.Id,
+                            Price = p.Price,
+                            Quantity = p.Quantity,
+                            Status = p.Status,
+                            Images = p.Images,
+                            CapacityId = p.CapacityId,
+                            ColorId = p.ColorId,
+                            PhoneId = p.PhoneId,
+                            AverageRating = p.AverageRating,
+                            SoldQuantity = p.SoldQuantity,
+                            Phone = new Phone
+                            {
+                                Id = p.Phone.Id,
+                                Name = p.Phone.Name,
+                                ROM = p.Phone.ROM
+                            },
+                            Capacity = new Capacity
+                            {
+                                Id = p.Capacity.Id,
+                                TotalCapacity = p.Capacity.TotalCapacity,
+                            },
+                            Color = new Color
+                            {
+                                Id = p.Color.Id,
+                                ColorName = p.Color.ColorName
+                            }
+                        })
+                        .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<ProductDto>> GetProducts()
@@ -106,6 +136,13 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<IActionResult> UpdateProduct(Product product)
         {
+            //var product1 = await _context.Products.FindAsync(product.Id);
+            //product1.Images.Clear();
+            //foreach(var image in product.Images)
+            //{
+            //    product1.Images.Add(image);
+            //}
+
             _context.Entry(product).State = EntityState.Modified;
             try
             {
@@ -115,13 +152,24 @@ namespace DoAnMonHoc_Backend.Repository
             {
                 if (!await ProductExist(product.Id))
                 {
-                    return new NotFoundResult();
+                    return new BadRequestResult();
                 }
                 else
                 {
                     throw;
                 }
             }
+            //var getProduct = await _context.Products.FindAsync(product1.Id);
+            //var phone = await _context.Phones.FindAsync(product1.PhoneId);
+            //if (getProduct.Quantity < product1.Quantity)
+            //{
+            //    phone.SoLuong += product1.Quantity - getProduct.Quantity;
+            //}
+            //else
+            //{
+            //    phone.SoLuong -= getProduct.Quantity - product1.Quantity;
+            //}
+            //await _context.SaveChangesAsync();
             return new OkResult();
         }
     }

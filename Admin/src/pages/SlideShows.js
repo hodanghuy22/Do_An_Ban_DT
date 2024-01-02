@@ -13,12 +13,8 @@ const columns = [
         dataIndex: 'id',
     },
     {
-        title: 'PublicId',
-        dataIndex: 'publicId',
-    },
-    {
-        title: 'Url',
-        dataIndex: 'url',
+        title: 'Hinh',
+        dataIndex: 'hinh',
     },
     {
         title: 'Status',
@@ -42,8 +38,7 @@ const SlideShows = () => {
     for (let i = 0; i < brandState?.length; i++) {
         data1.push({
         id: brandState[i].id,
-        publicId: brandState[i].publicId,
-        url: brandState[i].url,
+        hinh: (<img className='img-fluid w-25' src={brandState[i].url} />),
         status: brandState[i].status?"Hoạt động":"Không hoạt động",
         action: (<>
             <Link className='fs-3 text-danger' to={`/admin/add-brand/${brandState[i].id}`}><BiEdit /></Link>

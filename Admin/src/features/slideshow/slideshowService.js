@@ -16,6 +16,7 @@ const getASlideShow = async(id)=>{
 }
 
 const createSlideShow = async(SlideShowData)=>{
+    console.log(SlideShowData);
     const response = await axios.post(`${base_url}Slideshows`, SlideShowData, config);
     if(response.data){
         return response.data;

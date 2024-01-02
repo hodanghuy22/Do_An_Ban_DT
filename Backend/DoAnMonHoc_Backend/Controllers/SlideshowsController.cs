@@ -18,7 +18,7 @@ namespace DoAnMonHoc_Backend.Controllers
             _photoService = photoService;
             _uow = uow;
         }
-        [HttpGet("for-admin")]
+        [HttpGet("Admin")]
         public async Task<IActionResult> GetSlideshows()
         {
             var sildeshows = await _uow.SlideshowRepository.GetSlideshows();
@@ -33,30 +33,13 @@ namespace DoAnMonHoc_Backend.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddSlideShow(IFormFile file)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddSlideShow(Slideshow slideshow)
         {
-            var result = await _photoService.UploadPhotoAsync(file);
-            if (result.Error != null)
-            {
-                return BadRequest(result.Error.Message);
-            }
-            var slideshow = new Slideshow
-            {
-                Url = result.SecureUrl.ToString(),
-                PublicId = result.PublicId,
-                Status = true
-            };
-            await _uow.SlideshowRepository.CreateSlideshow(slideshow);
-            var save = await _uow.SaveAsync();
-            if (!save)
-            {
-                return BadRequest();
-            }
-            return Ok();
+            return await _uow.SlideshowRepository.CreateSlideshow(slideshow);
         }
         [HttpDelete]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSlideShow (int slideshowId)
         {
             var slideshow = await _uow.SlideshowRepository.GetSlideshow(slideshowId);

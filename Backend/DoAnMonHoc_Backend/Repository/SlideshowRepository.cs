@@ -19,9 +19,15 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Slideshows.AnyAsync(c => c.Id == id);
         }
 
-        public async Task CreateSlideshow(Slideshow slideshow)
+        public async Task<IActionResult> CreateSlideshow(Slideshow slideshow)
         {
             await _context.Slideshows.AddAsync(slideshow);
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                return new OkResult();
+            }
+            return new BadRequestObjectResult("Something went wrong!!!");
         }
 
         public async Task DeleteSlideshow(int id)

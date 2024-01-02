@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteProduct, getAllProducts, resetState } from '../features/product/productSlice';
+import { DeleteProduct, GetAllProducts, resetState } from '../features/product/productSlice';
 import { Link } from 'react-router-dom';
 import CustomModal from '../components/CustomModal';
 import { AiFillDelete } from 'react-icons/ai';
@@ -52,7 +52,7 @@ const ProductList = () => {
     const [productId, setProductId] = useState("");
     useEffect(()=>{
         dispatch(resetState())
-        dispatch(getAllProducts())
+        dispatch(GetAllProducts())
       },[]);
       const hideModal = () => {
         setOpen(false);
@@ -70,7 +70,7 @@ const ProductList = () => {
             colorName: productState[i]?.color?.colorName,
             status: productState[i]?.status?"Hoạt động":"Không hoạt động",
             action: (<>
-                <Link to={`/admin/product-detail/${productState[i].id}`} className='btn btn-primary m-1'>
+                <Link to={`/admin/add-product/${productState[i].id}`} className='btn btn-primary m-1'>
                 <BiEdit />
                 </Link>
                 <button className='fs-3 text-danger ms-3 text-danger bg-transparent border-0'
@@ -87,7 +87,7 @@ const ProductList = () => {
         dispatch(DeleteProduct(e))
         setOpen(false);
         setTimeout(()=>{
-          dispatch(getAllProducts())
+          dispatch(GetAllProducts())
         },300)
       }
 

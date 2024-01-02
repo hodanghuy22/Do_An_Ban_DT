@@ -10,7 +10,7 @@ import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getAProduct } from '../features/product/productSlice';
+import { GetAProduct } from '../features/product/productSlice';
 import { useParams } from 'react-router-dom';
 const ProductDetail = () => {
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const ProductDetail = () => {
     const productId = useParams().id;
 
     useEffect(() => {
-        dispatch(getAProduct(productId))
+        dispatch(GetAProduct(productId))
             .catch(() => 'error');
     }, [dispatch, productId]);
 

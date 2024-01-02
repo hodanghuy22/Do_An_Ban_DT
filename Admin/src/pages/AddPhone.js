@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox } from 'antd';
-import { Field, FieldArray, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { CreatePhone, resetState, GetAPhone, UpdatePhone } from '../features/phone/phoneSlice';
 import { GetProductTypes } from '../features/productType/productTypeSlice';
 import { GetBrandsShow } from '../features/brand/brandSlice';
@@ -31,7 +31,6 @@ const phoneSchema = yup.object({
 const AddPhone = () => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const navigate = useNavigate();
     const getPhoneId = location.pathname.split("/")[3];
     const phoneState = useSelector(state => state?.phone?.APhone)
     const productTypeDetailState = useSelector(state => state?.productTypeDetail?.productTypesDetails)
