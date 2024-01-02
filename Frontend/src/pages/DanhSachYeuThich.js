@@ -13,7 +13,6 @@ const DanhSachYeuThich = () => {
     useEffect(() => {
         dispatch(getWishlist(authState.id));
     }, [dispatch, authState.id]);
-
     const formatNumber = (number) => {
         const formatter = new Intl.NumberFormat('vi-VN');
         return formatter.format(number);
@@ -34,9 +33,9 @@ const DanhSachYeuThich = () => {
                                     <div className='col-xl-3 col-md-4 col-sm-5' key={index}>
                                         <Link to={`/dtdd/${item.productId}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
                                             <div className='p-3'>
-                                                <img className='card-image' width={"100%"} src={item.product.phone.fileHinh} alt='iphone15promax' />
+                                                <img className='card-image' width={"100%"} src={item.product.fileHinh} alt='iphone15promax' />
                                                 <div className='mt-4'>
-                                                    <p className='text-title'>{ item.product.phone.name}</p>
+                                                    <p className='text-title'>{ item.product.name}</p>
                                                     <div>
                                                         <p className='text-price  font-size-bold amount' >
                                                             {formatNumber(item.product.price)}

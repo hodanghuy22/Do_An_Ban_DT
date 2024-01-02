@@ -39,6 +39,8 @@ namespace DoAnMonHoc_Backend.Repository
         {
             return await _context.ProductTypeDetails.Include(pt => pt.ProductType)
                 .Include(pt => pt.Phone)
+                .Include( p => p.Phone)
+                    .ThenInclude(p => p.Products)
                 .Where(p => p.ProductTypeId == productTypeId)
                 .ToListAsync();
         }

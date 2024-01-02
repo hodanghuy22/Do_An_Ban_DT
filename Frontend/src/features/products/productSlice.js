@@ -23,9 +23,16 @@ export const getBrand = createAsyncThunk("product/get-brands", async (thunkAPI) 
         return thunkAPI.rejectWithValue(err);
     }
 })
-export const getProductBrand = createAsyncThunk("product/get-productbrand", async (id, thunkAPI) => {
+export const GetProductsByProductType = createAsyncThunk("product/get-product-by-product-type", async (id, thunkAPI) => {
     try {
-        return await productService.getProductBrand(id);
+        return await productService.GetProductsByProductType(id);
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+export const GetProductsByBrand = createAsyncThunk("product/get-product-by-product-brand", async (id, thunkAPI) => {
+    try {
+        return await productService.GetProductsByBrand(id);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
@@ -78,19 +85,32 @@ export const productSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
-        }).addCase(getProductBrand.pending, (state) => {
+        }).addCase(GetProductsByProductType.pending, (state) => {
             state.isLoading = true;
-        }).addCase(getProductBrand.fulfilled, (state, action) => {
+        }).addCase(GetProductsByProductType.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
             state.product = action.payload;
-        }).addCase(getProductBrand.rejected, (state, action) => {
+        }).addCase(GetProductsByProductType.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
         })
+            .addCase(GetProductsByBrand.pending, (state) => {
+                state.isLoading = true;
+            }).addCase(GetProductsByBrand.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.productbrand = action.payload;
+            }).addCase(GetProductsByBrand.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            })
 
     }
 })

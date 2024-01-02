@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 const getPhone = async () => {
-    const response = await axios.get('https://localhost:7056/api/Products')
+    const response = await axios.get('https://localhost:7056/api/Phones')
     if (response.data) {
         return response.data;
     }
 }
 
 const getAPhone = async (id) => {
-    const response = await axios.get(`https://localhost:7056/api/Products/${id}`)
+    const response = await axios.get(`https://localhost:7056/api/Phones/${id}`)
 
     if (response.data) {
         return response.data;
@@ -21,8 +21,15 @@ const getBrand = async (id) => {
         return response.data;
     }
 }
-const getProductBrand = async (id) => {
+const GetProductsByProductType = async (id) => {
     const response = await axios.get(`https://localhost:7056/api/ProductTypeDetails/GetProductsByProductType/${id}`)
+
+    if (response.data) {
+        return response.data;
+    }
+}
+const GetProductsByBrand = async (id) => {
+    const response = await axios.get(`https://localhost:7056/api/Phones/GetPhoneByBrand/${id}`)
 
     if (response.data) {
         return response.data;
@@ -32,7 +39,8 @@ const productService = {
     getPhone,
     getAPhone,
     getBrand,
-    getProductBrand
+    GetProductsByProductType,
+    GetProductsByBrand
 }
 
 export default productService
