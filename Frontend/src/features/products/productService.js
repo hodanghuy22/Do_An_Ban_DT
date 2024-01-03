@@ -1,26 +1,8 @@
 import axios from 'axios'
+import { base_url } from '../../utils/axiosConfigure';
 
-const getPhone = async () => {
-    const response = await axios.get('https://localhost:7056/api/Phones')
-    if (response.data) {
-        return response.data;
-    }
-}
 
-const getAPhone = async (id) => {
-    const response = await axios.get(`https://localhost:7056/api/Phones/${id}`)
 
-    if (response.data) {
-        return response.data;
-    }
-}
-const getBrand = async (id) => {
-    const response = await axios.get(`https://localhost:7056/api/Brands`)
-
-    if (response.data) {
-        return response.data;
-    }
-}
 const GetProductsByProductType = async (id) => {
     const response = await axios.get(`https://localhost:7056/api/ProductTypeDetails/GetProductsByProductType/${id}`)
 
@@ -35,12 +17,18 @@ const GetProductsByBrand = async (id) => {
         return response.data;
     }
 }
+
+const getProductForUser = async (data) => {
+    const response = await axios.get(`${base_url}Products/GetAProductForUser/${data.phoneId}/${data.colorId}/${data.capacityId}`)
+
+    if (response.data) {
+        return response.data;
+    }
+}
 const productService = {
-    getPhone,
-    getAPhone,
-    getBrand,
     GetProductsByProductType,
-    GetProductsByBrand
+    GetProductsByBrand,
+    getProductForUser,
 }
 
 export default productService

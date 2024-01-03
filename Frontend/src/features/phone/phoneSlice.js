@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 import phoneService from './phoneService';
 
 export const GetPhones = createAsyncThunk("phone/get-phones", async (thunkAPI) => {

@@ -7,6 +7,7 @@ namespace DoAnMonHoc_Backend.Interfaces
     {
         Task<IActionResult> CreateColor(Color color);
         Task<IEnumerable<Color>> GetColors();
+        Task<IEnumerable<Color>> GetColorsByPhoneId(int id);
         Task<IEnumerable<Color>> GetColorsShow();
         Task<Color> GetColor(int id);
         Task<bool> ColorExist(int id);

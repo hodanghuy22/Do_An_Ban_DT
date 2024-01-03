@@ -4,6 +4,9 @@ import slideshowReducer from '../features/slideshow/slideshowSlice';
 import productReducer from "../features/products/productSlice";
 import wishlistReducer from "../features/wishlists/wishlistSlice"
 import phoneReducer from '../features/phone/phoneSlice';
+import capacityReducer from '../features/capacity/capacitySlice';
+import colorReducer from '../features/color/colorSlice';
+import brandReducer from '../features/brand/brandSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,5 +15,8 @@ export const store = configureStore({
         product: productReducer,
         wishlist: wishlistReducer,
         phone: phoneReducer,
+        capacity: capacityReducer,
+        color: colorReducer,
+        brand: brandReducer
     }
 })

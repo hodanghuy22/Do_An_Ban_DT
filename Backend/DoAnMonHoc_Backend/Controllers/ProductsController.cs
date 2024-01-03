@@ -39,6 +39,13 @@ namespace DoAnMonHoc_Backend.Controllers
             var product = await _uow.ProductRepository.GetProduct(id);
             return Ok(product);
         }
+        [HttpGet]
+        [Route("GetAProductForUser/{phoneId}/{colorId}/{capacityId}")]
+        public async Task<IActionResult> GetAProductForUser(int phoneId, int colorId, int capacityId)
+        {
+            var product = await _uow.ProductRepository.GetAProductForUser(phoneId, colorId, capacityId);
+            return Ok(product);
+        }
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct(Product product)

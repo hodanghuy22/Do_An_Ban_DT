@@ -22,58 +22,81 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GetAPhone } from '../features/phone/phoneSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
 import { Helmet } from 'react-helmet';
+import { GetCapacitiesByPhoneId } from '../features/capacity/capacitySlice';
+import { GetColorsByPhoneId } from '../features/color/colorSlice';
+import { GetProductForUser } from '../features/products/productSlice';
 
 const PhoneDetail = () => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(true);
-    const productState = useSelector(state => state?.phone?.APhone);
+    const phoneState = useSelector(state => state?.phone?.APhone);
+    const productState = useSelector(state => state?.product?.AProduct);
     const authState = useSelector(state => state?.auth?.user?.userDto);
-    const [uniqueCapacities, setUniqueCapacities] = useState([]);
-    const [uniqueColor, setUniqueColor] = useState([]);
-
+    const capacityState = useSelector(state => state?.capacity?.capacities);
+    const colorState = useSelector(state => state?.color?.colors);
     const phoneId = useParams().phoneId;
-    //Láy thông tin điện thoại
+
+
     useEffect(() => {
         dispatch(GetAPhone(phoneId))
             .then(() => setIsLoading(false))
             .catch(() => 'error');
-        
-        
-    }, [phoneId, dispatch]);
+        dispatch(GetCapacitiesByPhoneId(phoneId))
+        dispatch(GetColorsByPhoneId(phoneId))
+    }, []);
 
+    const [AProduct, setAProduct] = useState({
+        "phoneId": phoneId,
+        "colorId": phoneState?.products[0]?.colorId,
+        "capacityId": phoneState?.products[0]?.capacityId
+    });
     useEffect(() => {
-        const uniqueTotalCapacities = new Set();
-        productState?.products?.map(product => {
-            uniqueTotalCapacities.add(product.capacity.totalCapacity);
-        });
-        setUniqueCapacities(Array.from(uniqueTotalCapacities));
+        if (phoneState?.products && phoneState.products.length > 0) {
+            setAProduct(prevState => ({
+                ...prevState,
+                colorId: phoneState.products[0].colorId,
+                capacityId: phoneState.products[0].capacityId
+            }));
+        }
+    }, [phoneState]);
+    useEffect(() => {
+        console.log(AProduct);
+        dispatch(GetProductForUser(AProduct))
+        console.log(productState);
+    }, [AProduct]);
 
-        const uniqueColorName = new Set();
-        productState?.products?.map(product => {
-            uniqueColorName.add(product.color.colorName);
-        });
-        setUniqueColor(Array.from(uniqueColorName));
-    }, [productState])
-    
+    const handleColorSelection = (colorId) => {
+        setAProduct(prevState => ({
+            ...prevState,
+            colorId: colorId
+        }));
+
+    };
+
+    const handleCapacitySelection = (capacityId) => {
+        setAProduct(prevState => ({
+            ...prevState,
+            capacityId: capacityId
+        }));
+        
+    };
+
+   
     if (isLoading) {
         return <div className='w-100 d-flex justify-content-center' style={{ height: '300px' }}>
             <div className="spinner"></div>
         </div>;
     }
 
-    if (!productState) {
+    if (!phoneState) {
         window.location.href = '/404';
         return null;
     }
-    console.log({
-        userId: authState.id,
-        phoneId: productState.id
-    });
     //Thêm sản phẩm yêu thích
     const addWishlist = () => {
         dispatch(CreateWishList({
             userId: authState?.id,
-            phoneId: productState?.id
+            phoneId: phoneState?.id
         }))
     }
 
@@ -84,7 +107,7 @@ const PhoneDetail = () => {
     return (
         <>
             <Helmet>
-                <title>{productState.name} | PHBshop</title>
+                <title>{phoneState.name} | PHBshop</title>
             </Helmet>
 
             <div>
@@ -97,7 +120,7 @@ const PhoneDetail = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Container className='pl-0 ml-0'>
-                    <h5 style={{ display: 'inline-block' }}>Điện thoại {productState.name} </h5>
+                    <h5 style={{ display: 'inline-block' }}>Điện thoại {phoneState.name} </h5>
                     <Link style={{ color: 'yellow' }}><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /></Link>
                     <span>171 đánh giá</span>
                     <Link className='ml-3' onClick={addWishlist}>
@@ -184,7 +207,7 @@ const PhoneDetail = () => {
                                 </Row>
                                 <Row className='mt-5'>
                                     <h5>Thông tin sản phẩm</h5>
-                                    <p>{productState.desc}</p>
+                                    <p>{phoneState.desc}</p>
                                 </Row>
 
 
@@ -464,9 +487,16 @@ const PhoneDetail = () => {
                                 <Row>
                                     <Col>
                                         {
-                                            uniqueCapacities?.map((item,index) => {
+                                            capacityState && capacityState?.map((item,index) => {
                                                 return (
-                                                    <Button key={index} className='ml-0 mr-2 mt-1 mb-1' variant="outline-primary primary">{ item}GB</Button>
+                                                    <Button
+                                                        key={index}
+                                                        onClick={() => handleCapacitySelection(item?.id)}
+                                                        className='ml-0 mr-2 mt-1 mb-1'
+                                                        variant="outline-primary primary"
+                                                    >
+                                                        {item.totalCapacity}GB
+                                                    </Button>
 
                                                 )
                                             })
@@ -476,9 +506,16 @@ const PhoneDetail = () => {
                                 <Row className='mt-1'>
                                     <Col>
                                         {
-                                            uniqueColor?.map((item,index) => {
+                                            colorState && colorState?.map((item,index) => {
                                                 return (
-                                                    <Button key={index} className='ml-0 mr-2 mt-1 mb-1' variant="outline-primary primary">{ item}</Button>
+                                                    <Button
+                                                        key={index}
+                                                        onClick={() => handleColorSelection(item?.id)}
+                                                        className='ml-0 mr-2 mt-1 mb-1'
+                                                        variant="outline-primary primary"
+                                                    >
+                                                        {item.colorName}
+                                                    </Button>
                                                     
                                                 )
                                             })
@@ -488,7 +525,7 @@ const PhoneDetail = () => {
                                 <Row>
                                     <Col xl={12} md={12} sm={12}>
                                         <h5>Giá</h5>
-                                        <p className='h4 detail-price text-danger font-weight-bold amount'>{formatNumber(productState?.products[0]?.price)}</p>
+                                        <p className='h4 detail-price text-danger font-weight-bold amount'>{formatNumber(productState?.price)}</p>
                                     </Col>
                                     <Col xl={12} md={12} sm={12}>
                                         <div className='detail-boder p-2'>
@@ -524,32 +561,32 @@ const PhoneDetail = () => {
                                         <tbody>
                                             <tr>
                                                 <td>Màn hình:</td>
-                                                <td>{productState.loaiMan} {productState.kichThuoc} {productState.doPhanGiai}</td>
+                                                <td>{phoneState.loaiMan} {phoneState.kichThuoc} {phoneState.doPhanGiai}</td>
                                             </tr>
                                             <tr>
                                                 <td>Camera sau:</td>
-                                                <td>{productState.cameraSau}</td>
+                                                <td>{phoneState.cameraSau}</td>
                                             </tr>
                                             <tr>
                                                 <td>Camera trước:</td>
-                                                <td>{productState.cameraTruoc}</td>
+                                                <td>{phoneState.cameraTruoc}</td>
                                             </tr>
                                             <tr>
                                                 <td>Chip:</td>
-                                                <td>{productState.cpu}</td>
+                                                <td>{phoneState.cpu}</td>
                                             </tr>
                                             <tr>
                                                 <td>RAM:</td>
-                                                <td>{productState.ram} GB</td>
+                                                <td>{phoneState.ram} GB</td>
                                             </tr>
                                             <tr>
                                                 <td>Dung lượng lưu trữ:</td>
-                                                <td>{productState.rom} GB</td>
+                                                <td>{phoneState.rom} GB</td>
                                             </tr>
 
                                             <tr>
                                                 <td>Pin, Sạc:</td>
-                                                <td>{productState.pin}</td>
+                                                <td>{phoneState.pin}</td>
                                             </tr>
                                         </tbody>
                                     </Table>

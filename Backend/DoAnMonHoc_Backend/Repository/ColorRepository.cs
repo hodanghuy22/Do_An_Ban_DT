@@ -51,6 +51,15 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Colors.ToListAsync();
         }
 
+        public async Task<IEnumerable<Color>> GetColorsByPhoneId(int id)
+        {
+            return await _context.Products
+                            .Where(p => p.PhoneId == id && p.Color.Status == true)
+                            .Select(p => p.Color)
+                            .Distinct()
+                            .ToListAsync();
+        }
+
         public async Task<IEnumerable<Color>> GetColorsShow()
         {
             return await _context.Colors.Where(c => c.Status == true).ToListAsync();

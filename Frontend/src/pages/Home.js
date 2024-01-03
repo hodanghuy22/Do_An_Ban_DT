@@ -3,20 +3,22 @@ import { Container, Nav, Row } from 'react-bootstrap';
 import Footer from '../Components/Footer';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProducts, getBrand, GetProductsByBrand } from '../features/products/productSlice';
+import { GetProductsByBrand } from '../features/products/productSlice';
 import { Helmet } from 'react-helmet';
 import SliderShow from '../Components/SliderShow';
+import { GetPhones } from '../features/phone/phoneSlice';
+import { getBrand } from '../features/brand/brandSlice';
 
 function Home() {
     const dispatch = useDispatch();
-    const productState = useSelector(state => state?.product?.phones);
-    const brandState = useSelector(state => state?.product?.product);
+    const productState = useSelector(state => state?.phone?.phones);
+    const brandState = useSelector(state => state?.brand?.product);
     const [isProductStateReady, setIsProductStateReady] = useState(false);
     const [products, setProducts] = useState([]);
     const productbrand = useSelector(state => state?.product?.productbrand);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        dispatch(getAllProducts());
+        dispatch(GetPhones());
         dispatch(getBrand())
             .then(() => setIsLoading(false))
             .catch(() => 'error');

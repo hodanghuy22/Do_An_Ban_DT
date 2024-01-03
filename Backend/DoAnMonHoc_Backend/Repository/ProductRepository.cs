@@ -53,6 +53,17 @@ namespace DoAnMonHoc_Backend.Repository
             }
         }
 
+        public async Task<Product> GetAProductForUser(int phoneId, int colorId, int capacityId)
+        {
+            return await _context.Products
+                    .Include(p => p.Color)
+                    .Include(p => p.Capacity)
+                    .Include(p => p.Comments)
+                    .Include(p => p.Images)
+                    .Include(p => p.Ratings)
+                    .FirstOrDefaultAsync(P => P.PhoneId == phoneId && P.ColorId == colorId && P.CapacityId == capacityId);
+        }
+
         public async Task<ProductDto> GetProduct(int id)
         {
             return await _context.Products

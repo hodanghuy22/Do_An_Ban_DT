@@ -40,6 +40,13 @@ namespace DoAnMonHoc_Backend.Controllers
             //var brandDto = _mapper.Map<BrandDto>(brand);
             return Ok(capacity);
         }
+        [HttpGet]
+        [Route("GetCapacityByPhoneId/{id}")]
+        public async Task<IActionResult> GetCapacityByPhoneId(int id)
+        {
+            var capacity = await _uow.CapacityRepository.GetCapacitiesByPhoneId(id);
+            return Ok(capacity);
+        }
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCapacity(Capacity capacity)

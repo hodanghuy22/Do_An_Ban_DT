@@ -8,6 +8,7 @@ namespace DoAnMonHoc_Backend.Interfaces
         Task<IActionResult> CreateProduct(Product product);
         Task<IEnumerable<ProductDto>> GetProducts();
         Task<ProductDto> GetProduct(int id);
+        Task<Product> GetAProductForUser(int phoneId, int colorId, int capacityId);
         Task<bool> ProductExist(int id);
         Task<IActionResult> UpdateProduct(Product product);
         Task DeleteProduct(int id);

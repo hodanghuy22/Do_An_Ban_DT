@@ -66,5 +66,14 @@ namespace DoAnMonHoc_Backend.Repository
         {
             return await _context.Capacitys.Where(c => c.Status == true).ToListAsync();
         }
+
+        public async Task<IEnumerable<Capacity>> GetCapacitiesByPhoneId(int id)
+        {
+            return await _context.Products
+                            .Where(p => p.PhoneId == id && p.Capacity.Status == true)
+                            .Select(p => p.Capacity)
+                            .Distinct()
+                            .ToListAsync();
+        }
     }
 }

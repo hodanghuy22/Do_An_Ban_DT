@@ -41,6 +41,14 @@ namespace DoAnMonHoc_Backend.Controllers
             var colorDto = _mapper.Map<ColorDto>(color);
             return Ok(colorDto);
         }
+
+        [HttpGet]
+        [Route("GetColorByPhoneId/{id}")]
+        public async Task<IActionResult> GetColorByPhoneId(int id)
+        {
+            var color = await _uow.ColorRepository.GetColorsByPhoneId(id);
+            return Ok(color);
+        }
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateColor(Color color)
