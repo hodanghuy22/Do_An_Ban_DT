@@ -2,7 +2,7 @@ import axios from "axios"
 import { base_url,config } from "../../utils/axiosConfig";
 
 const getSlideShows = async()=>{
-    const response = await axios.get(`${base_url}Slideshows`);
+    const response = await axios.get(`${base_url}Slideshows/Admin`);
     if(response.data){
         return response.data;
     }
@@ -16,6 +16,7 @@ const getASlideShow = async(id)=>{
 }
 
 const createSlideShow = async(SlideShowData)=>{
+    console.log(SlideShowData);
     const response = await axios.post(`${base_url}Slideshows`, SlideShowData, config);
     if(response.data){
         return response.data;
@@ -29,8 +30,9 @@ const deleteSlideShow = async(id)=>{
     }
 }
 
-const updateSlideShow = async(SlideShowData)=>{
-    const response = await axios.put(`${base_url}Slideshows/${SlideShowData.id}`,SlideShowData.SlideShowData,config);
+const updateSlideShow = async(id)=>{
+    console.log(config);
+    const response = await axios.put(`${base_url}Slideshows/${id}`, "",config);
     if(response.data){
         return response.data;
     }

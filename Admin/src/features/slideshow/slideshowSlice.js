@@ -28,17 +28,17 @@ export const CreateSlideShow = createAsyncThunk("slideshow/create-slideshow", as
     }
 })
 
-export const UpdateSlideShow = createAsyncThunk("slideshow/update-slideshow", async (slideshowData, thunkAPI) => {
+export const UpdateSlideShow = createAsyncThunk("slideshow/update-slideshow", async (id, thunkAPI) => {
     try {
-        return await slideshowService.updateSlideShow(slideshowData);
+        return await slideshowService.updateSlideShow(id);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 })
 
-export const DeleteSlideShow = createAsyncThunk("slideshow/delete-slideshow", async (slideshowData, thunkAPI) => {
+export const DeleteSlideShow = createAsyncThunk("slideshow/delete-slideshow", async (id, thunkAPI) => {
     try {
-        return await slideshowService.deleteSlideShow(slideshowData);
+        return await slideshowService.deleteSlideShow(id);
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
@@ -91,6 +91,9 @@ export const slideshowSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if (state.isError) {
+                    toast.success(action.error.message);
+                }
             }).addCase(DeleteSlideShow.pending, (state) => {
                 state.isLoading = true;
             })
@@ -109,7 +112,7 @@ export const slideshowSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if (state.isError) {
-                    toast.success("Something went wrong!!!");
+                    toast.error("Something went wrong!!!");
                 }
             }).addCase(GetASlideShow.pending, (state) => {
                 state.isLoading = true;
@@ -146,7 +149,7 @@ export const slideshowSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if (state.isError) {
-                    toast.success("Something went wrong!!!");
+                    toast.error("Something went wrong!!!");
                 }
             }).addCase(resetState, () => initialState);
     }

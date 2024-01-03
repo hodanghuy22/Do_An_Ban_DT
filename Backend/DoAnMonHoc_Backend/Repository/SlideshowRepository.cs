@@ -19,9 +19,15 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Slideshows.AnyAsync(c => c.Id == id);
         }
 
-        public async Task CreateSlideshow(Slideshow slideshow)
+        public async Task<IActionResult> CreateSlideshow(Slideshow slideshow)
         {
             await _context.Slideshows.AddAsync(slideshow);
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                return new OkResult();
+            }
+            return new BadRequestObjectResult("Something went wrong!!!");
         }
 
         public async Task DeleteSlideshow(int id)
@@ -45,25 +51,11 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Slideshows.Where(s => s.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateSlideshow(Slideshow slideshow)
+        public async Task UpdateSlideshow(int id)
         {
-            _context.Entry(slideshow).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                if (!await SlideshowExist(slideshow.Id))
-                {
-                    return new NotFoundResult();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return new OkResult();
+            var pt = await GetSlideshow(id);
+
+            pt.Status = true;
         }
     }
 }

@@ -54,7 +54,29 @@ namespace DoAnMonHoc_Backend.Controllers
             {
                 return BadRequest();
             }
-            return await _uow.ProductRepository.UpdateProduct(product);
+            var getProduct = await _uow.ProductRepository.GetProduct(product.Id);
+            var sl = getProduct.Quantity;
+            await _uow.ProductRepository.UpdateProduct(product);
+            var afterProduct = await _uow.ProductRepository.GetProduct(product.Id);
+            var phone = await _uow.PhoneRepository.GetPhone(product.PhoneId);
+            if (phone.Price > getProduct.Price)
+            {
+                phone.Price = getProduct.Price;
+            }
+            if (afterProduct.Quantity < sl)
+            {
+                phone.SoLuong -= sl - afterProduct.Quantity;
+            }
+            else
+            {
+                phone.SoLuong += afterProduct.Quantity - sl;
+            }
+            var result = await _uow.SaveAsync();
+            if (result == false)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
         [HttpDelete]
         [Route("{id}")]
