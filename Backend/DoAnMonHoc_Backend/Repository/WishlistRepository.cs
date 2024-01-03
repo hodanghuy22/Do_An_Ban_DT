@@ -29,8 +29,7 @@ namespace DoAnMonHoc_Backend.Repository
         public async Task<IEnumerable<WishList>> GetWishList(string userId)
         {
             return await _context.WishLists
-        .Include(wl => wl.Product)
-            .ThenInclude(p => p.Phone)
+        .Include(wl => wl.Phone)
         .Where(wl => wl.UserId == userId)
         .ToListAsync();
         }
@@ -38,7 +37,7 @@ namespace DoAnMonHoc_Backend.Repository
         public async Task<IEnumerable<WishList>> GetWishLists()
         {
             return await _context.WishLists.Include(wl => wl.User)
-                .Include(wl => wl.Product).ToListAsync();
+                .Include(wl => wl.Phone).ToListAsync();
         }
 
         public async Task<IActionResult> UpdateWishList(WishList wishList)

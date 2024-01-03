@@ -19,14 +19,14 @@ import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getAProduct } from '../features/products/productSlice';
+import { GetAPhone } from '../features/phone/phoneSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
 import { Helmet } from 'react-helmet';
 
 const PhoneDetail = () => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(true);
-    const productState = useSelector(state => state?.product?.product);
+    const productState = useSelector(state => state?.phone?.APhone);
     const authState = useSelector(state => state?.auth?.user?.userDto);
     const [uniqueCapacities, setUniqueCapacities] = useState([]);
     const [uniqueColor, setUniqueColor] = useState([]);
@@ -34,7 +34,7 @@ const PhoneDetail = () => {
     const phoneId = useParams().phoneId;
     //Láy thông tin điện thoại
     useEffect(() => {
-        dispatch(getAProduct(phoneId))
+        dispatch(GetAPhone(phoneId))
             .then(() => setIsLoading(false))
             .catch(() => 'error');
         
@@ -67,13 +67,13 @@ const PhoneDetail = () => {
     }
     console.log({
         userId: authState.id,
-        productId: productState.products[0].id
+        phoneId: productState.id
     });
     //Thêm sản phẩm yêu thích
     const addWishlist = () => {
         dispatch(CreateWishList({
-            userId: authState.id,
-            productId: productState.products[0].id
+            userId: authState?.id,
+            phoneId: productState?.id
         }))
     }
 
