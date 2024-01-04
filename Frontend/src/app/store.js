@@ -7,6 +7,7 @@ import phoneReducer from '../features/phone/phoneSlice';
 import capacityReducer from '../features/capacity/capacitySlice';
 import colorReducer from '../features/color/colorSlice';
 import brandReducer from '../features/brand/brandSlice';
+import cartReducer from '../features/cart/cartSlice';
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         phone: phoneReducer,
         capacity: capacityReducer,
         color: colorReducer,
-        brand: brandReducer
+        brand: brandReducer,
+        cart: cartReducer,
     }
 })

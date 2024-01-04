@@ -71,13 +71,25 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<Cart> GetCart(int id)
         {
-            return await _context.Carts.Include(c => c.Product)
+            return await _context.Carts
+                .Include(c => c.Product)
+                .ThenInclude(p => p.Color)
+                .Include(c => c.Product)
+                .ThenInclude(p => p.Capacity)
+                .Include(c => c.Product)
+                .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(c => c.Id == id);  
         }
 
         public async Task<IEnumerable<Cart>> GetCarts(string userId)
         {
-            return await _context.Carts.Include(c => c.Product)
+            return await _context.Carts
+                .Include(c => c.Product)
+                .ThenInclude(p => p.Color)
+                .Include(c => c.Product)
+                .ThenInclude(p => p.Capacity)
+                .Include(c => c.Product)
+                .ThenInclude(p => p.Images)
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
         }
