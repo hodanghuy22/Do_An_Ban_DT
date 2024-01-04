@@ -1,38 +1,37 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import capacityService from './capacityService';
+import cartService from './cartService';
 
-export const GetCapacitiesByPhoneId = createAsyncThunk("capacity/get-capacitiesByPhoneId", async (id, thunkAPI) => {
+export const GetCart = createAsyncThunk("cart/get-carts", async (id, thunkAPI) => {
     try {
-        const capacities = await capacityService.getCapacitiesByPhoneId(id);
-        return capacities;
+        return await cartService.getCart(id);;
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
     }
 });
 
 const initialState = {
-    capacities: [],
+    carts: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: ""
 }
-export const capacitySlice = createSlice({
-    name: "capacity",
+export const cartSlice = createSlice({
+    name: "cart",
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(GetCapacitiesByPhoneId.pending, (state) => {
+            .addCase(GetCart.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(GetCapacitiesByPhoneId.fulfilled, (state, action) => {
+            .addCase(GetCart.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.capacities = action.payload;
+                state.carts = action.payload;
             })
-            .addCase(GetCapacitiesByPhoneId.rejected, (state, action) => {
+            .addCase(GetCart.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -42,4 +41,4 @@ export const capacitySlice = createSlice({
     }
 });
 
-export default capacitySlice.reducer;
+export default cartSlice.reducer;
