@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Breadcrumb } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import { AiTwotoneStar } from "react-icons/ai";
-import { RiRefund2Line } from "react-icons/ri";
-import { BsBox } from "react-icons/bs";
 import { CiCirclePlus } from "react-icons/ci";
-import { BsCartCheck } from "react-icons/bs";
 import { Container, Row, Col, Button, Table, Form } from 'react-bootstrap';
 import Footer from '../Components/Footer';
 // Import Swiper React components
@@ -60,9 +57,7 @@ const PhoneDetail = () => {
         }
     }, [phoneState]);
     useEffect(() => {
-        console.log(AProduct);
         dispatch(GetProductForUser(AProduct))
-        console.log(productState);
     }, [AProduct]);
 
     const handleColorSelection = (colorId) => {
@@ -99,6 +94,7 @@ const PhoneDetail = () => {
             phoneId: phoneState?.id
         }))
     }
+    
 
     const formatNumber = (number) => {
         const formatter = new Intl.NumberFormat('vi-VN');
@@ -187,19 +183,7 @@ const PhoneDetail = () => {
                                 </SwiperSlide>
                             </Swiper>
 
-                            {/* Bảo hành */}
-                            <Container className='mt-5 bg-light '>
-                                <Row className='detail-boder p-4'>
-                                    <Col xl={6} md={6} sm={6} className='p-2'>
-                                        <span><RiRefund2Line style={{ fontSize: '32px', padding: '4px', color: 'blue' }} /> Hư gì đổi nấy <strong>12 tháng</strong> tại 3300 siêu thị toàn quốc (miễn phí tháng đầu)</span>
-                                    </Col>
-
-                                    <Col xl={6} md={6} sm={6} className='p-2'>
-                                        <span><BsBox style={{ fontSize: '32px', padding: '4px', color: 'blue' }} /> Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Lightning - Type </span>
-                                    </Col>
-                                </Row>
-
-                            </Container>
+                       
                             {/* Ảnh thông tin điện thoại */}
                             <Container className='bg-light '>
                                 <Row >
@@ -327,80 +311,7 @@ const PhoneDetail = () => {
                                                         </Row>
                                                     </Form>
                                                 </div>
-                                                <div className='pt-4'>
-                                                    <div className='d-flex items-start justify-start '>
-                                                        <div className='avatar overflow-hidden'>
-                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasdasd' />
-                                                        </div>
-                                                        <div className='flex-column items-start justify-start pl-2 w-11/12'>
-                                                            <div className='d-flex items-center'>
-
-                                                                <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
-                                                            </div>
-                                                            <div class="d-flex items-center">
-                                                                <p class="text-ddv font-bold text-16">
-                                                                    <span class="text-16 mx-2 text-black font-normal">Có loại Ram 6gb chưa e?</span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='d-flex items-start justify-start  '>
-                                                        <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='adasdasdas' />
-                                                        </div>
-                                                        <div className='flex-column items-start justify-start px-3 w-11/12'>
-                                                            <div class="d-flex items-center">
-                                                                <p class="text-ddv font-bold text-16 mt-1" >
-                                                                    Di Động Việt xin chào Anh Hải ạ !<br />
-                                                                    Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram 4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ 3.790.000.<br />
-                                                                    Ưu đãi khi mua cùng máy<br />
-                                                                    Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo bảng giá hôm nay tại đây)<br />
-                                                                    Tặng thêm voucher 100.000đ cho khách hàng mới<br />
-                                                                    Giảm thêm 5%, tối đa 500.000đ cho Tài xế công nghệ<br />
-                                                                    Tặng thêm đến 2.000.000đ khi thu cũ đổi mới (tùy model máy cũ)<br />
-                                                                    Để được tư vấn chi tiết hơn, Anh vui lòng liên hệ tổng đài 1800 6018 (miễn phí). Trân trọng !
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className='pt-4'>
-                                                    <div className='d-flex items-start justify-start '>
-                                                        <div className='avatar overflow-hidden'>
-                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasdsad' />
-                                                        </div>
-                                                        <div className='flex-column items-start justify-start pl-2 w-11/12'>
-                                                            <div className='d-flex items-center'>
-
-                                                                <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
-                                                            </div>
-                                                            <div class="d-flex items-center">
-                                                                <p class="text-ddv font-bold text-16">
-                                                                    <span class="text-16 mx-2 text-black font-normal">Có loại Ram 6gb chưa e?</span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='d-flex items-start justify-start  '>
-                                                        <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
-                                                        </div>
-                                                        <div className='flex-column items-start justify-start px-3 w-11/12'>
-                                                            <div class="d-flex items-center">
-                                                                <p class="text-ddv font-bold text-16 mt-1" >
-                                                                    Di Động Việt xin chào Anh Hải ạ !<br />
-                                                                    Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram 4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ 3.790.000.<br />
-                                                                    Ưu đãi khi mua cùng máy<br />
-                                                                    Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo bảng giá hôm nay tại đây)<br />
-                                                                    Tặng thêm voucher 100.000đ cho khách hàng mới<br />
-                                                                    Giảm thêm 5%, tối đa 500.000đ cho Tài xế công nghệ<br />
-                                                                    Tặng thêm đến 2.000.000đ khi thu cũ đổi mới (tùy model máy cũ)<br />
-                                                                    Để được tư vấn chi tiết hơn, Anh vui lòng liên hệ tổng đài 1800 6018 (miễn phí). Trân trọng !
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                               
                                                 <div className='pt-4'>
                                                     <div className='d-flex items-start justify-start '>
                                                         <div className='avatar overflow-hidden'>
@@ -438,43 +349,7 @@ const PhoneDetail = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className='pt-4'>
-                                                    <div className='d-flex items-start justify-start '>
-                                                        <div className='avatar overflow-hidden'>
-                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
-                                                        </div>
-                                                        <div className='flex-column items-start justify-start pl-2 w-11/12'>
-                                                            <div className='d-flex items-center'>
-
-                                                                <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
-                                                            </div>
-                                                            <div class="d-flex items-center">
-                                                                <p class="text-ddv font-bold text-16">
-                                                                    <span class="text-16 mx-2 text-black font-normal">Có loại Ram 6gb chưa e?</span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='d-flex items-start justify-start  '>
-                                                        <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='zxcz' />
-                                                        </div>
-                                                        <div className='flex-column items-start justify-start px-3 w-11/12'>
-                                                            <div class="d-flex items-center">
-                                                                <p class="text-ddv font-bold text-16 mt-1" >
-                                                                    Di Động Việt xin chào Anh Hải ạ !<br />
-                                                                    Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram 4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ 3.790.000.<br />
-                                                                    Ưu đãi khi mua cùng máy<br />
-                                                                    Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo bảng giá hôm nay tại đây)<br />
-                                                                    Tặng thêm voucher 100.000đ cho khách hàng mới<br />
-                                                                    Giảm thêm 5%, tối đa 500.000đ cho Tài xế công nghệ<br />
-                                                                    Tặng thêm đến 2.000.000đ khi thu cũ đổi mới (tùy model máy cũ)<br />
-                                                                    Để được tư vấn chi tiết hơn, Anh vui lòng liên hệ tổng đài 1800 6018 (miễn phí). Trân trọng !
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                               
 
                                             </div>
                                         </div>
@@ -542,12 +417,8 @@ const PhoneDetail = () => {
                                             </div>
                                             <div className='w-100'>
                                                 <div>
-                                                    <Button variant="danger" className='' style={{ width: '73%', margin: '1%' }}>MUA NGAY GIÁ RẺ QUÁ </Button>
-                                                    <Button variant="danger" className='' style={{ width: '23%', margin: '1%' }}><BsCartCheck style={{ fontSize: '25px' }} /></Button>
-
+                                                    <Button variant="danger" className='w-100' >MUA NGAY</Button>
                                                 </div>
-                                                <Button variant='primary' style={{ width: '48%', margin: '1%' }} className=' mt-1  '>MUA TRẢ GÓP</Button>
-                                                <Button variant='primary' style={{ width: '48%', margin: '1%' }} className=' mt-1 '>TRẢ GÓP QUA THẺ</Button>
                                             </div>
                                         </div>
                                     </Col>

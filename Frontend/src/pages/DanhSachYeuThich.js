@@ -13,6 +13,7 @@ const DanhSachYeuThich = () => {
     useEffect(() => {
         dispatch(getWishlist(authState.id));
     }, [dispatch, authState.id]);
+    
     const formatNumber = (number) => {
         const formatter = new Intl.NumberFormat('vi-VN');
         return formatter.format(number);

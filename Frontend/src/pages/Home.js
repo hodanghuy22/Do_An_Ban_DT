@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Nav, Row } from 'react-bootstrap';
+import { Button, Container, Nav, Row } from 'react-bootstrap';
 import Footer from '../Components/Footer';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +8,8 @@ import { Helmet } from 'react-helmet';
 import SliderShow from '../Components/SliderShow';
 import { GetPhones } from '../features/phone/phoneSlice';
 import { getBrand } from '../features/brand/brandSlice';
+//Icon
+import { FaCaretDown } from "react-icons/fa";
 
 function Home() {
     const dispatch = useDispatch();
@@ -17,6 +19,8 @@ function Home() {
     const [products, setProducts] = useState([]);
     const productbrand = useSelector(state => state?.product?.productbrand);
     const [isLoading, setIsLoading] = useState(true);
+    const [visibleProducts, setVisibleProducts] = useState(20); // Số lượng sản phẩm được hiển thị ban đầu
+
     useEffect(() => {
         dispatch(GetPhones());
         dispatch(getBrand())
@@ -53,6 +57,12 @@ function Home() {
         const formatter = new Intl.NumberFormat('vi-VN');
         return formatter.format(number);
     };
+    //Xem thêm Panigation
+    const productsPerPage = 20; 
+    const handleLoadMore = () => {
+        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + productsPerPage);
+    };
+    const remainingProducts = products?.length - visibleProducts;
     return (
         <>
             <Helmet>
@@ -80,9 +90,9 @@ function Home() {
                 <Container className='mt-3'>
                     <Row>
                         {isProductStateReady ? (
-                            products && products?.map((item, index) => {
+                            products && products.slice(0, visibleProducts).map((item, index) => {
                                 return (
-                                    <div className=' w-item' key={index} >
+                                    <div className=' w-item' key={index}>
                                         <Link to={`/dtdd/${item?.id}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
                                             <div className='p-3'>
                                                 <img className='card-image' width={"100%"} src={item?.fileHinh} alt='iphone15promax' />
@@ -105,12 +115,21 @@ function Home() {
                                     </div>
                                 )
                             })
-                        ) : (<div className='w-100 d-flex justify-content-center' style={{ height: '300px' }}>
-                            <div className="spinner"></div>
-                        </div>
+                        ) : (
+                            <div className='w-100 d-flex justify-content-center' style={{ height: '300px' }}>
+                                <div className="spinner"></div>
+                            </div>
                         )}
                     </Row>
+                    {visibleProducts < products?.length && (
+                        <div className="text-center mt-3">
+                            <Button variant="primary" style={{width:'30%'}} onClick={handleLoadMore}>
+                                Xem thêm {remainingProducts} Điện thoại <FaCaretDown />
+                            </Button>
+                        </div>
+                    )}
                 </Container>
+               
             </div>
 
             <footer className='m-auto' style={{ width: 1200 }}>
