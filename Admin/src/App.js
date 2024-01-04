@@ -25,6 +25,7 @@ import PhoneList from './pages/PhoneList';
 import AddProduct from './pages/AddProduct';
 import SlideShows from './pages/SlideShows';
 import AddSlideShow from './pages/AddSlideShow';
+import InvoiceDetails from './pages/InvoiceDetails';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path='comment' element={<Comment />} />
           <Route path='invoice' element={<Invoice />} />
+          <Route path='invoiceDetails/:id' element={<InvoiceDetails />} />
           <Route path='coupon-list' element={<CouponList />} />
           <Route path='customer-list' element={<CustomerList />} />
           <Route path='add-product' element={<AddProduct />} />

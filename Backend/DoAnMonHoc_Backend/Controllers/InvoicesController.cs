@@ -23,6 +23,15 @@ namespace DoAnMonHoc_Backend.Controllers
             var invoices = await _uow.InvoiceRepository.GetInvoices(userId);
             return Ok(invoices);
         }
+
+        [HttpGet]
+        [Route("GetAInvoice/{id}")]
+        public async Task<IActionResult> GetAInvoice(int id)
+        {
+            var invoices = await _uow.InvoiceRepository.GetInvoice(id);
+            return Ok(invoices);
+        }
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetInvoicesForAdmin()
@@ -71,6 +80,13 @@ namespace DoAnMonHoc_Backend.Controllers
             return await _uow.InvoiceRepository.UpdateInvoice(invoice);
         }
         [HttpPut]
+        [Route("UpdateStatusInvoice/{id}/{status}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateStatusInvoice(int id, string status)
+        {
+            return await _uow.InvoiceRepository.UpdateStatusInvoice(id,status);
+        }
+        [HttpDelete]
         [Route("DeleteInvoice/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteInvoice(int id)

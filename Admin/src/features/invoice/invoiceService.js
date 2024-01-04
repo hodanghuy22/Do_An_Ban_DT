@@ -8,8 +8,24 @@ const getInvoices = async()=>{
     }
 }
 
+const getAInvoice = async(id)=>{
+    const response = await axios.get(`${base_url}Invoices/GetAInvoice/${id}`,config);
+    if(response.data){
+        return response.data;
+    }
+}
+
+const updateStatusInvoice = async(data)=>{
+    const response = await axios.put(`${base_url}Invoices/UpdateStatusInvoice/${data.id}/${data.status}`, "",config);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const invoiceService = {
-    getInvoices
+    getInvoices,
+    updateStatusInvoice,
+    getAInvoice,
 };
 
 export default invoiceService;

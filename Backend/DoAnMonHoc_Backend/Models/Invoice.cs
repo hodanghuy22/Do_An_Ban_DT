@@ -15,7 +15,7 @@ namespace DoAnMonHoc_Backend.Models
         public int TotalPriceAfterDiscount { get; set; }
         public int CouponId { get; set; }
         public Coupon Coupon { get; set; }
-        public string OrderStatus { get; set; } = "Chua Xu Ly";
+        public string OrderStatus { get; set; } = "HDM";
         public List<InvoiceDetail> InvoiceDetails { get; set; }
     }
 }

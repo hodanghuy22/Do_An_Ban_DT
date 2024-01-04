@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetInvoices } from '../features/invoice/invoiceSlice';
+import { GetInvoices, UpdateStatusInvoice, resetState } from '../features/invoice/invoiceSlice';
+import { BiEdit } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
 const columns = [
     {
@@ -36,6 +38,10 @@ const columns = [
         title: 'OrderStatus',
         dataIndex: 'orderStatus',
     },
+    {
+        title: 'Action',
+        dataIndex: 'action',
+    },
 ];
 
 const Invoice = () => {
@@ -54,9 +60,25 @@ const Invoice = () => {
             totalPrice: invoiceState[i].totalPrice,
             totalPriceAfterDiscount: invoiceState[i].totalPriceAfterDiscount,
             couponTitle: invoiceState[i].coupon?.title,
-            orderStatus: invoiceState[i].orderStatus,
+            orderStatus: (<>
+                <select defaultValue={invoiceState[i]?.orderStatus}
+                    onClick={(e)=> UpdateStatus(invoiceState[i]?.id,e.target.value)}
+                    name="" className='form-control form-select'> 
+                  <option value="HDM" disabled selected>Hóa Đơn Mới</option>
+                  <option value="DXL">Đang Xử Lý</option>
+                  <option value="DG">Đang Giao</option>
+                  <option value="HT">Hoàn Thành</option>
+                </select>
+              </>),
+            action: (<Link className='fs-3 text-info' to={`/admin/invoiceDetails/${invoiceState[i].id}`}><BiEdit /></Link>)
         });
     }
+
+    const UpdateStatus = (a,b)=>
+    {
+        dispatch(UpdateStatusInvoice({id:a, status:b}))
+    }
+
     return (
 
         <div>

@@ -1,4 +1,5 @@
 ﻿using DoAnMonHoc_Backend.Data;
+using DoAnMonHoc_Backend.Dto;
 using DoAnMonHoc_Backend.Interfaces;
 using DoAnMonHoc_Backend.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +30,16 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<Invoice> GetInvoice(int id)
         {
-            return await _context.Invoices.Include(i => i.Coupon)
-                .Include(i => i.InvoiceDetails)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Invoices
+                    .Include(i => i.User)
+                    .Include(i => i.Coupon)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Color)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Capacity)
+                    .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<IEnumerable<Invoice>> GetInvoices(string userID)
@@ -54,6 +62,7 @@ namespace DoAnMonHoc_Backend.Repository
         {
             return await _context.Invoices.Include(i => i.Coupon)
                 .Include(i => i.User)
+                .Include(i => i.InvoiceDetails)
                .ToListAsync();
         }
 
@@ -81,6 +90,21 @@ namespace DoAnMonHoc_Backend.Repository
                 }
             }
             return new OkResult();
+        }
+
+        public async Task<IActionResult> UpdateStatusInvoice(int id, string status)
+        {
+            var invoice = await _context.Invoices.FindAsync(id);
+            if (invoice != null)
+            {
+                invoice.OrderStatus = status;
+                var rs = await _context.SaveChangesAsync();
+                if(rs > 0)
+                {
+                    return new OkResult();
+                }
+            }
+            return new BadRequestResult();
         }
     }
 }

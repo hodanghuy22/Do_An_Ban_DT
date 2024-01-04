@@ -11,6 +11,7 @@ namespace DoAnMonHoc_Backend.Interfaces
         Task<Invoice> GetInvoice(int id);
         Task<bool> InvoiceExist(int id);
         Task<IActionResult> UpdateInvoice(Invoice invoice);
+        Task<IActionResult> UpdateStatusInvoice(int id, string status);
         Task DeleteInvoice(int id);
     }
 }
