@@ -63,7 +63,7 @@ const InvoiceDetails = () => {
         data1.push({
             id: invoiceState?.invoiceDetails[i]?.id,
             productId: invoiceState?.invoiceDetails[i]?.productId,
-            name: "",
+            name: invoiceState?.invoiceDetails[i]?.product?.phone?.name,
             price: invoiceState?.invoiceDetails[i]?.product?.price,
             quantity: invoiceState?.invoiceDetails[i]?.quantity,
             totalPrice: invoiceState?.invoiceDetails[i]?.totalPrice,

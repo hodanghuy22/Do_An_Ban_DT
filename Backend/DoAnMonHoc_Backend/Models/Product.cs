@@ -10,7 +10,7 @@ namespace DoAnMonHoc_Backend.Models
         public int SoldQuantity { get; set; }
         public int AverageRating { get; set; }
         public int PhoneId { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public Phone Phone { get; set; }
         public int CapacityId { get; set; }
         public Capacity Capacity { get; set; }

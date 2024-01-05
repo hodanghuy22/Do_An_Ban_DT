@@ -39,6 +39,9 @@ namespace DoAnMonHoc_Backend.Repository
                     .Include(i => i.InvoiceDetails)
                         .ThenInclude(i => i.Product)
                             .ThenInclude(p => p.Capacity)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Phone)
                     .FirstOrDefaultAsync(c => c.Id == id);
         }
 
