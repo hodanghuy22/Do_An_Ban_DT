@@ -15,6 +15,13 @@ const addCart = async (cartData) => {
     }
 }
 
+const updateCart = async (cartData) => {
+    const response = await axios.put(`${base_url}Carts/${cartData.id}`, cartData, config)
+    if (response.data) {
+        return response.data;
+    }
+}
+
 const deleteCart = async (id) => {
     const response = await axios.delete(`${base_url}Carts/${id}`, config)
     if (response.data) {
@@ -26,6 +33,7 @@ const cartService = {
     getCart,
     addCart,
     deleteCart,
+    updateCart,
 }
 
 export default cartService

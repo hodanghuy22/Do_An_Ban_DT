@@ -4,15 +4,28 @@ import { Helmet } from 'react-helmet';
 import { BsCartXFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { DeleteCart, GetCart, resetState } from '../features/cart/cartSlice';
+import { DeleteCart, GetCart, UpdateCart, resetState } from '../features/cart/cartSlice';
 const Cart = () => {
     const dispatch = useDispatch()
     const userState = useSelector(state => state?.auth?.user?.userDto)
     const cartState = useSelector(state => state?.cart?.carts)
+    const [productUpdateDetails, setProductUpdateDetails] = useState(null);
     const [sum, setSum] = useState();
+
     useEffect(() => {
         dispatch(GetCart(userState?.id))
     }, [])
+
+    useEffect(()=>{
+        if(productUpdateDetails!==null){
+            console.log(productUpdateDetails);
+            dispatch(UpdateCart({id: productUpdateDetails?.id,userId: productUpdateDetails?.userId,productId: productUpdateDetails?.productId, quantity: productUpdateDetails?.quantity}))
+            setTimeout(() => {
+                dispatch(GetCart(userState?.id))
+            }, 300);
+        }
+    },[productUpdateDetails])
+
     useEffect(() => {
         let dem = 0
         for (let i = 0; i < cartState.length; i++) {
@@ -20,6 +33,7 @@ const Cart = () => {
         }
         setSum(dem)
     }, [cartState])
+
     const deleteAProductCart = (e) => {
         dispatch(DeleteCart(e))
         setTimeout(() => {
@@ -44,7 +58,7 @@ const Cart = () => {
             {/* Có sản phẩm */}
             {
                 cartState && (
-                    <div className='d-flex justify-content-center w-50 m-auto py-5'>
+                    <div className='d-flex justify-content-center w-75 m-auto py-5'>
                         <Container>
                             {
                                 cartState.map((item, index) => {
@@ -59,24 +73,28 @@ const Cart = () => {
                                                     Xóa
                                                 </Button>
                                             </Col>
-                                            <Col xl={7} md={7} sm={7}>
+                                            <Col xl={5} md={5} sm={5}>
                                                 <h5>Đồng hồ thông minh BeFit Watch Ultra S 52.1mm</h5>
                                                 <span>Nhập mã MMSALE100 giảm ngay 1% tối đa 100.000đ khi thanh toán qua MOMO (Xem chi tiết tại đây)</span>
                                                 <span>Màu: {item?.product?.color?.colorName}</span>
                                             </Col>
-                                            <Col xl={3} md={3} sm={3} className='text-right'>
-
-                                                <p className='text-danger'>{item?.product?.price}đ</p>
+                                            <Col xl={2} md={2} sm={2}>
                                                 <InputGroup>
-                                                    <Button variant="outline-secondary">-</Button>
+                                                    {/* <Button variant="outline-secondary">-</Button> */}
                                                     <FormControl
                                                         type="number"
                                                         value={item?.quantity}
-                                                        // onChange={handleInputChange}
+                                                        onChange={(e)=>setProductUpdateDetails({id: item?.id,userId: item?.userId,productId: item?.productId, quantity: e.target.value})}
                                                         min={1}
                                                     />
-                                                    <Button variant="outline-secondary">+</Button>
+                                                    {/* <Button variant="outline-secondary">+</Button> */}
                                                 </InputGroup>
+                                            </Col>
+                                            <Col xl={3} md={3} sm={3} className='text-right'>
+
+                                                <p className='text-danger'>Đơn giá: {item?.product?.price}đ</p>
+                                                <p className='text-danger'>Tổng tiền: {item?.product?.price * item?.quantity}đ</p>
+                                                
                                             </Col>
                                         </Row>
                                     )
