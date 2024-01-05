@@ -8,6 +8,7 @@ import capacityReducer from '../features/capacity/capacitySlice';
 import colorReducer from '../features/color/colorSlice';
 import brandReducer from '../features/brand/brandSlice';
 import cartReducer from '../features/cart/cartSlice';
+import commentReducer from '../features/comment/commentSlice';
 
 export const store = configureStore({
     reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
         color: colorReducer,
         brand: brandReducer,
         cart: cartReducer,
+        comment: commentReducer,
     }
 })

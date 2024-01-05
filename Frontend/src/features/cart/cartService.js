@@ -8,9 +8,17 @@ const getCart = async (id) => {
     }
 }
 
+const addCart = async (cartData) => {
+    const response = await axios.post(`${base_url}Carts`, cartData, config)
+    if (response.data) {
+        return response.data;
+    }
+}
+
 
 const cartService = {
     getCart,
+    addCart,
 }
 
 export default cartService

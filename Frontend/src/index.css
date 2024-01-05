@@ -60,6 +60,10 @@ body {
   font-weight: bold;
   font-family: sans-serif;
 }
+.border-primary-3{
+  border: 3px solid #007bff ;
+  color: #007bff;
+}
 .amount::after {
   content: " đ";
 }

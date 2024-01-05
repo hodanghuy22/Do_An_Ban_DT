@@ -22,6 +22,7 @@ import { Helmet } from 'react-helmet';
 import { GetCapacitiesByPhoneId } from '../features/capacity/capacitySlice';
 import { GetColorsByPhoneId } from '../features/color/colorSlice';
 import { GetProductForUser } from '../features/products/productSlice';
+import { AddCart } from '../features/cart/cartSlice';
 
 const PhoneDetail = () => {
     const dispatch = useDispatch();
@@ -32,7 +33,8 @@ const PhoneDetail = () => {
     const capacityState = useSelector(state => state?.capacity?.capacities);
     const colorState = useSelector(state => state?.color?.colors);
     const phoneId = useParams().phoneId;
-
+    const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
+    const [activeButtonColor, setActiveButtonColor] = useState(null);
 
     useEffect(() => {
         dispatch(GetAPhone(phoneId))
@@ -65,7 +67,7 @@ const PhoneDetail = () => {
             ...prevState,
             colorId: colorId
         }));
-
+        setActiveButtonColor(colorId);
     };
 
     const handleCapacitySelection = (capacityId) => {
@@ -73,10 +75,10 @@ const PhoneDetail = () => {
             ...prevState,
             capacityId: capacityId
         }));
-        
+        setActiveButtonCapacity(capacityId);
     };
 
-   
+
     if (isLoading) {
         return <div className='w-100 d-flex justify-content-center' style={{ height: '300px' }}>
             <div className="spinner"></div>
@@ -91,10 +93,18 @@ const PhoneDetail = () => {
     const addWishlist = () => {
         dispatch(CreateWishList({
             userId: authState?.id,
-            phoneId: phoneState?.id
+            phoneId: phoneState?.id,
         }))
     }
-    
+
+    const addCart = () => {
+        dispatch(AddCart({
+            userId: authState?.id,
+            productId: productState?.id,
+            quantity: 1
+        }))
+    }
+
 
     const formatNumber = (number) => {
         const formatter = new Intl.NumberFormat('vi-VN');
@@ -117,8 +127,7 @@ const PhoneDetail = () => {
                 </Breadcrumb>
                 <Container className='pl-0 ml-0'>
                     <h5 style={{ display: 'inline-block' }}>Điện thoại {phoneState.name} </h5>
-                    <Link style={{ color: 'yellow' }}><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /><AiTwotoneStar /></Link>
-                    <span>171 đánh giá</span>
+                    <span className=' ml-3 text-primary'>171 đánh giá</span>
                     <Link className='ml-3' onClick={addWishlist}>
                         <div className="heart heart1">
                             <svg width="1em" height="1em" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -183,7 +192,7 @@ const PhoneDetail = () => {
                                 </SwiperSlide>
                             </Swiper>
 
-                       
+
                             {/* Ảnh thông tin điện thoại */}
                             <Container className='bg-light '>
                                 <Row >
@@ -266,7 +275,7 @@ const PhoneDetail = () => {
                                                 <div className='mb-5'>
                                                     <Form>
                                                         <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
-                                                            <Col md={7} className="w-full h-full mb-3 md:mb-0">
+                                                            <Col md={10} className="w-full h-full mb-3 md:mb-0">
                                                                 <Form.Group className="mantine-InputWrapper-root mantine-Textarea-root mantine-1m3pqry">
                                                                     <Form.Control
                                                                         as="textarea"
@@ -278,27 +287,7 @@ const PhoneDetail = () => {
                                                                     />
                                                                 </Form.Group>
                                                             </Col>
-                                                            <Col md={5} className="w-full flex flex-col md:px-2">
-                                                                <Form.Group className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry">
-                                                                    <Form.Control
-                                                                        type="text"
-                                                                        className="rounded-lg border-neutral-300 mb-4 mantine-Input-input mantine-TextInput-input mantine-1gixdds"
-                                                                        id="mantine-r9"
-                                                                        placeholder="Họ và tên"
-                                                                        aria-invalid="false"
-                                                                        value=""
-                                                                    />
-                                                                </Form.Group>
-                                                                <Form.Group className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry">
-                                                                    <Form.Control
-                                                                        type="text"
-                                                                        className="rounded-lg border-neutral-300 mb-4 mantine-Input-input mantine-TextInput-input mantine-1gixdds"
-                                                                        id="mantine-ra"
-                                                                        placeholder="Số điện thoại"
-                                                                        aria-invalid="false"
-                                                                        value=""
-                                                                    />
-                                                                </Form.Group>
+                                                            <Col md={2} className="w-full flex flex-col md:px-2">
                                                                 <Button
                                                                     variant="primary"
                                                                     type="submit"
@@ -311,45 +300,50 @@ const PhoneDetail = () => {
                                                         </Row>
                                                     </Form>
                                                 </div>
-                                               
-                                                <div className='pt-4'>
-                                                    <div className='d-flex items-start justify-start '>
-                                                        <div className='avatar overflow-hidden'>
-                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
-                                                        </div>
-                                                        <div className='flex-column items-start justify-start pl-2 w-11/12'>
-                                                            <div className='d-flex items-center'>
+                                                {
+                                                    productState && productState?.comments?.map((item, index) => {
+                                                        return (
+                                                            <div className='pt-4'>
+                                                                <div className='d-flex items-start justify-start '>
+                                                                    <div className='avatar overflow-hidden'>
+                                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
+                                                                    </div>
+                                                                    <div className='flex-column items-start justify-start pl-2 w-11/12'>
+                                                                        <div className='d-flex items-center'>
+                                                                            <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
+                                                                        </div>
+                                                                        <div class="d-flex items-center">
+                                                                            <p class="text-ddv font-bold text-16">
+                                                                                <span class="text-16 mx-2 text-black font-normal">{item?.content}</span>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {
+                                                                    item && item?.childComments?.map(i => {
+                                                                        return (
+                                                                            <div className='d-flex items-start justify-start  '>
+                                                                                <div className='avatar overflow-hidden pr-5 ml-5'>
+                                                                                    <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
+                                                                                </div>
+                                                                                <div className='flex-column items-start justify-start px-3 w-11/12'>
+                                                                                    <div class="d-flex items-center">
+                                                                                        <p class="text-ddv font-bold text-16 mt-1" >
+                                                                                            {i?.content}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        )
+                                                                    })
+                                                                }
+                                                                
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                                
 
-                                                                <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
-                                                            </div>
-                                                            <div class="d-flex items-center">
-                                                                <p class="text-ddv font-bold text-16">
-                                                                    <span class="text-16 mx-2 text-black font-normal">Có loại Ram 6gb chưa e?</span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='d-flex items-start justify-start  '>
-                                                        <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
-                                                        </div>
-                                                        <div className='flex-column items-start justify-start px-3 w-11/12'>
-                                                            <div class="d-flex items-center">
-                                                                <p class="text-ddv font-bold text-16 mt-1" >
-                                                                    Di Động Việt xin chào Anh Hải ạ !<br />
-                                                                    Dạ sản phẩm anh quan tâm em tạm hết hiện chỉ còn ram 4gb Samsung Galaxy A05s 128GB Chính Hãng giá chỉ từ 3.790.000.<br />
-                                                                    Ưu đãi khi mua cùng máy<br />
-                                                                    Tặng PMH 200.000đ - Gía mua ngay 3.590.000đ (Tham khảo bảng giá hôm nay tại đây)<br />
-                                                                    Tặng thêm voucher 100.000đ cho khách hàng mới<br />
-                                                                    Giảm thêm 5%, tối đa 500.000đ cho Tài xế công nghệ<br />
-                                                                    Tặng thêm đến 2.000.000đ khi thu cũ đổi mới (tùy model máy cũ)<br />
-                                                                    Để được tư vấn chi tiết hơn, Anh vui lòng liên hệ tổng đài 1800 6018 (miễn phí). Trân trọng !
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                               
 
                                             </div>
                                         </div>
@@ -362,18 +356,18 @@ const PhoneDetail = () => {
                                 <Row>
                                     <Col>
                                         {
-                                            capacityState && capacityState?.map((item,index) => {
+                                            capacityState &&
+                                            capacityState.map((item, index) => {
                                                 return (
                                                     <Button
                                                         key={index}
                                                         onClick={() => handleCapacitySelection(item?.id)}
-                                                        className='ml-0 mr-2 mt-1 mb-1'
-                                                        variant="outline-primary primary"
+                                                        variant="outline-secondary secondary"
+                                                        className={`ml-0 mr-2 mt-1 mb-1 ${activeButtonCapacity === item?.id ? 'border-primary border-primary-3' : ''}`}
                                                     >
                                                         {item.totalCapacity}GB
                                                     </Button>
-
-                                                )
+                                                );
                                             })
                                         }
                                     </Col>
@@ -381,17 +375,17 @@ const PhoneDetail = () => {
                                 <Row className='mt-1'>
                                     <Col>
                                         {
-                                            colorState && colorState?.map((item,index) => {
+                                            colorState && colorState?.map((item, index) => {
                                                 return (
                                                     <Button
                                                         key={index}
                                                         onClick={() => handleColorSelection(item?.id)}
-                                                        className='ml-0 mr-2 mt-1 mb-1'
-                                                        variant="outline-primary primary"
+                                                        className={`ml-0 mr-2 mt-1 mb-1 ${activeButtonColor === item?.id ? 'border-primary border-primary-3' : ''}`}
+                                                        variant="outline-secondary secondary"
                                                     >
                                                         {item.colorName}
                                                     </Button>
-                                                    
+
                                                 )
                                             })
                                         }
@@ -417,7 +411,7 @@ const PhoneDetail = () => {
                                             </div>
                                             <div className='w-100'>
                                                 <div>
-                                                    <Button variant="danger" className='w-100' >MUA NGAY</Button>
+                                                    <Button onClick={(e) => addCart()} variant="danger" className='w-100' >MUA NGAY</Button>
                                                 </div>
                                             </div>
                                         </div>
