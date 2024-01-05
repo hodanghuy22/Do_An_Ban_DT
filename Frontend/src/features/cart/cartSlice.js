@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import cartService from './cartService';
 import { toast } from 'react-toastify';
 
@@ -17,6 +17,16 @@ export const AddCart = createAsyncThunk("cart/add-cart", async (cartData, thunkA
         return thunkAPI.rejectWithValue(err);
     }
 });
+
+export const DeleteCart = createAsyncThunk("cart/delete-cart", async (id, thunkAPI) => {
+    try {
+        return await cartService.deleteCart(id);;
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err);
+    }
+});
+
+export const resetState = createAction('Reset_all')
 
 const initialState = {
     carts: [],
@@ -67,6 +77,27 @@ export const cartSlice = createSlice({
                     toast.error(action.error.message)
                 }
             })
+            .addCase(DeleteCart.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(DeleteCart.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.deletedCart = action.payload;
+                if (state.isSuccess) {
+                    toast.success("Delete is successfully!!!")
+                }
+            })
+            .addCase(DeleteCart.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if (state.isError) {
+                    toast.error(action.error.message)
+                }
+            }).addCase(resetState, () => initialState);
 
     }
 });

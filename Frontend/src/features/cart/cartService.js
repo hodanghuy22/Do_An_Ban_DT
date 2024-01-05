@@ -15,10 +15,17 @@ const addCart = async (cartData) => {
     }
 }
 
+const deleteCart = async (id) => {
+    const response = await axios.delete(`${base_url}Carts/${id}`, config)
+    if (response.data) {
+        return response.data;
+    }
+}
 
 const cartService = {
     getCart,
     addCart,
+    deleteCart,
 }
 
 export default cartService

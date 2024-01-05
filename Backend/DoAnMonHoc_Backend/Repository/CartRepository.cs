@@ -23,6 +23,12 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<IActionResult> CreateCart(Cart cart)
         {
+            var checkCart = await _context.Carts
+                .FirstOrDefaultAsync(c => c.UserId == cart.UserId && c.ProductId == cart.ProductId);
+            if(checkCart != null)
+            {
+                return new BadRequestResult();
+            }
             if(cart.Quantity <= 0)
             {
                 return new BadRequestObjectResult("So luong phai >= 0!!!");

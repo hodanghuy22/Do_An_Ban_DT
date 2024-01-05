@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { BsCartXFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { GetCart } from '../features/cart/cartSlice';
+import { DeleteCart, GetCart, resetState } from '../features/cart/cartSlice';
 const Cart = () => {
     const dispatch = useDispatch()
     const userState = useSelector(state => state?.auth?.user?.userDto)
@@ -20,6 +20,12 @@ const Cart = () => {
         }
         setSum(dem)
     }, [cartState])
+    const deleteAProductCart = (e) => {
+        dispatch(DeleteCart(e))
+        setTimeout(() => {
+            dispatch(GetCart(userState?.id))
+        }, 300)
+    }
     return (
         <>
             <Helmet>
@@ -46,7 +52,7 @@ const Cart = () => {
                                         <Row key={index} className=' pb-2 mb-4  border-bottom border-info'>
                                             <Col xl={2} md={2} sm={2} className='p-2'>
                                                 <Image src={item?.product?.images ? item?.product?.images[0]?.url : "https://bit.ly/3ul4poY"} width={'75px'} />
-                                                <Button variant=''>
+                                                <Button onClick={() => deleteAProductCart(item?.id)} variant=''>
                                                     <span className='rounded-circle border p-1 bg-secondary mr-1'>
                                                         <strong>X</strong>
                                                     </span>
