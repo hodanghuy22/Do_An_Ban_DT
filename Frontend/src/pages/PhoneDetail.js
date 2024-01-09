@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb } from 'antd';
 import { Link, useParams } from 'react-router-dom';
-import { AiTwotoneStar } from "react-icons/ai";
 import { CiCirclePlus } from "react-icons/ci";
 import { Container, Row, Col, Button, Table, Form } from 'react-bootstrap';
 import Footer from '../Components/Footer';
@@ -14,7 +13,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-
 import { useDispatch, useSelector } from 'react-redux'
 import { GetAPhone } from '../features/phone/phoneSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
@@ -23,6 +21,15 @@ import { GetCapacitiesByPhoneId } from '../features/capacity/capacitySlice';
 import { GetColorsByPhoneId } from '../features/color/colorSlice';
 import { GetProductForUser } from '../features/products/productSlice';
 import { AddCart } from '../features/cart/cartSlice';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { CreateComment } from '../features/comment/commentSlice';
+
+const commentSchema = yup.object({
+    content: yup.string().required("Content is required!"),
+    hinhPublicId:  yup.string(),
+    fileHinh:  yup.string(),
+  });
 
 const PhoneDetail = () => {
     const dispatch = useDispatch();
@@ -35,6 +42,22 @@ const PhoneDetail = () => {
     const phoneId = useParams().phoneId;
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
+
+    const formik = useFormik({
+        initialValues: {
+            content: '',
+            hinhPublicId: '',
+            fileHinh: '',
+            userId: authState?.id || "",
+            productId: productState?.id || "",
+            commentId: ""
+        },
+        validationSchema: commentSchema,
+        onSubmit: values => {
+            console.log(values);
+            dispatch(CreateComment(values));
+        },
+      });
 
     useEffect(() => {
         dispatch(GetAPhone(phoneId))
@@ -61,6 +84,11 @@ const PhoneDetail = () => {
     useEffect(() => {
         dispatch(GetProductForUser(AProduct))
     }, [AProduct]);
+
+    useEffect(() => {
+        formik.setFieldValue("productId", productState?.id);
+
+    },[AProduct])
 
     const handleColorSelection = (colorId) => {
         setAProduct(prevState => ({
@@ -293,7 +321,7 @@ const PhoneDetail = () => {
                                             <div className='flex-column'>
                                                 <h4 className='text-danger font-weight-bold p-0'>Bình luận</h4>
                                                 <div className='mb-5'>
-                                                    <Form>
+                                                    <Form onClick={formik.handleSubmit}>
                                                         <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
                                                             <Col md={10} className="w-full h-full mb-3 md:mb-0">
                                                                 <Form.Group className="mantine-InputWrapper-root mantine-Textarea-root mantine-1m3pqry">
@@ -304,7 +332,15 @@ const PhoneDetail = () => {
                                                                         placeholder="Nhận xét về sản phẩm"
                                                                         rows="6"
                                                                         aria-invalid="false"
+                                                                        value={formik.values.content}
+                                                                        onChange={formik.handleChange('content')}
+                                                                        onBlur={formik.handleBlur('content')}
                                                                     />
+                                                                    <div className='error'>
+                                                                    {
+                                                                        formik.touched.content && formik.errors.content
+                                                                    }
+                                                                    </div>
                                                                 </Form.Group>
                                                             </Col>
                                                             <Col md={2} className="w-full flex flex-col md:px-2">

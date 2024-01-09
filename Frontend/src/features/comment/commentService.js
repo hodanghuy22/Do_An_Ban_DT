@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { base_url } from '../../utils/axiosConfigure';
+import { base_url, config } from '../../utils/axiosConfigure';
 
 const GetCommentByProId = async (id) => {
     const response = await axios.get(`${base_url}Comments/GetComments/${id}`)
@@ -8,9 +8,16 @@ const GetCommentByProId = async (id) => {
     }
 }
 
+const createComment = async (data) => {
+    const response = await axios.post(`${base_url}Comments`, data, config)
+    if (response.data) {
+        return response.data;
+    }
+}
 
 const commentService = {
     GetCommentByProId,
+    createComment,
 }
 
 export default commentService
