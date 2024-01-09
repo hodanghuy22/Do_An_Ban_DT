@@ -5,7 +5,7 @@ namespace DoAnMonHoc_Backend.Interfaces
 {
     public interface IRatingRepository
     {
-        Task CreateRating(Rating rating);
+        Task<IActionResult> CreateRating(Rating rating);
         Task<IEnumerable<Rating>> GetRatings(int productId);
         Task<Rating> GetRating(int id);
         Task<bool> RatingExist(int id);

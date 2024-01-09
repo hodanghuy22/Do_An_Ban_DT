@@ -64,7 +64,7 @@ namespace DoAnMonHoc_Backend.Repository
                     .FirstOrDefaultAsync(P => P.PhoneId == phoneId && P.ColorId == colorId && P.CapacityId == capacityId);
         }
 
-        public async Task<ProductDto> GetProduct(int id)
+        public async Task<Product> GetProduct(int id)
         {
             return await _context.Products
                         .Include(p => p.Capacity)
@@ -73,35 +73,6 @@ namespace DoAnMonHoc_Backend.Repository
                         .Include(p => p.Comments)
                         .Include(p => p.Ratings)
                         .Include(p => p.Phone)
-                        .Select(p => new ProductDto
-                        {
-                            Id = p.Id,
-                            Price = p.Price,
-                            Quantity = p.Quantity,
-                            Status = p.Status,
-                            Images = p.Images,
-                            CapacityId = p.CapacityId,
-                            ColorId = p.ColorId,
-                            PhoneId = p.PhoneId,
-                            AverageRating = p.AverageRating,
-                            SoldQuantity = p.SoldQuantity,
-                            Phone = new Phone
-                            {
-                                Id = p.Phone.Id,
-                                Name = p.Phone.Name,
-                                ROM = p.Phone.ROM
-                            },
-                            Capacity = new Capacity
-                            {
-                                Id = p.Capacity.Id,
-                                TotalCapacity = p.Capacity.TotalCapacity,
-                            },
-                            Color = new Color
-                            {
-                                Id = p.Color.Id,
-                                ColorName = p.Color.ColorName
-                            }
-                        })
                         .FirstOrDefaultAsync(p => p.Id == id);
         }
 

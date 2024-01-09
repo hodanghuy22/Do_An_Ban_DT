@@ -13,9 +13,23 @@ namespace DoAnMonHoc_Backend.Repository
         {
             _context = context;
         }
-        public async Task CreateRating(Rating rating)
+        public async Task<IActionResult> CreateRating(Rating rating)
         {
+            var check = await _context.Ratings
+                .FirstOrDefaultAsync(r => r.UserId == rating.UserId && r.ProductId == rating.ProductId);
+            if(check != null)
+            {
+                return new BadRequestResult();
+            }
+            var product = await _context.Products.FindAsync(rating.ProductId);
+            product.AverageRating = (int) (product.AverageRating + rating.Star)/2;
             await _context.Ratings.AddAsync(rating);
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                return new OkResult();
+            }
+            return new BadRequestObjectResult("Something went wrong!!!");
         }
 
         public async Task DeleteRating(int id)

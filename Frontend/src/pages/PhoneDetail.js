@@ -225,42 +225,62 @@ const PhoneDetail = () => {
                                             <Button className='bg-light ml-2 text-info '>2 sao</Button>
                                             <Button className='bg-light ml-2 text-info '>1 sao</Button>
                                         </div>
-                                        <div className='mt-4'>
-                                            <div className='d-flex items-start justify-start '>
-                                                <div className='avatar overflow-hidden'>
-                                                    <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='zxczcxzxc' />
-                                                </div>
-                                                <div className='flex-column items-start justify-start pl-2 w-11/12'>
-                                                    <div className='d-flex items-center'>
-                                                        <span style={{ display: 'inline-block', direction: '1tr' }}>
-                                                            <span style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>&#9733;</span>
-                                                            <span style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>&#9733;</span>
-                                                            <span style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>&#9733;</span>
-                                                            <span style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>&#9733;</span>
-                                                            <span style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>&#9733;</span>
-                                                        </span>
-                                                        <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
+                                        {
+                                            productState && productState?.ratings?.map((item, index) => {
+                                                return (
+                                                    <div key={index} className='mt-4'>
+                                                        <div className='d-flex items-start justify-start '>
+                                                            <div className='avatar overflow-hidden'>
+                                                                <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='zxczcxzxc' />
+                                                            </div>
+                                                            <div className='flex-column items-start justify-start pl-2 w-11/12'>
+                                                                <div className='d-flex items-center'>
+                                                                    <span style={{ display: 'inline-block', direction: '1tr' }}>
+                                                                        {
+    item && typeof item.star === 'number' && item.star > 0 && (
+        Array.from({ length: item.star }).map((_, index) => (
+            <span key={index} style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>
+                &#9733;
+            </span>
+        ))
+    )
+    
+}
+
+                                                                    </span>
+                                                                    <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
+                                                                </div>
+                                                                <div class="d-flex items-center">
+                                                                    <p class="text-ddv font-bold text-16">
+                                                                        <span class="text-16 mx-2 text-black font-normal">{item?.comment}</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {
+                                                            item && item?.childComments?.map(i => {
+                                                                return (
+                                                                    <div className='d-flex items-start justify-start  '>
+                                                                        <div className='avatar overflow-hidden pr-5 ml-5'>
+                                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasdasd' />
+                                                                        </div>
+                                                                        <div className='flex-column items-start justify-start px-3 w-11/12'>
+                                                                            <div class="d-flex items-center">
+                                                                                <p class="text-ddv font-bold text-16 mt-1" >
+                                                                                    Di Động Việt xin chào Anh Tân ạ! Di động việt xin chân thành cảm ơn Anh Tài đã tin tưởng và sử dụng dịch vụ cũng như sản phẩm tại Di Động Việt ạ! Di Động Việt hy vọng tiếp được phục vụ Anh Tài trong tương lai ạ !
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            })
+                                                        }
+
                                                     </div>
-                                                    <div class="d-flex items-center">
-                                                        <p class="text-ddv font-bold text-16">
-                                                            <span class="text-16 mx-2 text-black font-normal">sản phẩm tạm ổn, phục vụ ok</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='d-flex items-start justify-start  '>
-                                                <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                    <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasdasd' />
-                                                </div>
-                                                <div className='flex-column items-start justify-start px-3 w-11/12'>
-                                                    <div class="d-flex items-center">
-                                                        <p class="text-ddv font-bold text-16 mt-1" >
-                                                            Di Động Việt xin chào Anh Tân ạ! Di động việt xin chân thành cảm ơn Anh Tài đã tin tưởng và sử dụng dịch vụ cũng như sản phẩm tại Di Động Việt ạ! Di Động Việt hy vọng tiếp được phục vụ Anh Tài trong tương lai ạ !
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                )
+                                            })
+                                        }
+
 
                                     </Col>
                                 </Row>
@@ -337,12 +357,12 @@ const PhoneDetail = () => {
                                                                         )
                                                                     })
                                                                 }
-                                                                
+
                                                             </div>
                                                         )
                                                     })
                                                 }
-                                                
+
 
 
                                             </div>

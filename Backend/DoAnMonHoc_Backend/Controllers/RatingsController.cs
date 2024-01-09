@@ -32,18 +32,7 @@ namespace DoAnMonHoc_Backend.Controllers
         [Authorize]
         public async Task<IActionResult> CreateRating(Rating rating)
         {
-            var checkRating = await _uow.RatingRepository.RatingExist(rating.Id);
-            if (checkRating == true)
-            {
-                return BadRequest();
-            }
-            _uow.RatingRepository.CreateRating(rating);
-            var result = await _uow.SaveAsync();
-            if (!result)
-            {
-                return BadRequest();
-            }
-            return Ok();
+            return await _uow.RatingRepository.CreateRating(rating);
         }
         [HttpPut]
         [Route("{id}")]
