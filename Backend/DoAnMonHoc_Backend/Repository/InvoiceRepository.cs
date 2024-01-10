@@ -47,16 +47,34 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<IEnumerable<Invoice>> GetInvoices(string userID)
         {
-            return await _context.Invoices.Include(i => i.Coupon)
-                .Include(i => i.InvoiceDetails)
+            return await _context.Invoices.Include(i => i.User)
+                    .Include(i => i.Coupon)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Color)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Capacity)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Phone)
                 .Where(i => i.UserId == userID)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Invoice>> GetInvoicesByStatus(string userID,string status)
         {
-            return await _context.Invoices.Include(i => i.Coupon)
-                .Include(i => i.InvoiceDetails)
+            return await _context.Invoices.Include(i => i.User)
+                    .Include(i => i.Coupon)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Color)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Capacity)
+                    .Include(i => i.InvoiceDetails)
+                        .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.Phone)
                 .Where(i => i.UserId == userID && i.OrderStatus == status)
                 .ToListAsync();
         }

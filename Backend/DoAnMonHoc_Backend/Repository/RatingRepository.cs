@@ -15,11 +15,17 @@ namespace DoAnMonHoc_Backend.Repository
         }
         public async Task<IActionResult> CreateRating(Rating rating)
         {
+            var kt = await _context.InvoiceDetails
+                .AnyAsync(c => c.Invoice.UserId == rating.UserId && c.ProductId == rating.ProductId);
+            if(kt == false)
+            {
+                return new BadRequestObjectResult("Chưa mua hàng!!!");
+            }
             var check = await _context.Ratings
                 .FirstOrDefaultAsync(r => r.UserId == rating.UserId && r.ProductId == rating.ProductId);
             if(check != null)
             {
-                return new BadRequestResult();
+                return new BadRequestObjectResult("Chỉ được đánh giá 1 lần!!!");
             }
             var product = await _context.Products.FindAsync(rating.ProductId);
             product.AverageRating = (int) (product.AverageRating + rating.Star)/2;

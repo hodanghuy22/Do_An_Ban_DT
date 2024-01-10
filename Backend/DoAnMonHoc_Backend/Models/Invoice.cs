@@ -11,6 +11,7 @@ namespace DoAnMonHoc_Backend.Models
         public User User { get; set; }
         public string ShippingInfo { get; set; }
         public DateTime IssueDate { get; set; }
+        public DateTime DeliveryDate { get; set; }
         public int TotalPrice { get; set; }
         public int TotalPriceAfterDiscount { get; set; }
         public int CouponId { get; set; }

@@ -4,6 +4,7 @@ using DoAnMonHoc_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoAnMonHoc_Backend.Migrations
 {
     [DbContext(typeof(CSDLContext))]
-    partial class CSDLContextModelSnapshot : ModelSnapshot
+    [Migration("20240110073818_xoaHinhRating")]
+    partial class xoaHinhRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,8 +127,11 @@ namespace DoAnMonHoc_Backend.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("NgayDang")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("FileHinh")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HinhPublicId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -219,9 +224,6 @@ namespace DoAnMonHoc_Backend.Migrations
 
                     b.Property<int>("CouponId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("DeliveryDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2");

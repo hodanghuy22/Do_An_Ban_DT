@@ -10,6 +10,7 @@ import brandReducer from '../features/brand/brandSlice';
 import cartReducer from '../features/cart/cartSlice';
 import commentReducer from '../features/comment/commentSlice';
 import ratingReducer from '../features/rating/ratingSlice';
+import invoiceReducer from '../features/invoice/invoiceSlice';
 
 export const store = configureStore({
     reducer: {
@@ -24,5 +25,6 @@ export const store = configureStore({
         cart: cartReducer,
         comment: commentReducer,
         rating: ratingReducer,
+        invoice: invoiceReducer,
     }
 })

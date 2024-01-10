@@ -24,12 +24,18 @@ import { AddCart } from '../features/cart/cartSlice';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { CreateComment } from '../features/comment/commentSlice';
+import { CreateRating } from '../features/rating/ratingSlice';
 
 const commentSchema = yup.object({
     content: yup.string().required("Content is required!"),
-    hinhPublicId:  yup.string(),
-    fileHinh:  yup.string(),
-  });
+    hinhPublicId: yup.string(),
+    fileHinh: yup.string(),
+});
+
+const ratingSchema = yup.object({
+    comment: yup.string().required("Content is required!"),
+    star: yup.number().required("Rating star is required!").min(1).max(5),
+});
 
 const PhoneDetail = () => {
     const dispatch = useDispatch();
@@ -42,22 +48,47 @@ const PhoneDetail = () => {
     const phoneId = useParams().phoneId;
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
+    const [AProduct, setAProduct] = useState({
+        "phoneId": phoneId,
+        "colorId": phoneState?.products[0]?.colorId,
+        "capacityId": phoneState?.products[0]?.capacityId
+    });
 
     const formik = useFormik({
         initialValues: {
             content: '',
-            hinhPublicId: '',
-            fileHinh: '',
             userId: authState?.id || "",
             productId: productState?.id || "",
-            commentId: ""
+            commentId: "",
+            ngayDang: new Date().toISOString().substr(0, 10),
         },
         validationSchema: commentSchema,
         onSubmit: values => {
             console.log(values);
             dispatch(CreateComment(values));
+            setTimeout(() => {
+                dispatch(GetProductForUser(AProduct))
+            }, 300);
         },
-      });
+    });
+
+    const formik2 = useFormik({
+        initialValues: {
+            comment: '',
+            star: '',
+            ngayDang: new Date().toISOString().substr(0, 10),
+            userId: authState?.id || "",
+            productId: productState?.id || "",
+        },
+        validationSchema: ratingSchema,
+        onSubmit: values => {
+            console.log(values);
+            dispatch(CreateRating(values));
+            setTimeout(() => {
+                dispatch(GetProductForUser(AProduct))
+            }, 300);
+        },
+    });
 
     useEffect(() => {
         dispatch(GetAPhone(phoneId))
@@ -67,11 +98,7 @@ const PhoneDetail = () => {
         dispatch(GetColorsByPhoneId(phoneId))
     }, []);
 
-    const [AProduct, setAProduct] = useState({
-        "phoneId": phoneId,
-        "colorId": phoneState?.products[0]?.colorId,
-        "capacityId": phoneState?.products[0]?.capacityId
-    });
+
     useEffect(() => {
         if (phoneState?.products && phoneState.products.length > 0) {
             setAProduct(prevState => ({
@@ -87,8 +114,8 @@ const PhoneDetail = () => {
 
     useEffect(() => {
         formik.setFieldValue("productId", productState?.id);
-
-    },[AProduct])
+        formik2.setFieldValue("productId", productState?.id);
+    }, [productState])
 
     const handleColorSelection = (colorId) => {
         setAProduct(prevState => ({
@@ -155,7 +182,7 @@ const PhoneDetail = () => {
                 </Breadcrumb>
                 <Container className='pl-0 ml-0'>
                     <h5 style={{ display: 'inline-block' }}>Điện thoại {phoneState.name} </h5>
-                    <span className=' ml-3 text-primary'>171 đánh giá</span>
+                    <span className=' ml-3 text-primary'>{productState?.soldQuantity} Số lượng đã bán</span>
                     <Link className='ml-3' onClick={addWishlist}>
                         <div className="heart heart1">
                             <svg width="1em" height="1em" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -238,8 +265,16 @@ const PhoneDetail = () => {
                                 <Row>
                                     <Col>
                                         <div>
-                                            <h2>Đánh giá sản phẩm</h2>
-                                            <p>Điểm đánh giá: 0</p>
+                                            <h2 className='text-danger'>Đánh giá sản phẩm</h2>
+                                            <p>Điểm đánh giá: {
+                                                productState?.averageRating && typeof productState?.averageRating === 'number' && productState?.averageRating > 0 && (
+                                                    Array.from({ length: productState?.averageRating }).map((_, index) => (
+                                                        <span key={index} style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>
+                                                            &#9733;
+                                                        </span>
+                                                    ))
+                                                )
+                                            }</p>
                                             <div>
 
                                             </div>
@@ -253,6 +288,57 @@ const PhoneDetail = () => {
                                             <Button className='bg-light ml-2 text-info '>2 sao</Button>
                                             <Button className='bg-light ml-2 text-info '>1 sao</Button>
                                         </div>
+                                        <Form onSubmit={formik2.handleSubmit}>
+                                            <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
+                                                <Col md={10} className="w-full h-full mb-3 md:mb-0">
+                                                <div className='mb-3'>
+                        <input
+                            type="number"
+                            name="star"
+                            class="form-control"
+                            placeholder="Star"
+                            value={formik2.values.star}
+                            onChange={formik2.handleChange('star')}
+                            onBlur={formik2.handleBlur('star')}
+                        />
+                        <div className='error'>
+                            {
+                                formik2.touched.star && formik2.errors.star
+                            }
+                        </div>
+                    </div>
+                                                    <Form.Group className="mantine-InputWrapper-root mantine-Textarea-root mantine-1m3pqry">
+                                                        <Form.Control
+                                                            as="textarea"
+                                                            className="rounded-lg border-neutral-300 mantine-Input-input mantine-Textarea-input mantine-1jx8v2y"
+                                                            id="mantine-r8"
+                                                            placeholder="Đánh giá sản phẩm"
+                                                            rows="6"
+                                                            aria-invalid="false"
+                                                            value={formik2.values.comment}
+                                                            onChange={formik2.handleChange('comment')}
+                                                            onBlur={formik2.handleBlur('comment')}
+                                                        />
+                                                        <div className='error'>
+                                                            {
+                                                                formik2.touched.comment && formik2.errors.comment
+                                                            }
+                                                        </div>
+                                                    </Form.Group>
+                                                    
+                                                </Col>
+                                                <Col md={2} className="w-full flex flex-col md:px-2">
+                                                    <Button
+                                                        variant="primary"
+                                                        type="submit"
+                                                        className="mantine-UnstyledButton-root mantine-Button-root bg-ddv hover:bg-ddv text-white rounded-lg cursor-pointer mt-2 mantine-ijj40k"
+                                                        style={{ width: '100%', height: '44px' }}
+                                                    >
+                                                        Gửi
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </Form>
                                         {
                                             productState && productState?.ratings?.map((item, index) => {
                                                 return (
@@ -265,15 +351,15 @@ const PhoneDetail = () => {
                                                                 <div className='d-flex items-center'>
                                                                     <span style={{ display: 'inline-block', direction: '1tr' }}>
                                                                         {
-    item && typeof item.star === 'number' && item.star > 0 && (
-        Array.from({ length: item.star }).map((_, index) => (
-            <span key={index} style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>
-                &#9733;
-            </span>
-        ))
-    )
-    
-}
+                                                                            item && typeof item.star === 'number' && item.star > 0 && (
+                                                                                Array.from({ length: item.star }).map((_, index) => (
+                                                                                    <span key={index} style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>
+                                                                                        &#9733;
+                                                                                    </span>
+                                                                                ))
+                                                                            )
+
+                                                                        }
 
                                                                     </span>
                                                                     <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
@@ -285,25 +371,6 @@ const PhoneDetail = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {
-                                                            item && item?.childComments?.map(i => {
-                                                                return (
-                                                                    <div className='d-flex items-start justify-start  '>
-                                                                        <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                                            <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasdasd' />
-                                                                        </div>
-                                                                        <div className='flex-column items-start justify-start px-3 w-11/12'>
-                                                                            <div class="d-flex items-center">
-                                                                                <p class="text-ddv font-bold text-16 mt-1" >
-                                                                                    Di Động Việt xin chào Anh Tân ạ! Di động việt xin chân thành cảm ơn Anh Tài đã tin tưởng và sử dụng dịch vụ cũng như sản phẩm tại Di Động Việt ạ! Di Động Việt hy vọng tiếp được phục vụ Anh Tài trong tương lai ạ !
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            })
-                                                        }
-
                                                     </div>
                                                 )
                                             })
@@ -337,9 +404,9 @@ const PhoneDetail = () => {
                                                                         onBlur={formik.handleBlur('content')}
                                                                     />
                                                                     <div className='error'>
-                                                                    {
-                                                                        formik.touched.content && formik.errors.content
-                                                                    }
+                                                                        {
+                                                                            formik.touched.content && formik.errors.content
+                                                                        }
                                                                     </div>
                                                                 </Form.Group>
                                                             </Col>
@@ -366,7 +433,7 @@ const PhoneDetail = () => {
                                                                     </div>
                                                                     <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                                         <div className='d-flex items-center'>
-                                                                            <p className="text-brow text-sm mx-2">2023-11-03T07:07:29.000Z</p>
+                                                                            <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
                                                                         </div>
                                                                         <div class="d-flex items-center">
                                                                             <p class="text-ddv font-bold text-16">

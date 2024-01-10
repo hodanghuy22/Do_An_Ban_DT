@@ -7,8 +7,7 @@ namespace DoAnMonHoc_Backend.Models
     {
         public int Id { get; set; }
         public string Content { get; set; }
-        public string HinhPublicId { get; set; }
-        public string FileHinh { get; set; }
+        public DateTime NgayDang { get; set; }
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
