@@ -26,7 +26,7 @@ import AddProduct from './pages/AddProduct';
 import SlideShows from './pages/SlideShows';
 import AddSlideShow from './pages/AddSlideShow';
 import InvoiceDetails from './pages/InvoiceDetails';
-
+import Rating from './pages/Rating';
 
 function App() {
   return (
@@ -65,6 +65,7 @@ function App() {
           <Route path='slideshows' element={<SlideShows />} />
           <Route path='add-slideshow' element={<AddSlideShow />} />
           <Route path='add-slideshow/:id' element={<AddSlideShow />} />
+          <Route path='rating' element={<Rating />} />
         </Route>
       </Routes>
     </Router>

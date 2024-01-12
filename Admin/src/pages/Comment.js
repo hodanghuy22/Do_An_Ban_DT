@@ -13,8 +13,12 @@ const columns = [
         dataIndex: 'Id',
     },
     {
-        title: 'FileHinh',
-        dataIndex: 'fileHinh',
+        title: 'Content',
+        dataIndex: 'content',
+    },
+    {
+        title: 'NgayDang',
+        dataIndex: 'ngayDang',
     },
     {
         title: 'UserId',
@@ -29,12 +33,8 @@ const columns = [
         dataIndex: 'commentId',
     },
     {
-        title: 'Content',
-        dataIndex: 'content',
-    },
-    {
-        title: 'HinhPublicId',
-        dataIndex: 'hinhPublicId',
+        title: 'ParentComment',
+        dataIndex: 'parentComment',
     },
 ];
 
@@ -54,12 +54,12 @@ const Comment = () => {
     for (let i = 0; i < commentState?.length; i++) {
         data1.push({
             id: commentState[i].id,
-            fileHinh: commentState[i].fileHinh,
+            content: commentState[i].content,
+            ngayDang: commentState[i].ngayDang,
             userId: commentState[i].userId,
             productId: commentState[i].productId,
             commentId: commentState[i].commentId,
-            content: commentState[i].content,
-            hinhPublicId: commentState[i].hinhPublicId,
+            parentComment: commentState[i].parentComment,
             action: (<>
                 <Link className='fs-3 text-danger' to={`/admin/add-comment/${commentState[i].id}`}><BiEdit /></Link>
                 <button className='fs-3 text-danger ms-3 text-danger bg-transparent border-0'
@@ -71,7 +71,7 @@ const Comment = () => {
         setOpen(true);
         setcommentId(e)
     };
-    const DeleteComment = (e) => {
+    const deleteComment = (e) => {
         dispatch(DeleteComment(e))
         setOpen(false);
         setTimeout(() => {
@@ -89,7 +89,7 @@ const Comment = () => {
                 title="Are you sure you want to delete this comment?"
                 hideModal={hideModal}
                 open={open}
-                performAction={() => { DeleteComment(commentId) }}
+                performAction={() => { deleteComment(commentId) }}
             />
         </div>
     );

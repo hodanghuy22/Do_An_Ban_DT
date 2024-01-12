@@ -12,6 +12,7 @@ import capacityReducer from '../features/capacity/capacitySlice';
 import uploadReducer from '../features/uploadImage/uploadSlice';
 import commentReducer from '../features/comment/commentSlice';
 import slideshowReducer from '../features/slideshow/slideshowSlice';
+import ratingReducer from '../features/rating/ratingSlice';
 
 export const store = configureStore({
     reducer: {
@@ -28,5 +29,6 @@ export const store = configureStore({
         upload: uploadReducer,
         comment: commentReducer,
         slideshow: slideshowReducer,
+        rating: ratingReducer,
     }
 })

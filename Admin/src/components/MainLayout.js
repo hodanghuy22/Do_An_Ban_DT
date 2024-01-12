@@ -3,7 +3,7 @@ import { HiArrowCircleLeft, HiArrowCircleRight } from "react-icons/hi";
 import { RiCoupon2Line, RiCoupon3Line, RiDashboard2Line, RiMessage3Line, RiSlideshow4Line } from "react-icons/ri";
 import { TbCategory, TbShoppingCart, TbShoppingCartCog, TbBrandBlogger } from "react-icons/tb";
 import { MdOutlineColorLens } from "react-icons/md";
-import { FaUser, FaUserCog } from "react-icons/fa";
+import { FaUser, FaUserCog,FaRegStar } from "react-icons/fa";
 import { Layout, Menu, Button, theme } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -113,6 +113,11 @@ const MainLayout = () => {
               key: 'comment',
               icon: <RiMessage3Line className='fs-5' />,
               label: 'Comment',
+            },
+            {
+              key: 'rating',
+              icon: <FaRegStar className='fs-5' />,
+              label: 'Rating',
             },
             {
               key: 'invoice',
