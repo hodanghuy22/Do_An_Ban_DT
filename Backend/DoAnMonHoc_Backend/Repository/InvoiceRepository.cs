@@ -14,9 +14,22 @@ namespace DoAnMonHoc_Backend.Repository
         {
             _context = context;
         }
-        public async Task CreateInvoice(Invoice invoice)
+        public async Task<IActionResult> CreateInvoice(Invoice invoice)
         {
+            if(invoice.CouponId != null)
+            {
+                var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.Id == invoice.CouponId);
+                coupon.Quantity -= 1;
+            }
             await _context.Invoices.AddAsync(invoice);
+            var cartsToRemove = await _context.Carts.Where(c => c.UserId == invoice.UserId).ToListAsync();
+            _context.Carts.RemoveRange(cartsToRemove);
+            var result = await _context.SaveChangesAsync();
+            if (result <= 0)
+            {
+                return new BadRequestObjectResult("Khong luu duoc!!!");
+            }
+            return new OkResult();
         }
 
         public async Task DeleteInvoice(int id)

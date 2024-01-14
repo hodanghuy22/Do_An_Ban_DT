@@ -18,7 +18,6 @@ const Cart = () => {
 
     useEffect(()=>{
         if(productUpdateDetails!==null){
-            console.log(productUpdateDetails);
             dispatch(UpdateCart({id: productUpdateDetails?.id,userId: productUpdateDetails?.userId,productId: productUpdateDetails?.productId, quantity: productUpdateDetails?.quantity}))
             setTimeout(() => {
                 dispatch(GetCart(userState?.id))
@@ -47,7 +46,7 @@ const Cart = () => {
             </Helmet>
             {/* Cart rỗng */}
             {
-                !cartState && (
+                cartState.length <= 0 && (
                     <div className='text-center p-5' style={{ display: "block" }}>
                         <div className='icon-cart'><BsCartXFill /></div>
                         <p>Không có sản phẩm nào trong giỏ hàng</p>
@@ -57,7 +56,7 @@ const Cart = () => {
             }
             {/* Có sản phẩm */}
             {
-                cartState && (
+                cartState.length > 0 && (
                     <div className='d-flex justify-content-center w-75 m-auto py-5'>
                         <Container>
                             {

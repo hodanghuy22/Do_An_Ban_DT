@@ -14,7 +14,7 @@ namespace DoAnMonHoc_Backend.Models
         public DateTime DeliveryDate { get; set; }
         public int TotalPrice { get; set; }
         public int TotalPriceAfterDiscount { get; set; }
-        public int CouponId { get; set; }
+        public int? CouponId { get; set; }
         public Coupon Coupon { get; set; }
         public string OrderStatus { get; set; } = "HDM";
         public List<InvoiceDetail> InvoiceDetails { get; set; }

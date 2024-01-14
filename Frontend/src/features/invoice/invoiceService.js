@@ -8,9 +8,16 @@ const getAllInvoice = async (id) => {
     }
 }
 
+const createInvoice = async (invoiceData) => {
+    const response = await axios.post(`${base_url}Invoices`,invoiceData, config)
+    if (response.data) {
+        return response.data;
+    }
+}
 
 const invoiceService = {
     getAllInvoice,
+    createInvoice,
 }
 
 export default invoiceService

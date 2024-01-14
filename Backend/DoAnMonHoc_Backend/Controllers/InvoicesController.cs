@@ -56,18 +56,8 @@ namespace DoAnMonHoc_Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateInvoice(Invoice invoice)
         {
-            var checkInvoice = await _uow.InvoiceRepository.InvoiceExist(invoice.Id);
-            if (checkInvoice == true)
-            {
-                return BadRequest();
-            }
-            _uow.InvoiceRepository.CreateInvoice(invoice);
-            var result = await _uow.SaveAsync();
-            if (!result)
-            {
-                return BadRequest();
-            }
-            return Ok();
+
+            return await _uow.InvoiceRepository.CreateInvoice(invoice);
         }
         [HttpPut]
         [Route("{id}")]

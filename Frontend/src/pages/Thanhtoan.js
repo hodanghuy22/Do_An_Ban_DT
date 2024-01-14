@@ -1,12 +1,117 @@
-import React, { useState } from 'react'
-import { Button, Col, Container, Image,  Row } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Button, Col, Container, Image, Row } from 'react-bootstrap'
 import { Helmet } from 'react-helmet';
 import { IoMdArrowBack } from "react-icons/io";
 import { MdPayment } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { GetCart } from '../features/cart/cartSlice';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { CheckCoupon } from '../features/coupon/couponSlice';
+import { CreateInvoice } from '../features/invoice/invoiceSlice';
+
+const invoiceSchema = yup.object({
+    shippingInfo: yup.string().required('Address is Required'),
+});
+
+const couponSchema = yup.object({
+    code: yup.string(),
+});
 
 const Thanhtoan = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const userState = useSelector(state => state?.auth?.user?.userDto)
+    const cartState = useSelector(state => state?.cart?.carts)
+    const couponState = useSelector(state => state?.coupon?.ACoupon)
     const [selectedTab, setSelectedTab] = useState('thongTin');
+    const [sum, setSum] = useState();
+    const [tongTien, setTongTien] = useState();
+    const [tongsl, settongsl] = useState();
+
+    const formik = useFormik({
+        initialValues: {
+            userId: userState?.id || "",
+            shippingInfo: userState?.address || "",
+            issueDate: new Date().toISOString().substr(0, 10),
+            totalPrice: sum || 0,
+            totalPriceAfterDiscount: tongTien || 0,
+            couponId: -1,
+            orderStatus: "Hóa Đơn Mới",
+            invoiceDetails: []
+        },
+        validationSchema: invoiceSchema,
+        onSubmit: values => {
+            console.log(values);
+            dispatch(CreateInvoice(values))
+            setTimeout(()=>{
+                navigate('/user');
+            }, 300)
+        },
+    });
+
+    const formik2 = useFormik({
+        initialValues: {
+            code: "",
+            money: sum || 0,
+            date: new Date().toISOString().substr(0, 10),
+        },
+        validationSchema: couponSchema,
+        onSubmit: values => {
+            console.log(values);
+            dispatch(CheckCoupon(values))
+        },
+    });
+
+    useEffect(() => {
+        if(couponState){
+            formik.setFieldValue("couponId", couponState.id);
+            if(couponState.discountPercent > 0){
+                var tien = tongTien
+                tien -= (couponState.discountPercent/100) * tien;
+                setTongTien(tien)
+                formik.setFieldValue("totalPriceAfterDiscount", tien);
+            }else{
+                var tien = tongTien
+                tien -= couponState.discountMoney;
+                setTongTien(tien)
+                formik.setFieldValue("totalPriceAfterDiscount", tien);
+            }
+        }
+    }, [couponState])
+
+    useEffect(() => {
+        dispatch(GetCart(userState?.id))
+    }, [])
+
+    useEffect(() => {
+        let dem = 0
+        let dem2 = 0
+        for (let i = 0; i < cartState.length; i++) {
+            dem += cartState[i]?.quantity * cartState[i]?.product?.price;
+            dem2 += cartState[i]?.quantity
+        }
+        setSum(dem)
+        setTongTien(dem)
+        settongsl(dem2)
+        formik2.setFieldValue("money", dem);
+        formik.setFieldValue("totalPrice", dem);
+        formik.setFieldValue("totalPriceAfterDiscount", dem);
+    }, [cartState])
+
+    useEffect(() => {
+        if (cartState) {
+            const updatedInvoiceDetails = cartState.map(item => {
+                return {
+                    productId: item?.productId,
+                    quantity: item?.quantity,
+                    totalPrice: item?.quantity * item?.product?.price,
+                };
+            });
+            formik.setFieldValue("invoiceDetails", updatedInvoiceDetails);
+        }
+    }, [cartState])
 
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
@@ -41,48 +146,59 @@ const Thanhtoan = () => {
                     </Col>
                 </Row>
                 <div id="thongTin" style={{ display: selectedTab === 'thongTin' ? 'block' : 'none' }}>
-                    <Row className=' pb-2 mb-4   mt-4 bg-light shadow p-4 mb-5 bg-white rounded'>
-                        <Col xl={2} md={2} sm={2} className='p-2'>
-                            <Image src='https://bit.ly/3ul4poY' width={'75px'} />
-                        </Col>
-                        <Col xl={7} md={7} sm={7}>
-                            <h5>Đồng hồ thông minh BeFit Watch Ultra S 52.1mm</h5>
-                            <p className='text-danger'>Giá: 1.490.000đ</p>
-                        </Col>
-                        <Col xl={3} md={3} sm={3} className='text-right'>
-                            <p>Số lượng: <span>2</span></p>
-                        </Col>
-                    </Row>
+                    {
+                        cartState && cartState?.map((item, index) => {
+                            return (
+                                <Row key={index} className=' pb-2 mb-4   mt-4 bg-light shadow p-4 mb-5 bg-white rounded'>
+                                    <Col xl={2} md={2} sm={2} className='p-2'>
+                                        <Image src={item?.product?.images ? item?.product?.images[0]?.url : "https://bit.ly/3ul4poY"} width={'75px'} />
+                                    </Col>
+                                    <Col xl={7} md={7} sm={7}>
+                                        <h5>{item?.product?.phone?.name}</h5>
+                                        <p className='text-danger'>Giá: {item?.product?.price}đ</p>
+                                    </Col>
+                                    <Col xl={3} md={3} sm={3} className='text-right'>
+                                        <p>Số lượng: <span>{item?.quantity}</span></p>
+                                    </Col>
+                                </Row>
+                            )
+                        })
+                    }
+
                     <Row>
                         <div className='  bg-light shadow p-4 mb-5 bg-white rounded w-100 d-content-a'>
-                            <h4>THÔNG TIN KHÁCH HÀNG</h4>
+                            <h4>THÔNG TIN NHẬN HÀNG</h4>
                             <form>
                                 <div class="form-group w-50">
                                     <label for="hoTen">Họ tên người nhận</label>
-                                    <input type="text" class="form-control" id="hoTen" placeholder="Nhập họ tên" />
+                                    <input readOnly type="text" class="form-control" id="hoTen" placeholder="Nhập họ tên" value={userState?.name} />
                                 </div>
                                 <div class="form-group w-50">
                                     <label for="soDienThoai">Số điện thoại người nhận</label>
-                                    <input type="tel" class="form-control" id="soDienThoai" placeholder="Nhập số điện thoại" />
+                                    <input readOnly type="tel" class="form-control" id="soDienThoai" placeholder="Nhập số điện thoại" value={userState?.phoneNumber} />
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email người nhận</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Nhập email" />
+                                    <input readOnly type="email" class="form-control" id="email" placeholder="Nhập email" value={userState?.email} />
                                 </div>
                                 <div class="form-group">
-                                    <label for="cuaHang">Chọn cửa hàng đến nhận hàng</label>
-                                    <select class="form-control" id="cuaHang">
-                                        <option value="">-- Chọn cửa hàng --</option>
-                                        <option value="cuaHang1">Cửa hàng 1</option>
-                                        <option value="cuaHang2">Cửa hàng 2</option>
-                                        <option value="cuaHang3">Cửa hàng 3</option>
-                                    </select>
+                                    <label for="address">Địa chỉ</label>
+                                    <input type="address" class="form-control" id="address" placeholder="Nhập address"
+                                        value={formik.values.shippingInfo}
+                                        onChange={formik.handleChange('shippingInfo')}
+                                        onBlur={formik.handleBlur('shippingInfo')}
+                                    />
+                                    <div className='error'>
+                                        {
+                                            formik.touched.shippingInfo && formik.errors.shippingInfo
+                                        }
+                                    </div>
                                 </div>
                             </form>
                         </div>
 
                     </Row>
-                    <Row>
+                    {/* <Row>
                         <div className='  bg-light shadow p-4 mb-5 bg-white rounded w-100 d-content-a'>
                             <h4>THÔNG TIN NHẬN HÀNG</h4>
                             <div class="form-group">
@@ -116,7 +232,7 @@ const Thanhtoan = () => {
                                 <textarea class="form-control" id="ghiChu" rows="3" placeholder="Nhập ghi chú"></textarea>
                             </div>
                         </div>
-                    </Row>
+                    </Row> */}
                     <Row>
                         <Button variant='text-danger bg-danger w-100 text-light' onClick={() => handleTabChange('thanhToan')}>Tiếp tục</Button>
 
@@ -125,17 +241,34 @@ const Thanhtoan = () => {
                 <div id="thanhToan" style={{ display: selectedTab === 'thanhToan' ? 'block' : 'none' }} className='mt-4'>
                     <div className='bg-light shadow p-4 mb-5 bg-white rounded'>
                         <p>
-                            <input type='text' placeholder='Nhập mã giảm giá (chỉ ap dụng 1 lần)' className='w-75  py-2 ' />
-                            <span className=' float-right btn btn-danger '>Áp dụng</span>
+                            <form onSubmit={formik2.handleSubmit}>
+                                <div className='row'>
+                                    <div className='col-8'>
+                                    <input type='text' 
+                                        placeholder='Nhập mã giảm giá (chỉ ap dụng 1 lần)' 
+                                        className='w-100 py-2'
+                                        value={formik2.values.code}
+                                        onChange={formik2.handleChange('code')}
+                                        onBlur={formik2.handleBlur('code')} />
+                                    <div className='error'>
+                                        {
+                                            formik.touched.shippingInfo && formik.errors.shippingInfo
+                                        }
+                                    </div>
+                                    </div>
+                                    <div className='col-4'>
+                                    <button type='submit' className=' float-right btn btn-danger '>Áp Dụng</button>
+                                    </div>
+                                </div>
+                            </form>
                         </p>
                         <p>
                             <span className='float-right'></span>
                         </p>
-                        <p>Số lượng sản phẩm <span className='float-right'>02</span></p>
-                        <p>Tiền hàng (tạm tính) <span className='float-right'>3.380.000đ</span></p>
-                        <p>Phí vận chuyển<span className='float-right'>02</span></p>
+                        <p>Số lượng sản phẩm <span className='float-right'>{tongsl}</span></p>
+                        <p>Tiền hàng (tạm tính) <span className='float-right'>{sum}đ</span></p>
                         <hr />
-                        <p className=''>Tổng tiền đã bao gồm VAT <span className='float-right h5 font-weight-bold'>3.380.000đ</span></p>
+                        <p className=''>Tổng tiền đã bao gồm VAT(8%) <span className='float-right h5 font-weight-bold'>{tongTien}đ</span></p>
                     </div>
                     <div>
                         <h4>THÔNG TIN THANH TOÁN</h4>
@@ -143,26 +276,28 @@ const Thanhtoan = () => {
                             <h5><MdPayment style={{ fontSize: '40px' }} className='mr-3' /><span className='text-danger'>Chọn phương thức thanh toán</span></h5>
                         </div>
                     </div>
-                    <div>
-                        <h4>THÔNG TIN NHẬN HÀNG</h4>
-                        <div className='bg-light shadow p-4 mb-5 bg-white rounded'>
-
-                        <p>Khách hàng:<span className='float-right'>Pham Bình</span></p>
-                        <p>Số diện thoại: <span className='float-right'>0329155867</span></p>
-                        <p>Email: <span className='float-right'>0306211331@caothang.edu.vn</span></p>
-                            <p>Nhận hàng tại: <span className='float-right'>65 Huỳnh Thúc Kháng, P.Bến Nghé, Q.1, Tp.HCM</span></p>
+                    <form onSubmit={formik.handleSubmit}>
+                        <div>
+                            <h4>THÔNG TIN NHẬN HÀNG</h4>
+                            <div className='bg-light shadow p-4 mb-5 bg-white rounded'>
+                                <p>Khách hàng:<span className='float-right'>{userState?.name}</span></p>
+                                <p>Số diện thoại: <span className='float-right'>{userState?.phoneNumber}</span></p>
+                                <p>Email: <span className='float-right'>{userState?.email}</span></p>
+                                <p>Nhận tại: <span className='float-right'>{formik.values.shippingInfo}</span></p>
+                            </div>
                         </div>
-                    </div>
-                    <Row className='bg-light shadow p-3 mb-5 bg-white rounded'>
-                        <p><span className='font-weight-bold mr-2'>Tổng tiền tạm tính:</span> <span className='text-danger font-weight-bold'>3.3380.000đ</span></p>
-                        <Button variant='text-danger bg-danger w-100 text-light'>Thanh toán</Button>
-                    </Row>
+                        <Row className='bg-light shadow p-3 mb-5 bg-white rounded'>
+                            <p><span className='font-weight-bold mr-2'>Tổng tiền tạm tính:</span> <span className='text-danger font-weight-bold'>{formik.values.totalPriceAfterDiscount}đ</span></p>
+                            <Button type='submit' variant='text-danger bg-danger w-100 text-light'>Thanh toán</Button>
+                        </Row>
+                    </form>
+
                 </div>
             </Container>
-                
-         
+
+
         </div>
-        
+
     )
 }
 

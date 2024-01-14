@@ -1,9 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import invoiceService from './invoiceService';
+import { toast } from 'react-toastify';
 
 export const GetAllInvoice = createAsyncThunk("invoice/get-invoices", async (id, thunkAPI) => {
     try {
         const wishlist = await invoiceService.getAllInvoice(id);
+        return wishlist;
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err);
+    }
+});
+
+export const CreateInvoice = createAsyncThunk("invoice/create-invoice", async (data, thunkAPI) => {
+    try {
+        const wishlist = await invoiceService.createInvoice(data);
         return wishlist;
     } catch (err) {
         return thunkAPI.rejectWithValue(err);
@@ -38,7 +48,27 @@ export const invoiceSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
             })
-
+            .addCase(CreateInvoice.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(CreateInvoice.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.invoice = action.payload;
+                if(state.isSuccess){
+                    toast.success("Create Invoice is successfully!")
+                }
+            })
+            .addCase(CreateInvoice.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if(state.isError){
+                    toast.error(action.error.message)
+                }
+            })
     }
 });
 

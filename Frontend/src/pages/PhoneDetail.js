@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb } from 'antd';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CiCirclePlus } from "react-icons/ci";
 import { Container, Row, Col, Button, Table, Form } from 'react-bootstrap';
 import Footer from '../Components/Footer';
@@ -39,6 +39,7 @@ const ratingSchema = yup.object({
 
 const PhoneDetail = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true);
     const phoneState = useSelector(state => state?.phone?.APhone);
     const productState = useSelector(state => state?.product?.AProduct);
@@ -150,6 +151,9 @@ const PhoneDetail = () => {
             userId: authState?.id,
             phoneId: phoneState?.id,
         }))
+        setTimeout(() => {
+            navigate("/user/san-pham-yeu-thich")
+        }, 300);
     }
 
     const addCart = () => {
@@ -158,6 +162,9 @@ const PhoneDetail = () => {
             productId: productState?.id,
             quantity: 1
         }))
+        setTimeout(() => {
+            navigate("/cart")
+        }, 300);
     }
 
 

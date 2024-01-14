@@ -27,7 +27,9 @@ namespace DoAnMonHoc_Backend.Repository
                 .FirstOrDefaultAsync(c => c.UserId == cart.UserId && c.ProductId == cart.ProductId);
             if(checkCart != null)
             {
-                return new BadRequestResult();
+                checkCart.Quantity += 1;
+                await _context.SaveChangesAsync(); 
+                return new OkResult();
             }
             if(cart.Quantity <= 0)
             {
@@ -96,6 +98,8 @@ namespace DoAnMonHoc_Backend.Repository
                 .ThenInclude(p => p.Capacity)
                 .Include(c => c.Product)
                 .ThenInclude(p => p.Images)
+                .Include(c => c.Product)
+                .ThenInclude(p => p.Phone)
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
         }

@@ -64,5 +64,13 @@ namespace DoAnMonHoc_Backend.Controllers
             var result = await _uow.SaveAsync();
             return Ok();
         }
+        [HttpPost]
+        [Route("CheckCoupon")]
+        [Authorize]
+        public async Task<IActionResult> CheckCoupon(CheckCouponModel checkCoupon)
+        {
+            var coupon =  await _uow.CouponRepository.CheckCoupon(checkCoupon);
+            return Ok(coupon);
+        }
     }
 }

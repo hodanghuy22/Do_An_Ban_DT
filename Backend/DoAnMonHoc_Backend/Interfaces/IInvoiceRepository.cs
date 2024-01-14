@@ -4,7 +4,7 @@ namespace DoAnMonHoc_Backend.Interfaces
 {
     public interface IInvoiceRepository
     {
-        Task CreateInvoice(Invoice invoice);
+        Task<IActionResult> CreateInvoice(Invoice invoice);
         Task<IEnumerable<Invoice>> GetInvoices(string userID);
         Task<IEnumerable<Invoice>> GetInvoicesForAdmin();
         Task<IEnumerable<Invoice>> GetInvoicesByStatus(string userID, string status);

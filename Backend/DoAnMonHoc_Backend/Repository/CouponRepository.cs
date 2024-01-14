@@ -13,6 +13,21 @@ namespace DoAnMonHoc_Backend.Repository
         {
             _context = context;
         }
+
+        public async Task<Coupon> CheckCoupon(CheckCouponModel checkCoupon)
+        {
+            var coupon = await _context.Coupons
+                .FirstOrDefaultAsync(c => c.Code == checkCoupon.Code);
+            if(coupon == null || 
+                coupon.Quantity <= 0 || 
+                coupon.EndDate < checkCoupon.Date || 
+                coupon.RequiredTotal > checkCoupon.Money)
+            {
+                return null;
+            }
+            return coupon;
+        }
+
         public async Task<bool> CouponExist(int id)
         {
             return await _context.Coupons.AnyAsync(b => b.Id == id);

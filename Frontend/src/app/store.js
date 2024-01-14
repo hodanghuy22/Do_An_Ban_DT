@@ -11,6 +11,7 @@ import cartReducer from '../features/cart/cartSlice';
 import commentReducer from '../features/comment/commentSlice';
 import ratingReducer from '../features/rating/ratingSlice';
 import invoiceReducer from '../features/invoice/invoiceSlice';
+import couponReducer from '../features/coupon/couponSlice';
 
 export const store = configureStore({
     reducer: {
@@ -26,5 +27,6 @@ export const store = configureStore({
         comment: commentReducer,
         rating: ratingReducer,
         invoice: invoiceReducer,
+        coupon: couponReducer,
     }
 })

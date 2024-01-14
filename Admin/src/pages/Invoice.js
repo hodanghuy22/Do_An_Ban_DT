@@ -64,10 +64,10 @@ const Invoice = () => {
                 <select defaultValue={invoiceState[i]?.orderStatus}
                     onClick={(e)=> UpdateStatus(invoiceState[i]?.id,e.target.value)}
                     name="" className='form-control form-select'> 
-                  <option value="HDM" disabled selected>Hóa Đơn Mới</option>
-                  <option value="DXL">Đang Xử Lý</option>
-                  <option value="DG">Đang Giao</option>
-                  <option value="HT">Hoàn Thành</option>
+                  <option value="Hóa Đơn Mới" disabled selected>Hóa Đơn Mới</option>
+                  <option value="Đang Xử Lý">Đang Xử Lý</option>
+                  <option value="Đang Giao">Đang Giao</option>
+                  <option value="Hoàn Thành">Hoàn Thành</option>
                 </select>
               </>),
             action: (<Link className='fs-3 text-info' to={`/admin/invoiceDetails/${invoiceState[i].id}`}><BiEdit /></Link>)
