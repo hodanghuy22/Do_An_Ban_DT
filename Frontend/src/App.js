@@ -38,7 +38,7 @@ function App() {
             <Route path="thong-tin-tai-khoan" element={<Thongtindiachi />} />
             <Route path="san-pham-yeu-thich" element={<DanhSachYeuThich />} />
             <Route path="doi-mat-khau" element={<Doimatkhau />} />
-            <Route path="chi-tiet-don-hang/1" element={<ChiTietDonHang />} />
+            <Route path="chi-tiet-don-hang/:invoiceId" element={<ChiTietDonHang />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
