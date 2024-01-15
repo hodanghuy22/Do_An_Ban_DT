@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { PiSealWarningFill } from "react-icons/pi";
 import { IoBagOutline } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { useDispatch } from 'react-redux';
+import { GetAInvoice } from '../features/invoice/invoiceSlice';
 const ChiTietDonHang = () => {
+    const invoiceId = useParams().invoiceId;
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(GetAInvoice(invoiceId))
+    })
     return (
         <div>
             <Helmet>

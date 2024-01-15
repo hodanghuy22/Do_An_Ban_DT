@@ -45,7 +45,7 @@ const AllOrders = () => {
                 }
 
                 <div className='ml-auto mt-2'>
-                  <Link to="chi-tiet-don-hang/1" className='btn btn-light border border-warning text-warning btn-hover '>Xem chi tiết</Link>
+                  <Link to={`chi-tiet-don-hang/${item?.id}`} className='btn btn-light border border-warning text-warning btn-hover '>Xem chi tiết</Link>
                 </div>
               </div>
             </div>

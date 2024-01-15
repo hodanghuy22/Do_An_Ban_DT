@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Container, Nav, Row, Col, Card } from 'react-bootstrap'
+import { Breadcrumb, Container, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { GetProductsByProductType, getBrand } from '../features/products/productSlice';
+import { GetProductsByProductType } from '../features/products/productSlice';
 const DienThoai = () => {
     const dispatch = useDispatch();
-    const productState = useSelector(state => state?.product?.product);
-    const brandState = useSelector(state => state?.product?.product);
+    const productState = useSelector(state => state?.product?.productforType);
     const productTypeId = useParams().productTypeId;
     const [isProductStateReady, setIsProductStateReady] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
