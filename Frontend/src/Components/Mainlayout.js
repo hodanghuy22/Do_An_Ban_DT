@@ -97,7 +97,6 @@ const Mainlayout = () => {
                 </header>
             </div>
             <div className='m-auto' style={{ width: 1200 }}>
-
                 <main className="mt-5 mb-5">
                     <Outlet />
                     <ToastContainer

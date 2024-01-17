@@ -4,20 +4,16 @@ import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWishlist } from '../features/wishlists/wishlistSlice';
+import formatNumber from '../utils/formatNumber'
 const DanhSachYeuThich = () => {
     const authState = useSelector(state => state?.auth?.user?.userDto);
-
     const dispatch = useDispatch();
     // const wishlistState = useSelector(state => state?.auth?.wishlist);
     const wishlistState = useSelector(state => state?.wishlist?.wishlist);
     useEffect(() => {
         dispatch(getWishlist(authState.id));
     }, [dispatch, authState.id]);
-    
-    const formatNumber = (number) => {
-        const formatter = new Intl.NumberFormat('vi-VN');
-        return formatter.format(number);
-    };
+
     return (
         <>
             <Helmet>

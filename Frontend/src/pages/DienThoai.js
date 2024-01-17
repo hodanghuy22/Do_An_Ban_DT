@@ -3,6 +3,7 @@ import { Breadcrumb, Container, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { GetProductsByProductType } from '../features/products/productSlice';
+import formatNumber from '../utils/formatNumber';
 const DienThoai = () => {
     const dispatch = useDispatch();
     const productState = useSelector(state => state?.product?.productforType);
@@ -27,10 +28,7 @@ const DienThoai = () => {
     if (!productState) {
         return <div>Sản phẩm không khả dụng.</div>;
     }
-    const formatNumber = (number) => {
-        const formatter = new Intl.NumberFormat('vi-VN');
-        return formatter.format(number);
-    };
+
     return (
         <div>
             <Breadcrumb>

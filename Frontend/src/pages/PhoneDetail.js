@@ -25,6 +25,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { CreateComment } from '../features/comment/commentSlice';
 import { CreateRating } from '../features/rating/ratingSlice';
+import formatNumber from '../utils/formatNumber';
 
 const commentSchema = yup.object({
     content: yup.string().required("Content is required!"),
@@ -166,12 +167,6 @@ const PhoneDetail = () => {
             navigate("/cart")
         }, 300);
     }
-
-
-    const formatNumber = (number) => {
-        const formatter = new Intl.NumberFormat('vi-VN');
-        return formatter.format(number);
-    };
     return (
         <>
             <Helmet>

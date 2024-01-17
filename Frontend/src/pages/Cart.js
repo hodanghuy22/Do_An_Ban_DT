@@ -5,6 +5,7 @@ import { BsCartXFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { DeleteCart, GetCart, UpdateCart, resetState } from '../features/cart/cartSlice';
+import formatNumber from '../utils/formatNumber';
 const Cart = () => {
     const dispatch = useDispatch()
     const userState = useSelector(state => state?.auth?.user?.userDto)
@@ -91,15 +92,14 @@ const Cart = () => {
                                             </Col>
                                             <Col xl={3} md={3} sm={3} className='text-right'>
 
-                                                <p className='text-danger'>Đơn giá: {item?.product?.price}đ</p>
-                                                <p className='text-danger'>Tổng tiền: {item?.product?.price * item?.quantity}đ</p>
+                                                <p className='text-danger amount'>Đơn giá: { formatNumber( item?.product?.price)}</p>
+                                                <p className='text-danger amount'>Tổng tiền: {formatNumber(item?.product?.price * item?.quantity)}</p>
                                                 
                                             </Col>
                                         </Row>
                                     )
                                 })
                             }
-
 
 
                             <Row className='pb-2 mb-4  border-bottom border-info'>

@@ -10,6 +10,7 @@ import { GetPhones } from '../features/phone/phoneSlice';
 import { getBrand } from '../features/brand/brandSlice';
 //Icon
 import { FaCaretDown } from "react-icons/fa";
+import formatNumber from '../utils/formatNumber';
 
 function Home() {
     const dispatch = useDispatch();
@@ -53,10 +54,7 @@ function Home() {
     if (!productState) {
         return <div>Sản phẩm không khả dụng.</div>;
     }
-    const formatNumber = (number) => {
-        const formatter = new Intl.NumberFormat('vi-VN');
-        return formatter.format(number);
-    };
+
     //Xem thêm Panigation
     const productsPerPage = 20; 
     const handleLoadMore = () => {

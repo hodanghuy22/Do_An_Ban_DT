@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import AllOrders from '../Components/DonHang/AllOrders';
-import PlacedOrders from '../Components/DonHang/PlacedOrders';
-import ConfirmedOrders from '../Components/DonHang/ConfirmedOrders';
-import DeliveringOrders from '../Components/DonHang/DeliveringOrders';
-import DeliveredOrders from '../Components/DonHang/DeliveredOrders';
-import CancelledOrders from '../Components/DonHang/CancelledOrders';
 import { Helmet } from 'react-helmet';
+import HoaDonMoi from '../Components/DonHang/HoaDonMoi';
+import DangXyLy from '../Components/DonHang/DangXuLy';
+import DangGiao from '../Components/DonHang/DangGiao';
+import HoanThanh from '../Components/DonHang/HoanThanh';
 
 
 
@@ -20,16 +19,16 @@ const DonHang = () => {
     switch (selectedTab) {
       case 'Tất cả':
         return <AllOrders />;
-      case 'Đã đặt':
-        return <PlacedOrders />;
-      case 'Đã xác nhận':
-        return <ConfirmedOrders />;
+      case 'Hóa Đơn Mới':
+        return <HoaDonMoi />;
+      case 'Đang Xử Lý':
+        return <DangXyLy />;
       case 'Đang giao':
-        return <DeliveringOrders />;
-      case 'Đã giao':
-        return <DeliveredOrders />;
+        return <DangGiao />;
+      case 'Hoàn Thành':
+        return <HoanThanh />;
       case 'Đã hủy':
-        return <CancelledOrders />;
+        return <HoanThanh />;
       default:
         return null;
     }
@@ -45,17 +44,17 @@ const DonHang = () => {
           <div className={`pt-3 pb-3 w-25 ${selectedTab === 'Tất cả' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
             <p className={`m-auto text-center ${selectedTab === 'Tất cả' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Tất cả')}>Tất cả</p>
           </div>
-          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đã đặt' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
-            <p className={`m-auto text-center ${selectedTab === 'Đã đặt' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đã đặt')}>Đã đặt</p>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Hóa Dơn Mới' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Hóa Dơn Mới' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Hóa Dơn Mới')}>Hóa đơn mới</p>
           </div>
-          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đã xác nhận' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
-            <p className={`m-auto text-center ${selectedTab === 'Đã xác nhận' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đã xác nhận')}>Đã xác nhận</p>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đang Xử Lý' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Đang Xử Lý' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đang Xử Lý')}>Đang xử lý</p>
           </div>
           <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đang giao' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
             <p className={`m-auto text-center ${selectedTab === 'Đang giao' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đang giao')}>Đang giao</p>
           </div>
-          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đã giao' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
-            <p className={`m-auto text-center ${selectedTab === 'Đã giao' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đã giao')}>Đã giao</p>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Hoàn Thành' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Hoàn Thành' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Hoàn Thành')}>Hoàn thành</p>
           </div>
           <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đã hủy' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
             <p className={`m-auto text-center ${selectedTab === 'Đã hủy' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đã hủy')}>Đã hủy</p>
