@@ -1,26 +1,27 @@
-import { FiSearch } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GoMoveToTop } from "react-icons/go";
 import { BsCartCheck } from "react-icons/bs";
-import React, { useEffect, useState } from 'react'
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react'
+import { Navbar, Nav, FormControl } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from "react-redux";
+import formatNumber from "../utils/formatNumber";
 
 const Mainlayout = () => {
     const [showGoToTop, setShowGoToTop] = useState(false)
     const userDto = useSelector(state => state.auth.user);
-
+    const [searchTerm, setSearchTerm] = useState('');
+    const productList = useSelector((state) => state?.phone?.phones);
+    const [showSearchResult, setShowSearchResult] = useState(false);
+    const searchBoxRef = useRef(null);
     const handleClickToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
-
     useEffect(() => {
         const handleScroll = () => {
             setShowGoToTop(window.scrollY >= 200)
@@ -37,6 +38,34 @@ const Mainlayout = () => {
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
     }, [location]);
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+        setShowSearchResult(true);
+    };
+
+    const filteredProducts = searchTerm
+        ? productList.filter((product) =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : [];
+    const handleClickProduct = () => {
+        setShowSearchResult(false);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
+                setShowSearchResult(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
 
@@ -55,12 +84,48 @@ const Mainlayout = () => {
                             </Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
-                                <Form className="d-flex ml-2 mr-2 w-100 mb-2" role="search">
-                                    <div className="d-flex bg-light" style={{ width: '100%' }}>
-                                        <FormControl type="search" placeholder="Bạn tìm gì" aria-label="Bạn tìm gì" />
-                                        <Button variant="outline-secondary" ><FiSearch /></Button>
+                                <div className="searchBox w-100 mr-3" ref={searchBoxRef}>
+                                    <div className="d-flex ml-2 mr-2 w-100 mb-2" role="search">
+                                        <div className="d-flex bg-light" style={{ width: '100%' }}>
+                                            <FormControl
+                                                id="text-search"
+                                                type="search"
+                                                placeholder="Bạn tìm gì"
+                                                aria-label="Bạn tìm gì"
+                                                value={searchTerm}
+                                                onChange={handleSearch}
+                                                onFocus={() => setShowSearchResult(true)}
+                                            />
+                                        </div>
                                     </div>
-                                </Form>
+                                    {showSearchResult && (
+                                        <div className="searchResult">
+                                            {filteredProducts.map((product) => (
+                                                <Link
+                                                    to={`/dtdd/${product?.id}`}
+                                                    key={product.id}
+                                                    className="card card-body"
+                                                    onClick={handleClickProduct}
+                                                >
+                                                    <div className="d-flex">
+                                                        <img
+                                                            src={product.fileHinh}
+                                                            width={'60px'}
+                                                            height={'60px'}
+                                                            alt={product.name}
+                                                        />
+                                                        <div className="ml-2">
+                                                            <h5>{product.name}</h5>
+                                                            <p className="text-danger amount">
+                                                                {formatNumber(product.price)}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </Navbar.Collapse>
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">

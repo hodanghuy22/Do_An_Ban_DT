@@ -1,4 +1,4 @@
-import {React, useEffect} from 'react'
+import {React} from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik';
@@ -22,9 +22,7 @@ const signUpSchema = yup.object({
 });
 
 const Register = () => {
-  const authState = useSelector(state => state?.auth)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const formik = useFormik({
     initialValues: {
       email: '',

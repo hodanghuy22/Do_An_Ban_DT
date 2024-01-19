@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, FormControl, Image, InputGroup, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 import { BsCartXFill } from "react-icons/bs";
+import { MdDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { DeleteCart, GetCart, UpdateCart, resetState } from '../features/cart/cartSlice';
@@ -64,37 +65,29 @@ const Cart = () => {
                                 cartState.map((item, index) => {
                                     return (
                                         <Row key={index} className=' pb-2 mb-4  border-bottom border-info'>
-                                            <Col xl={2} md={2} sm={2} className='p-2'>
-                                                <Image src={item?.product?.images ? item?.product?.images[0]?.url : "https://bit.ly/3ul4poY"} width={'75px'} />
-                                                <Button onClick={() => deleteAProductCart(item?.id)} variant=''>
-                                                    <span className='rounded-circle border p-1 bg-secondary mr-1'>
-                                                        <strong>X</strong>
-                                                    </span>
-                                                    Xóa
-                                                </Button>
+                                            <Col xl={4} md={4} sm={4} className='p-2'>
+                                                <Image src={item?.product?.phone?.fileHinh} width={'100px'} height={'100px'} />
                                             </Col>
                                             <Col xl={5} md={5} sm={5}>
-                                                <h5>Đồng hồ thông minh BeFit Watch Ultra S 52.1mm</h5>
-                                                <span>Nhập mã MMSALE100 giảm ngay 1% tối đa 100.000đ khi thanh toán qua MOMO (Xem chi tiết tại đây)</span>
+                                                <h5>{item?.product?.phone?.name}</h5>
                                                 <span>Màu: {item?.product?.color?.colorName}</span>
+                                                <p className='text-danger amount'>{formatNumber(item?.product?.price)}</p>
+
                                             </Col>
-                                            <Col xl={2} md={2} sm={2}>
-                                                <InputGroup>
-                                                    {/* <Button variant="outline-secondary">-</Button> */}
+                                            <Col xl={3} md={3} sm={3} className='text-right d-flex flex-column'>
+                                                <MdDeleteForever
+                                                    onClick={() => deleteAProductCart(item?.id)}
+                                                    style={{ fontSize: '30px' }}
+                                                    className='mb-4 ml-auto'
+                                                />
+                                                <InputGroup className='w-50 ml-auto'>
                                                     <FormControl
                                                         type="number"
                                                         value={item?.quantity}
-                                                        onChange={(e)=>setProductUpdateDetails({id: item?.id,userId: item?.userId,productId: item?.productId, quantity: e.target.value})}
+                                                        onChange={(e) => setProductUpdateDetails({ id: item?.id, userId: item?.userId, productId: item?.productId, quantity: e.target.value })}
                                                         min={1}
                                                     />
-                                                    {/* <Button variant="outline-secondary">+</Button> */}
                                                 </InputGroup>
-                                            </Col>
-                                            <Col xl={3} md={3} sm={3} className='text-right'>
-
-                                                <p className='text-danger amount'>Đơn giá: { formatNumber( item?.product?.price)}</p>
-                                                <p className='text-danger amount'>Tổng tiền: {formatNumber(item?.product?.price * item?.quantity)}</p>
-                                                
                                             </Col>
                                         </Row>
                                     )
@@ -106,8 +99,8 @@ const Cart = () => {
                                 <Col className='text-left'>
                                     Tạm tính ({cartState.length} sản phẩm)
                                 </Col>
-                                <Col className='text-right text-danger'>
-                                    {sum}
+                                <Col className='text-right text-danger amount'>
+                                    {formatNumber( sum)}
                                 </Col>
                             </Row>
                             <Row>

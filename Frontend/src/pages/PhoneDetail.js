@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb } from 'antd';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CiCirclePlus } from "react-icons/ci";
 import { Container, Row, Col, Button, Table, Form } from 'react-bootstrap';
@@ -48,14 +47,15 @@ const PhoneDetail = () => {
     const capacityState = useSelector(state => state?.capacity?.capacities);
     const colorState = useSelector(state => state?.color?.colors);
     const phoneId = useParams().phoneId;
+    
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
+
     const [AProduct, setAProduct] = useState({
         "phoneId": phoneId,
         "colorId": phoneState?.products[0]?.colorId,
         "capacityId": phoneState?.products[0]?.capacityId
     });
-
     const formik = useFormik({
         initialValues: {
             content: '',
@@ -98,7 +98,7 @@ const PhoneDetail = () => {
             .catch(() => 'error');
         dispatch(GetCapacitiesByPhoneId(phoneId))
         dispatch(GetColorsByPhoneId(phoneId))
-    }, []);
+    }, [dispatch,phoneId]);
 
 
     useEffect(() => {
@@ -112,12 +112,12 @@ const PhoneDetail = () => {
     }, [phoneState]);
     useEffect(() => {
         dispatch(GetProductForUser(AProduct))
-    }, [AProduct]);
+    }, [dispatch,AProduct]);
 
     useEffect(() => {
         formik.setFieldValue("productId", productState?.id);
         formik2.setFieldValue("productId", productState?.id);
-    }, [productState])
+    }, [dispatch,productState])
 
     const handleColorSelection = (colorId) => {
         setAProduct(prevState => ({
@@ -167,6 +167,7 @@ const PhoneDetail = () => {
             navigate("/cart")
         }, 300);
     }
+
     return (
         <>
             <Helmet>
@@ -174,25 +175,18 @@ const PhoneDetail = () => {
             </Helmet>
 
             <div>
-                <Breadcrumb separator="›">
-                    <Breadcrumb.Item>
-                        <Link to="/">Điện thoại</Link>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                        <Link to="/">Điện thoại iPhone (Apple)</Link>
-                    </Breadcrumb.Item>
-                </Breadcrumb>
+            
                 <Container className='pl-0 ml-0'>
                     <h5 style={{ display: 'inline-block' }}>Điện thoại {phoneState.name} </h5>
                     <span className=' ml-3 text-primary'>{productState?.soldQuantity} Số lượng đã bán</span>
                     <Link className='ml-3' onClick={addWishlist}>
                         <div className="heart heart1">
-                            <svg width="1em" height="1em" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="1em" height="1em" viewBox="0 0 512 512">
                                 <path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3C200.7 23 111.4 15.6 53.6 64.3C-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9c14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3m-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7c38.9-32.7 98.9-27.8 136.5 10.5l35 35.7l35-35.7c37.8-38.5 97.8-43.2 136.5-10.6c51.1 43.1 43.5 113.9 7.3 150.8"></path>
                             </svg>
                         </div>
                         <div className="heart heart2">
-                            <svg width="1em" height="1em" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" >
+                            <svg width="1em" height="1em" viewBox="0 0 512 512" >
                                 <path fill="#ff0000" d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9"></path>
                             </svg>
                         </div>
@@ -297,7 +291,7 @@ const PhoneDetail = () => {
                         <input
                             type="number"
                             name="star"
-                            class="form-control"
+                            className="form-control"
                             placeholder="Star"
                             value={formik2.values.star}
                             onChange={formik2.handleChange('star')}
@@ -347,7 +341,7 @@ const PhoneDetail = () => {
                                                     <div key={index} className='mt-4'>
                                                         <div className='d-flex items-start justify-start '>
                                                             <div className='avatar overflow-hidden'>
-                                                                <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='zxczcxzxc' />
+                                                                <img src='' alt='zxczcxzxc' />
                                                             </div>
                                                             <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                                 <div className='d-flex items-center'>
@@ -366,9 +360,9 @@ const PhoneDetail = () => {
                                                                     </span>
                                                                     <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
                                                                 </div>
-                                                                <div class="d-flex items-center">
-                                                                    <p class="text-ddv font-bold text-16">
-                                                                        <span class="text-16 mx-2 text-black font-normal">{item?.comment}</span>
+                                                                <div className="d-flex items-center">
+                                                                    <p className="text-ddv font-bold text-16">
+                                                                        <span className="text-16 mx-2 text-black font-normal">{item?.comment}</span>
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -428,18 +422,18 @@ const PhoneDetail = () => {
                                                 {
                                                     productState && productState?.comments?.map((item, index) => {
                                                         return (
-                                                            <div className='pt-4'>
+                                                            <div className='pt-4' key={item.id}>
                                                                 <div className='d-flex items-start justify-start '>
                                                                     <div className='avatar overflow-hidden'>
-                                                                        <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
+                                                                        <img src='' alt='asdasd' />
                                                                     </div>
                                                                     <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                                         <div className='d-flex items-center'>
                                                                             <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
                                                                         </div>
-                                                                        <div class="d-flex items-center">
-                                                                            <p class="text-ddv font-bold text-16">
-                                                                                <span class="text-16 mx-2 text-black font-normal">{item?.content}</span>
+                                                                        <div className="d-flex items-center">
+                                                                            <p className="text-ddv font-bold text-16">
+                                                                                <span className="text-16 mx-2 text-black font-normal">{item?.content}</span>
                                                                             </p>
                                                                         </div>
                                                                     </div>
@@ -447,13 +441,13 @@ const PhoneDetail = () => {
                                                                 {
                                                                     item && item?.childComments?.map(i => {
                                                                         return (
-                                                                            <div className='d-flex items-start justify-start  '>
+                                                                            <div className='d-flex items-start justify-start  ' key={i.id}>
                                                                                 <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                                                    <img src='https://didongviet.vn/Images/pc/defaultavatar.png' alt='asdasd' />
+                                                                                    <img src='' alt='asdasd' />
                                                                                 </div>
                                                                                 <div className='flex-column items-start justify-start px-3 w-11/12'>
-                                                                                    <div class="d-flex items-center">
-                                                                                        <p class="text-ddv font-bold text-16 mt-1" >
+                                                                                    <div className="d-flex items-center">
+                                                                                        <p className="text-ddv font-bold text-16 mt-1" >
                                                                                             {i?.content}
                                                                                         </p>
                                                                                     </div>
