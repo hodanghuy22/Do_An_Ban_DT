@@ -69,13 +69,14 @@ namespace DoAnMonHoc_Backend.Controllers
         }
         [HttpPost]
         [Route("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword(ForgetPasswordModel forgetPasswordModel)
         {
-            if (string.IsNullOrEmpty(email))
+            Console.WriteLine("Email: " + forgetPasswordModel);
+            if (string.IsNullOrEmpty(forgetPasswordModel.Email))
             {
                 return NotFound();
             }
-            return await _uow.UserRepositoty.ForgetPassword(email);
+            return await _uow.UserRepositoty.ForgetPassword(forgetPasswordModel);
         }
         [HttpPost]
         [Route("ResetPassword")]

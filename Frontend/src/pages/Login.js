@@ -79,7 +79,7 @@ const Login = () => {
           <div className="row mb-4">
 
             <div className="col">
-              <a href="#!">Quên mật khẩu?</a>
+              <Link to="/forgot-password" className='ml-1'>Quên mật khẩu?</Link>
             </div>
           </div>
           <button type="submit" className="btn btn-primary btn-block mb-4 background-primary text-dark">Đăng nhập</button>

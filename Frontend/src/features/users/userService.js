@@ -22,8 +22,6 @@ const login = async(userData)=>{
 }
 
 const updateUser = async(userData) => {
-    console.log(config);
-    console.log(userData);
     const response = await axios.put(`${base_url}Users/${userData.id}`, userData.data, config);
     if(response.data){
         localStorage.setItem("customer", JSON.stringify(response.data));
@@ -32,19 +30,35 @@ const updateUser = async(userData) => {
 }
 
 const changePassword = async(userData) => {
-    console.log(config);
-    console.log("Asdas",userData);
     const response = await axios.put(`${base_url}Users/ChangePassword/${userData.id}`, userData.changePasswordModel, config);
     if(response.data){
         return response.data;
     }
 }
 
+const forgetPassword = async(mail) => {
+    const response = await axios.post(`${base_url}Users/ForgotPassword`,mail);
+    if(response.data){
+        return response.data;
+    }
+}
+
+const resetPassword = async(data) => {
+    const response = await axios.post(`${base_url}Users/ResetPassword`,data);
+    if(response.data){
+        return response.data;
+    }
+}
+
+
+
 const userService = {
     register,
     login,
     updateUser,
     changePassword,
+    forgetPassword,
+    resetPassword,
 };
 
 export default userService;
