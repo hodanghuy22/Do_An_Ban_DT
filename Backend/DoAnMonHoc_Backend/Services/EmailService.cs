@@ -17,7 +17,7 @@ namespace DoAnMonHoc_Backend.Services
         public async Task SendEmail(EmailModel emailModel)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_configuration["EmailService:Username"]));
+            email.From.Add(MailboxAddress.Parse(_configuration["EmailService2:Username"]));
             email.To.Add(MailboxAddress.Parse(emailModel.To));
             email.Subject = emailModel.Subject;
             email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -26,8 +26,8 @@ namespace DoAnMonHoc_Backend.Services
             };
 
             using var smtp = new SmtpClient();
-            await smtp.ConnectAsync(_configuration["EmailService:Host"], 587, SecureSocketOptions.StartTls);
-            await smtp.AuthenticateAsync(_configuration["EmailService:Username"], _configuration["EmailService:Password"]);
+            await smtp.ConnectAsync(_configuration["EmailService2:Host"], 587, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(_configuration["EmailService2:Username"], _configuration["EmailService2:Password"]);
             await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);
 

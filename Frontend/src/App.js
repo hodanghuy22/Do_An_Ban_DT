@@ -22,9 +22,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/reset-password" element={<Resetpassword />} />
-        <Route path="/forgot-password" element={<Forgotpassword />} />
         <Route path="/" element={<MainLayout />}>
+          <Route path="/reset-password/:token" element={<Resetpassword />} />
+          <Route path="/forgot-password" element={<Forgotpassword />} />
           <Route path="/login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route index element={<Home />} />

@@ -15,7 +15,7 @@ namespace DoAnMonHoc_Backend.Interfaces
         Task<User> GetUser(string id);
         Task<User> GetUserByEmail(string email);
         Task<bool> UserExist(string id);
-        Task<IActionResult> ForgetPassword(string email);
+        Task<IActionResult> ForgetPassword(ForgetPasswordModel forgetPasswordModel);
         Task<IActionResult> ResetPassword(ResetPasswordModel model);
 
     }

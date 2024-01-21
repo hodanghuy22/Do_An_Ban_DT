@@ -226,9 +226,9 @@ namespace DoAnMonHoc_Backend.Repository
             return new OkObjectResult("Password changed successfully");
         }
 
-        public async Task<IActionResult> ForgetPassword(string email)
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordModel forgetPasswordModel)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(forgetPasswordModel.Email);
             if(user == null)
             {
                 return new NotFoundObjectResult("Not Found This Email!!!");
@@ -236,11 +236,11 @@ namespace DoAnMonHoc_Backend.Repository
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
-            string url = $"{_configuration["AppUrl"]}/ResetPassword?token={validToken}";
+            string url = $"{_configuration["AppUrl"]}/{validToken}";
 
             var body = new EmailModel
             {
-                To = email,
+                To = forgetPasswordModel.Email,
                 Subject = "Link Reset Password",
                 Body = $"<h1>Follow this url to reset your password <a href={url}>click here</a></h1>",
             };
@@ -256,16 +256,19 @@ namespace DoAnMonHoc_Backend.Repository
             {
                 return new NotFoundObjectResult("Not Found This Email!!!");
             }
-            if(model.Email != model.ConfirmPassword)
+            if(model.NewPassword != model.ConfirmPassword)
             {
                 return new BadRequestObjectResult("Password doesn't match its confirmation!!!");
             }
-            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+            var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
+            var token = Encoding.UTF8.GetString(decodedToken);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
             if (result.Succeeded)
             {
                 return new OkObjectResult("Password has been reset successfully!!!");
             }
-            return new BadRequestObjectResult("Something went wrong!!!");
+            return new BadRequestObjectResult(result.Errors);
         }
     }
 }
