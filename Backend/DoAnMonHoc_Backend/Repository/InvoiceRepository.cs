@@ -131,6 +131,14 @@ namespace DoAnMonHoc_Backend.Repository
             var invoice = await _context.Invoices.FindAsync(id);
             if (invoice != null)
             {
+                if(status == "Hoàn Thành")
+                {
+                    invoice.Paid = true;
+                }
+                if (status == "Hóa Đơn Mới")
+                {
+                    invoice.Paid = false;
+                }
                 invoice.OrderStatus = status;
                 var rs = await _context.SaveChangesAsync();
                 if(rs > 0)

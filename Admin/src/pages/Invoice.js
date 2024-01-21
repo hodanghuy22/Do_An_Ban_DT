@@ -35,6 +35,10 @@ const columns = [
         dataIndex: 'couponTitle',
     },
     {
+        title: 'Paid',
+        dataIndex: 'paid',
+    },
+    {
         title: 'OrderStatus',
         dataIndex: 'orderStatus',
     },
@@ -60,11 +64,12 @@ const Invoice = () => {
             totalPrice: invoiceState[i].totalPrice,
             totalPriceAfterDiscount: invoiceState[i].totalPriceAfterDiscount,
             couponTitle: invoiceState[i].coupon?.title,
+            paid: invoiceState[i].paid ? <p className='text-success'>Đã thanh toán</p> : <p className='text-danger'>Chưa thanh toán</p>,
             orderStatus: (<>
                 <select defaultValue={invoiceState[i]?.orderStatus}
                     onClick={(e)=> UpdateStatus(invoiceState[i]?.id,e.target.value)}
                     name="" className='form-control form-select'> 
-                  <option value="Hóa Đơn Mới" disabled selected>Hóa Đơn Mới</option>
+                  <option value="Hóa Đơn Mới" selected>Hóa Đơn Mới</option>
                   <option value="Đang Xử Lý">Đang Xử Lý</option>
                   <option value="Đang Giao">Đang Giao</option>
                   <option value="Hoàn Thành">Hoàn Thành</option>
@@ -77,6 +82,9 @@ const Invoice = () => {
     const UpdateStatus = (a,b)=>
     {
         dispatch(UpdateStatusInvoice({id:a, status:b}))
+        setTimeout(()=>{
+            dispatch(GetInvoices())
+        },300)
     }
 
     return (
