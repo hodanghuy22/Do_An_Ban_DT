@@ -25,7 +25,8 @@ const AllOrders = () => {
                     <span className='ml-3'>Ngày đặt {formatDate(item?.issueDate)}</span>
                   </div>
                   <div className='ml-auto'>
-                    <p className='text-danger'>{item?.orderStatus}</p>
+                    <p className='text-danger fw-bold'>{item?.orderStatus}</p>
+                    <p className={item?.paid?"text-success":"text-danger"}>{item?.paid ? "Đã thanh toán" : "Chưa thanh toán"}</p>
                   </div>
                 </div>
                 <hr />

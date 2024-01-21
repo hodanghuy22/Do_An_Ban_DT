@@ -32,6 +32,29 @@ namespace DoAnMonHoc_Backend.Controllers
             };
             return Ok(photo);
         }
+        [HttpPost]
+        [Route("UploadPhotos")]
+        public async Task<IActionResult> UploadPhotos(IEnumerable<IFormFile> files)
+        {
+            var photoModels = new List<PhotoModel>();
+
+            foreach (var file in files)
+            {
+                var result = await _photoService.UploadPhotoAsync(file);
+                if (result.Error != null)
+                {
+                    return BadRequest(result.Error.Message);
+                }
+                var photo = new PhotoModel
+                {
+                    PublicId = result.PublicId,
+                    Url = result.SecureUrl.ToString()
+                };
+                photoModels.Add(photo);
+            }
+            return Ok(photoModels);
+
+        }
         [HttpDelete]
         [Route("{publicId}")]
         public async Task<IActionResult> DeletePhoto(string publicId)

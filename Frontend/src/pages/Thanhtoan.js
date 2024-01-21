@@ -37,7 +37,8 @@ const Thanhtoan = () => {
             issueDate: new Date().toISOString().substr(0, 10),
             totalPrice: sum || 0,
             totalPriceAfterDiscount: tongTien || 0,
-            couponId: -1,
+            couponId: null,
+            paid: false,
             orderStatus: "Hóa Đơn Mới",
             invoiceDetails: []
         },
