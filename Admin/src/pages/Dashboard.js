@@ -1,30 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { Column } from '@ant-design/plots';
-import { Table } from 'antd';
-
-const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-  ];
-  const data1 = [];
-  for (let i = 0; i < 46; i++) {
-    data1.push({
-      key: i,
-      name: `Name ${i}`,
-      age: 20,
-      address: `Address ${i}`,
-    });
-  }
 
 const Dashboard = () => {
     const data = [
@@ -50,47 +26,38 @@ const Dashboard = () => {
         },
         {
             type: 'Jun',
-            sales: 38,
+            sales: 66,
         },
         {
-            type: 'July',
-            sales: 10,
+            type: 'Jul',
+            sales: 38,
         },
         {
             type: 'Aug',
-            sales: 20,
-        },
-        {
-            type: 'Sept',
             sales: 55,
         },
         {
-            type: 'Oct',
+            type: 'Sep',
             sales: 38,
         },
         {
+            type: 'Oct',
+            sales: 66,
+        },
+        {
             type: 'Nov',
-            sales: 32,
+            sales: 31,
         },
         {
             type: 'Dec',
-            sales: 48,
+            sales: 22,
         },
     ];
     const config = {
         data,
         xField: 'type',
         yField: 'sales',
-        color: ({ type }) => {
-            return '#ffd333';
-        },
-        label: {
-            position: 'middle',
-            style: {
-                fill: '#FFFFFF',
-                opacity: 1,
-            },
-        },
+        columnWidthRatio: 0.8,
         xAxis: {
             label: {
                 autoHide: true,
@@ -99,10 +66,10 @@ const Dashboard = () => {
         },
         meta: {
             type: {
-                alias: 'Month',
+                alias: '类别',
             },
             sales: {
-                alias: 'Income',
+                alias: '销售额',
             },
         },
     };
@@ -123,13 +90,11 @@ const Dashboard = () => {
                     <div className='d-flex flex-column align-items-end'><h6>32%</h6><p>April 2023</p></div>
                 </div>
             </div>
-            {/* <div className='mt-4 bg-white p-3'>
-                <h3 className='mb-4'>Income Statics</h3>
-                <div><Column {...config} /></div>
-            </div> */}
-            <div className='mt-4 bg-white p-3'>
-                <h3 className='mb-4'>Recent Orders</h3>
-                <div><Table columns={columns} dataSource={data1} /></div>
+            <br></br>
+            <div>
+                <h4>Income Chart</h4>
+                <br></br>
+                <Column {...config} />
             </div>
         </div>
     );

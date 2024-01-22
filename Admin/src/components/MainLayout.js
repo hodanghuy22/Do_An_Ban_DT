@@ -3,7 +3,7 @@ import { HiArrowCircleLeft, HiArrowCircleRight } from "react-icons/hi";
 import { RiCoupon2Line, RiCoupon3Line, RiDashboard2Line, RiMessage3Line, RiSlideshow4Line } from "react-icons/ri";
 import { TbCategory, TbShoppingCart, TbShoppingCartCog, TbBrandBlogger } from "react-icons/tb";
 import { MdOutlineColorLens } from "react-icons/md";
-import { FaUser, FaUserCog,FaRegStar } from "react-icons/fa";
+import { FaUser, FaUserCog, FaRegStar } from "react-icons/fa";
 import { Layout, Menu, Button, theme } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -200,8 +200,7 @@ const MainLayout = () => {
             }}
           />
           <div className='d-flex gap-3 align-items-center'>
-            <div><img className='img-acc' src='https://upload-os-bbs.hoyolab.com/upload/2022/01/01/46384184/f3cc0c07f6797640387f443b53c001ff_6540641865418857049.png' alt='' /></div>
-            <div><h5 className='fs-5 text-center py-3 mb-0'>Name</h5></div>
+            <Button variant="contained">Log Out</Button>
           </div>
         </Header>
         <Content
@@ -213,7 +212,7 @@ const MainLayout = () => {
           }}
         >
           <Outlet />
-          <ToastContainer 
+          <ToastContainer
             position="top-right"
             autoClose={250}
             hideProgressBar={false}
