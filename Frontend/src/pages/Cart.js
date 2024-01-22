@@ -71,6 +71,7 @@ const Cart = () => {
                                             <Col xl={5} md={5} sm={5}>
                                                 <h5>{item?.product?.phone?.name}</h5>
                                                 <span>Màu: {item?.product?.color?.colorName}</span>
+                                                <p>Bộ nhớ: {item?.product?.capacity?.totalCapacity} GB</p>
                                                 <p className='text-danger amount'>{formatNumber(item?.product?.price)}</p>
 
                                             </Col>
