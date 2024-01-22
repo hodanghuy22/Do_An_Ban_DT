@@ -47,7 +47,7 @@ const PhoneDetail = () => {
     const capacityState = useSelector(state => state?.capacity?.capacities);
     const colorState = useSelector(state => state?.color?.colors);
     const phoneId = useParams().phoneId;
-    
+
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
 
@@ -98,7 +98,7 @@ const PhoneDetail = () => {
             .catch(() => 'error');
         dispatch(GetCapacitiesByPhoneId(phoneId))
         dispatch(GetColorsByPhoneId(phoneId))
-    }, [dispatch,phoneId]);
+    }, [dispatch, phoneId]);
 
 
     useEffect(() => {
@@ -112,12 +112,12 @@ const PhoneDetail = () => {
     }, [phoneState]);
     useEffect(() => {
         dispatch(GetProductForUser(AProduct))
-    }, [dispatch,AProduct]);
+    }, [dispatch, AProduct]);
 
     useEffect(() => {
         formik.setFieldValue("productId", productState?.id);
         formik2.setFieldValue("productId", productState?.id);
-    }, [dispatch,productState])
+    }, [dispatch, productState])
 
     const handleColorSelection = (colorId) => {
         setAProduct(prevState => ({
@@ -175,9 +175,9 @@ const PhoneDetail = () => {
             </Helmet>
 
             <div>
-            
+
                 <Container className='pl-0 ml-0'>
-                    <h5 style={{ display: 'inline-block' }}>Điện thoại {phoneState.name} </h5>
+                    <h5 style={{ display: 'inline-block' }}>Điện thoại {phoneState.name} {productState?.capacity?.totalCapacity} GB</h5>
                     <span className=' ml-3 text-primary'>{productState?.soldQuantity} Số lượng đã bán</span>
                     <Link className='ml-3' onClick={addWishlist}>
                         <div className="heart heart1">
@@ -214,41 +214,24 @@ const PhoneDetail = () => {
                                 modules={[Autoplay, Pagination, Navigation]}
                                 className="mySwiper"
                             >
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/1.jpg' alt='zxc' />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/2.jpg' alt='zxc' />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/3.jpg' alt='zxc' />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/4.jpg' alt='zxc' />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/5.jpg' alt='zxc' />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/6.jpg' alt='zxc' />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/7.jpg' alt='zxc' />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/8.jpg' alt='zxc' />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img className='w-100' src='/Images/detail/1/9.jpg' alt='zxc' />
-                                </SwiperSlide>
+                                {
+                                    productState?.images.map((item, index) => {
+                                        return (
+                                            <SwiperSlide key={index}>
+                                                <img className='w-100' src={item.url} alt='zxc' />
+                                            </SwiperSlide>
+                                        )
+                                    })
+                                }
+
                             </Swiper>
+                            {/* <SwiperSlide>
+                                    <img className='w-100' src={productState?.images[0].url} alt='zxc' />
+                                </SwiperSlide> */}
 
 
                             {/* Ảnh thông tin điện thoại */}
                             <Container className='bg-light '>
-                                <Row >
-                                    <img className='w-100' src='/Images/detail/1/note.jpg' style={{ width: '100%' }} alt='zxczxc' />
-                                </Row>
                                 <Row className='mt-5'>
                                     <h5>Thông tin sản phẩm</h5>
                                     <p>{phoneState.desc}</p>
@@ -287,22 +270,22 @@ const PhoneDetail = () => {
                                         <Form onSubmit={formik2.handleSubmit}>
                                             <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
                                                 <Col md={10} className="w-full h-full mb-3 md:mb-0">
-                                                <div className='mb-3'>
-                        <input
-                            type="number"
-                            name="star"
-                            className="form-control"
-                            placeholder="Star"
-                            value={formik2.values.star}
-                            onChange={formik2.handleChange('star')}
-                            onBlur={formik2.handleBlur('star')}
-                        />
-                        <div className='error'>
-                            {
-                                formik2.touched.star && formik2.errors.star
-                            }
-                        </div>
-                    </div>
+                                                    <div className='mb-3'>
+                                                        <input
+                                                            type="number"
+                                                            name="star"
+                                                            className="form-control"
+                                                            placeholder="Star"
+                                                            value={formik2.values.star}
+                                                            onChange={formik2.handleChange('star')}
+                                                            onBlur={formik2.handleBlur('star')}
+                                                        />
+                                                        <div className='error'>
+                                                            {
+                                                                formik2.touched.star && formik2.errors.star
+                                                            }
+                                                        </div>
+                                                    </div>
                                                     <Form.Group className="mantine-InputWrapper-root mantine-Textarea-root mantine-1m3pqry">
                                                         <Form.Control
                                                             as="textarea"
@@ -321,7 +304,7 @@ const PhoneDetail = () => {
                                                             }
                                                         </div>
                                                     </Form.Group>
-                                                    
+
                                                 </Col>
                                                 <Col md={2} className="w-full flex flex-col md:px-2">
                                                     <Button
@@ -341,7 +324,7 @@ const PhoneDetail = () => {
                                                     <div key={index} className='mt-4'>
                                                         <div className='d-flex items-start justify-start '>
                                                             <div className='avatar overflow-hidden'>
-                                                                <img src='' alt='zxczcxzxc' />
+                                                                <img src='/Images/user-icon.jpg' width={30} height={30} alt='zxczcxzxc' />
                                                             </div>
                                                             <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                                 <div className='d-flex items-center'>
@@ -425,7 +408,7 @@ const PhoneDetail = () => {
                                                             <div className='pt-4' key={item.id}>
                                                                 <div className='d-flex items-start justify-start '>
                                                                     <div className='avatar overflow-hidden'>
-                                                                        <img src='' alt='asdasd' />
+                                                                        <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
                                                                     </div>
                                                                     <div className='flex-column items-start justify-start pl-2 w-11/12'>
                                                                         <div className='d-flex items-center'>
@@ -443,7 +426,7 @@ const PhoneDetail = () => {
                                                                         return (
                                                                             <div className='d-flex items-start justify-start  ' key={i.id}>
                                                                                 <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                                                    <img src='' alt='asdasd' />
+                                                                                    <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
                                                                                 </div>
                                                                                 <div className='flex-column items-start justify-start px-3 w-11/12'>
                                                                                     <div className="d-flex items-center">
@@ -565,7 +548,7 @@ const PhoneDetail = () => {
                                             </tr>
                                             <tr>
                                                 <td>Dung lượng lưu trữ:</td>
-                                                <td>{phoneState.rom} GB</td>
+                                                <td>{productState?.capacity?.totalCapacity} GB</td>
                                             </tr>
 
                                             <tr>
