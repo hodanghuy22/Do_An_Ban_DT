@@ -7,6 +7,7 @@ import Forgotpassword from './pages/Forgotpassword';
 import MainLayout from './components/MainLayout';
 import Changepassword from './pages/Changepassword';
 import Comment from './pages/Comment';
+import RepComment from './pages/RepComment';
 import Invoice from './pages/Invoice';
 import CouponList from './pages/CouponList';
 import CustomerList from './pages/CustomerList';
@@ -39,6 +40,7 @@ function App() {
         <Route path='/admin' element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path='comment' element={<Comment />} />
+          <Route path='rep-comment/:id' element={<RepComment />} />
           <Route path='invoice' element={<Invoice />} />
           <Route path='invoiceDetails/:id' element={<InvoiceDetails />} />
           <Route path='coupon-list' element={<CouponList />} />

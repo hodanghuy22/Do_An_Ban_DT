@@ -61,7 +61,7 @@ const Comment = () => {
             commentId: commentState[i].commentId,
             parentComment: commentState[i].parentComment,
             action: (<>
-                <Link className='fs-3 text-danger' to={`/admin/add-comment/${commentState[i].id}`}><BiEdit /></Link>
+                <Link className='fs-3 text-danger' to={`/admin/rep-comment/${commentState[i].id}`}><BiEdit /></Link>
                 <button className='fs-3 text-danger ms-3 text-danger bg-transparent border-0'
                     onClick={() => showModal(commentState[i].id)}><AiFillDelete /></button>
             </>)

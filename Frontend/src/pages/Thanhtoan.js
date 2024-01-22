@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { CheckCoupon } from '../features/coupon/couponSlice';
 import { CreateInvoice } from '../features/invoice/invoiceSlice';
+import { CreatePayment } from '../features/payment/paymentSlice';
 
 const invoiceSchema = yup.object({
     shippingInfo: yup.string().required('Address is Required'),
@@ -25,10 +26,13 @@ const Thanhtoan = () => {
     const userState = useSelector(state => state?.auth?.user?.userDto)
     const cartState = useSelector(state => state?.cart?.carts)
     const couponState = useSelector(state => state?.coupon?.ACoupon)
+    const paymentURLState = useSelector(state => state?.payment?.payments?.url)
     const [selectedTab, setSelectedTab] = useState('thongTin');
     const [sum, setSum] = useState();
     const [tongTien, setTongTien] = useState();
     const [tongsl, settongsl] = useState();
+    const [thanhToan, setThanhToan] = useState("tt");
+    const [dataPayment, setDataPayment] = useState("tt");
 
     const formik = useFormik({
         initialValues: {
@@ -45,10 +49,25 @@ const Thanhtoan = () => {
         validationSchema: invoiceSchema,
         onSubmit: values => {
             console.log(values);
-            dispatch(CreateInvoice(values))
-            setTimeout(()=>{
-                navigate('/user');
-            }, 300)
+            if (thanhToan === "tt") {
+                dispatch(CreateInvoice(values))
+                setTimeout(() => {
+                    navigate('/user');
+                }, 300)
+            }
+            if (thanhToan === "onl") {
+                console.log("Online");
+                console.log(dataPayment);
+                dispatch(CreatePayment(dataPayment))
+                setTimeout(()=>{
+                    console.log(paymentURLState);
+                    if(paymentURLState){
+                        window.location.href = paymentURLState
+                    }
+                }, 300)
+                
+            }
+
         },
     });
 
@@ -66,14 +85,14 @@ const Thanhtoan = () => {
     });
 
     useEffect(() => {
-        if(couponState){
+        if (couponState) {
             formik.setFieldValue("couponId", couponState.id);
-            if(couponState.discountPercent > 0){
+            if (couponState.discountPercent > 0) {
                 var tien = tongTien
-                tien -= (couponState.discountPercent/100) * tien;
+                tien -= (couponState.discountPercent / 100) * tien;
                 setTongTien(tien)
                 formik.setFieldValue("totalPriceAfterDiscount", tien);
-            }else{
+            } else {
                 var tien = tongTien
                 tien -= couponState.discountMoney;
                 setTongTien(tien)
@@ -93,6 +112,12 @@ const Thanhtoan = () => {
             dem += cartState[i]?.quantity * cartState[i]?.product?.price;
             dem2 += cartState[i]?.quantity
         }
+        const newList = cartState.map((item) => ({
+            productName: item.product?.phone?.name,
+            price: item.product?.price,
+            quantity: item.quantity
+          }));
+          setDataPayment(newList)
         setSum(dem)
         setTongTien(dem)
         settongsl(dem2)
@@ -117,6 +142,15 @@ const Thanhtoan = () => {
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     };
+    const handlePayment = (e) => {
+        if (e.target.values === "tt") {
+            setThanhToan("tt")
+        } else {
+            setThanhToan("onl")
+        }
+    };
+
+
     return (
         <div>
             <Helmet>
@@ -245,20 +279,20 @@ const Thanhtoan = () => {
                             <form onSubmit={formik2.handleSubmit}>
                                 <div className='row'>
                                     <div className='col-8'>
-                                    <input type='text' 
-                                        placeholder='Nhập mã giảm giá (chỉ ap dụng 1 lần)' 
-                                        className='w-100 py-2'
-                                        value={formik2.values.code}
-                                        onChange={formik2.handleChange('code')}
-                                        onBlur={formik2.handleBlur('code')} />
-                                    <div className='error'>
-                                        {
-                                            formik.touched.shippingInfo && formik.errors.shippingInfo
-                                        }
-                                    </div>
+                                        <input type='text'
+                                            placeholder='Nhập mã giảm giá (chỉ ap dụng 1 lần)'
+                                            className='w-100 py-2'
+                                            value={formik2.values.code}
+                                            onChange={formik2.handleChange('code')}
+                                            onBlur={formik2.handleBlur('code')} />
+                                        <div className='error'>
+                                            {
+                                                formik.touched.shippingInfo && formik.errors.shippingInfo
+                                            }
+                                        </div>
                                     </div>
                                     <div className='col-4'>
-                                    <button type='submit' className=' float-right btn btn-danger '>Áp Dụng</button>
+                                        <button type='submit' className=' float-right btn btn-danger '>Áp Dụng</button>
                                     </div>
                                 </div>
                             </form>
@@ -275,6 +309,12 @@ const Thanhtoan = () => {
                         <h4>THÔNG TIN THANH TOÁN</h4>
                         <div className='bg-light shadow p-4 mb-5 bg-white rounded'>
                             <h5><MdPayment style={{ fontSize: '40px' }} className='mr-3' /><span className='text-danger'>Chọn phương thức thanh toán</span></h5>
+                            <select
+                                onClick={(e) => handlePayment(e)}
+                                name="" className='form-control form-select'>
+                                <option value="tt" selected>Thanh toán trực tiếp</option>
+                                <option value="onl">Thanh toán online</option>
+                            </select>
                         </div>
                     </div>
                     <form onSubmit={formik.handleSubmit}>

@@ -4,12 +4,11 @@ using DoAnMonHoc_Backend.Interfaces;
 using DoAnMonHoc_Backend.Models;
 using DoAnMonHoc_Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using System.Text;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,7 +46,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options => 
+    options.SerializerSettings.ReferenceLoopHandling 
+    = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+StripeConfiguration.ApiKey = builder.Configuration["StripeSetting:SecretKey"];
 builder.Services.AddCors(option =>
 {
     option.AddDefaultPolicy(policy =>
