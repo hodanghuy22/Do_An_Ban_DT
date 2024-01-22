@@ -12,6 +12,7 @@ import commentReducer from '../features/comment/commentSlice';
 import ratingReducer from '../features/rating/ratingSlice';
 import invoiceReducer from '../features/invoice/invoiceSlice';
 import couponReducer from '../features/coupon/couponSlice';
+import paymentReducer from '../features/payment/paymentSlice';
 
 export const store = configureStore({
     reducer: {
@@ -28,5 +29,6 @@ export const store = configureStore({
         rating: ratingReducer,
         invoice: invoiceReducer,
         coupon: couponReducer,
+        payment: paymentReducer
     }
 })
