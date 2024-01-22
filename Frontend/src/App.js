@@ -17,6 +17,7 @@ import Doimatkhau from "./pages/Doimatkhau";
 import ChiTietDonHang from "./pages/ChiTietDonHang";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
+import ThanhToanThanhCong from "./pages/ThanhToanThanhCong";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="cart/thanh-toan" element={<Thanhtoan />} />
           <Route path="dienthoai/:productTypeId" element={<DienThoai />} />
           <Route path="so-sanh" element={<Sosanh />} />
+          <Route path="thanhcong" element={<ThanhToanThanhCong />} />
           <Route path="user/" element={<AccountLayout />}>
             <Route index element={<DonHang />} />
             <Route path="thong-tin-tai-khoan" element={<Thongtindiachi />} />

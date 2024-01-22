@@ -47,7 +47,7 @@ const ChiTietDonHang = () => {
                         <h6>Đặt lúc: {formatDate(invoiceState?.deliveryDate)}</h6>
                         <div className='mt-5 bg-transparent shadow p-3 mb-5 rounded ' style={{ height: '220px' }}>
                             <p><FaMapMarkedAlt />HÌNH THỨC THANH TOÁN</p>
-                            <p className='text-warning'><PiSealWarningFill className='text-warning h3 ' />Cần thanh toán 30.000₫ trước 20:36, Thứ Ba (21/11) tại siêu thị gần nhất</p>
+                            <p className='text-warning'>{invoiceState?.paid?"Thanh toán Online":"Thanh toán Trực tiếp"}</p>
                         </div>
                     </Col>
                 </Row>

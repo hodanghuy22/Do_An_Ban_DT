@@ -62,7 +62,7 @@ namespace DoAnMonHoc_Backend.Controllers
             {
                 LineItems = lineItems,
                 Mode = "payment",
-                SuccessUrl = domain + "user",
+                SuccessUrl = domain + "thanhcong",
                 CancelUrl = domain + "cart/thanh-toan",
             };
             var service = new SessionService();

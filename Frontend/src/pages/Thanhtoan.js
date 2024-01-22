@@ -48,7 +48,6 @@ const Thanhtoan = () => {
         },
         validationSchema: invoiceSchema,
         onSubmit: values => {
-            console.log(values);
             if (thanhToan === "tt") {
                 dispatch(CreateInvoice(values))
                 setTimeout(() => {
@@ -56,15 +55,9 @@ const Thanhtoan = () => {
                 }, 300)
             }
             if (thanhToan === "onl") {
-                console.log("Online");
-                console.log(dataPayment);
-                dispatch(CreatePayment(dataPayment))
-                setTimeout(()=>{
-                    console.log(paymentURLState);
-                    if(paymentURLState){
-                        window.location.href = paymentURLState
-                    }
-                }, 300)
+                if(paymentURLState){
+                    window.location.href = paymentURLState
+                }
                 
             }
 
@@ -79,7 +72,6 @@ const Thanhtoan = () => {
         },
         validationSchema: couponSchema,
         onSubmit: values => {
-            console.log(values);
             dispatch(CheckCoupon(values))
         },
     });
@@ -104,6 +96,14 @@ const Thanhtoan = () => {
     useEffect(() => {
         dispatch(GetCart(userState?.id))
     }, [])
+
+    useEffect(() => {
+        if(thanhToan === "onl"){
+            dispatch(CreatePayment(dataPayment))
+        }
+    }, [thanhToan])
+
+
 
     useEffect(() => {
         let dem = 0
