@@ -28,18 +28,20 @@ import SlideShows from './pages/SlideShows';
 import AddSlideShow from './pages/AddSlideShow';
 import InvoiceDetails from './pages/InvoiceDetails';
 import Rating from './pages/Rating';
+import { OpenRoutes } from './routing/OpenRoutes';
+import { PrivateRoutes } from './routing/PrivateRoutes';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<OpenRoutes><Login /></OpenRoutes>} />
         <Route path='/resetpassword' element={<Resetpassword />} />
         <Route path='/changepassword' element={<Changepassword />} />
         <Route path='/forgotpassword' element={<Forgotpassword />} />
-        <Route path='/admin' element={<MainLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path='comment' element={<Comment />} />
+        <Route path='/admin' element={<PrivateRoutes><MainLayout /></PrivateRoutes>}>
+          <Route index element={<PrivateRoutes><Dashboard /></PrivateRoutes>} />
+          <Route path='comment' element={<PrivateRoutes><Comment /></PrivateRoutes>} />
           <Route path='rep-comment/:id' element={<RepComment />} />
           <Route path='invoice' element={<Invoice />} />
           <Route path='invoiceDetails/:id' element={<InvoiceDetails />} />

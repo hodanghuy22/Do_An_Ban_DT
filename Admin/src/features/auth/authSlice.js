@@ -21,6 +21,11 @@ export const GetAllUsers = createAsyncThunk("auth/get-allUsers", async(userData,
 
 const getCustomerfromLocalStorage = localStorage.getItem('customer')? JSON.parse(localStorage.getItem("customer")):null;
 
+export const logoutUser = createAsyncThunk('auth/logout', async () => {
+    localStorage.removeItem('customer');
+    localStorage.removeItem('token');
+});
+
 const initialState = {
     user: getCustomerfromLocalStorage,
     wishlist: [],
@@ -65,6 +70,23 @@ export const authSlice = createSlice({
             state.users = action.payload;
         })
         .addCase(GetAllUsers.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        })
+        .addCase(logoutUser.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(logoutUser.fulfilled, (state, action)=>{
+            state.user = null;
+            state.wishlist = []; // Xóa danh sách mong muốn nếu cần
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            toast.success("Logged out successfully");
+        })
+        .addCase(logoutUser.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

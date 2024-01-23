@@ -73,6 +73,7 @@ const Invoice = () => {
                   <option value="Đang Xử Lý">Đang Xử Lý</option>
                   <option value="Đang Giao">Đang Giao</option>
                   <option value="Hoàn Thành">Hoàn Thành</option>
+                  <option value="Hủy Đơn">Hủy Đơn</option>
                 </select>
               </>),
             action: (<Link className='fs-3 text-info' to={`/admin/invoiceDetails/${invoiceState[i].id}`}><BiEdit /></Link>)

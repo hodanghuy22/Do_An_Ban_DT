@@ -27,11 +27,18 @@ const GetInvoicesByStatus = async (invoiceData) => {
         return response.data;
     }
 }
+const updateStatusInvoice = async(data)=>{
+    const response = await axios.put(`${base_url}Invoices/UpdateStatusInvoice/${data.id}/${data.status}`, "",config);
+    if(response.data){
+        return response.data;
+    }
+}
 const invoiceService = {
     getAllInvoice,
     getAInvoice,
     createInvoice,
-    GetInvoicesByStatus
+    GetInvoicesByStatus,
+    updateStatusInvoice
 }
 
 export default invoiceService

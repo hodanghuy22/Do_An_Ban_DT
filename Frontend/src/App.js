@@ -18,7 +18,8 @@ import ChiTietDonHang from "./pages/ChiTietDonHang";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import ThanhToanThanhCong from "./pages/ThanhToanThanhCong";
-
+import { PrivateRoutes } from "./routing/PrivateRoutes";
+import { OpenRoutes } from "./routing/OpenRoutes";
 
 function App() {
   return (
@@ -27,16 +28,16 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="/reset-password/:token" element={<Resetpassword />} />
           <Route path="/forgot-password" element={<Forgotpassword />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<OpenRoutes><Login /></OpenRoutes>} />
           <Route path="register" element={<Register />} />
           <Route index element={<Home />} />
           <Route path="/dtdd/:phoneId" element={<Detail />} />
-          <Route path="cart" element={<Cart />} />
-          <Route path="cart/thanh-toan" element={<Thanhtoan />} />
+          <Route path="cart" element={<PrivateRoutes><Cart /></PrivateRoutes>} />
+          <Route path="cart/thanh-toan" element={<PrivateRoutes><Thanhtoan /></PrivateRoutes>} />
           <Route path="dienthoai/:productTypeId" element={<DienThoai />} />
           <Route path="so-sanh" element={<Sosanh />} />
-          <Route path="thanhcong" element={<ThanhToanThanhCong />} />
-          <Route path="user/" element={<AccountLayout />}>
+          <Route path="thanhcong" element={<PrivateRoutes><ThanhToanThanhCong /></PrivateRoutes>} />
+          <Route path="user/" element={<PrivateRoutes><AccountLayout /></PrivateRoutes>}>
             <Route index element={<DonHang />} />
             <Route path="thong-tin-tai-khoan" element={<Thongtindiachi />} />
             <Route path="san-pham-yeu-thich" element={<DanhSachYeuThich />} />

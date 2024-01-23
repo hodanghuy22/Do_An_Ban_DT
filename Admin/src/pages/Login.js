@@ -73,12 +73,7 @@ const Login = () => {
                 formik.touched.password && formik.errors.password
               }
             </div>
-          </div>
-          <div className="row mb-4">
-            <div className="col">
-            <Link to='/forgotpassword' className='text-decoration-none'>Forgot password?</Link>
-            </div>
-          </div>
+          </div>          
           <button type="submit" className="btn btn-primary btn-block mb-4 background-primary text-dark">Đăng nhập</button>
             </form>
             </div>

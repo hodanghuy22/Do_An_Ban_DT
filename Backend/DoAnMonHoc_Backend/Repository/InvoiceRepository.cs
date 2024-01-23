@@ -131,6 +131,25 @@ namespace DoAnMonHoc_Backend.Repository
             var invoice = await _context.Invoices.FindAsync(id);
             if (invoice != null)
             {
+                //if(status == "Hủy Đơn")
+                //{
+                //    if(invoice.InvoiceDetails.Count > 0)
+                //    {
+                //        foreach(var i in invoice.InvoiceDetails)
+                //        {
+                //            var product = await _context.Products.FindAsync(i.ProductId);
+                //            var phone = await _context.Phones.FindAsync(product.PhoneId);
+                //            product.Quantity += i.Quantity;
+                //            phone.SoLuong += i.Quantity;
+                //        }
+                //        var result = await _context.SaveChangesAsync();
+                //        if (result < 0)
+                //        {
+                //            return new BadRequestObjectResult("Khong luu duoc");
+                //        }
+                //        return new OkResult();
+                //    }
+                //}
                 if(status == "Hoàn Thành")
                 {
                     invoice.Paid = true;

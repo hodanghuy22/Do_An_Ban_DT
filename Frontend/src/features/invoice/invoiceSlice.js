@@ -35,7 +35,13 @@ export const GetInvoicesByStatus = createAsyncThunk("invoice/Get-invoice-by-stat
         return thunkAPI.rejectWithValue(err);
     }
 });
-
+export const UpdateStatusInvoice = createAsyncThunk("invoice/update-status-invoices", async(data, thunkAPI) =>{
+    try{
+        return await invoiceService.updateStatusInvoice(data);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
 
 const initialState = {
     invoices: [],
@@ -116,7 +122,27 @@ export const invoiceSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
             })
-            
+            .addCase(UpdateStatusInvoice.pending, (state)=>{
+                state.isLoading = true;
+            })
+            .addCase(UpdateStatusInvoice.fulfilled, (state, action)=>{
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.updatedInvoice = action.payload;
+                if(state.isSuccess){
+                    toast.success("Update status is successfullly!!!");
+                }
+            })
+            .addCase(UpdateStatusInvoice.rejected, (state, action)=>{
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if(state.isSuccess){
+                    toast.err(action.error.message);
+                }
+            })
 
     }
 });

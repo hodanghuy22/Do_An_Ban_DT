@@ -71,7 +71,7 @@ namespace DoAnMonHoc_Backend.Controllers
         }
         [HttpPut]
         [Route("UpdateStatusInvoice/{id}/{status}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusInvoice(int id, string status)
         {
             return await _uow.InvoiceRepository.UpdateStatusInvoice(id,status);

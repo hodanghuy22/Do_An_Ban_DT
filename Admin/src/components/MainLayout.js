@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { HiArrowCircleLeft, HiArrowCircleRight } from "react-icons/hi";
 import { RiCoupon2Line, RiCoupon3Line, RiDashboard2Line, RiMessage3Line, RiSlideshow4Line } from "react-icons/ri";
 import { TbCategory, TbShoppingCart, TbShoppingCartCog, TbBrandBlogger } from "react-icons/tb";
+import {AiOutlineLogout} from 'react-icons/ai'
 import { MdOutlineColorLens } from "react-icons/md";
 import { FaUser, FaUserCog, FaRegStar } from "react-icons/fa";
 import { Layout, Menu, Button, theme } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { logoutUser } from '../features/auth/authSlice';
+import { useDispatch } from 'react-redux';
 
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
@@ -16,6 +19,11 @@ const MainLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/');
+};
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -26,7 +34,8 @@ const MainLayout = () => {
           defaultSelectedKeys={['']}
           onClick={({ key }) => {
             if (key === 'signout') {
-
+              dispatch(logoutUser());
+              navigate('/');
             }
             else {
               navigate(key);
@@ -174,6 +183,11 @@ const MainLayout = () => {
                   label: 'Brand List',
                 },
               ]
+            },
+            {
+              key: 'signout',
+              icon: <AiOutlineLogout className='fs-5' />,
+              label: 'Signout',
             },
           ]}
         />

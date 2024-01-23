@@ -3,28 +3,19 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import formatNumber from '../../utils/formatNumber';
 import formatDate from '../../utils/formatDate';
-import { GetInvoicesByStatus, UpdateStatusInvoice } from '../../features/invoice/invoiceSlice';
+import { GetInvoicesByStatus } from '../../features/invoice/invoiceSlice';
 
-const HoaDonMoi = () => {
+const HuyDon = () => {
   const authState = useSelector(state => state?.auth?.user?.userDto);
   const invoiceState = useSelector(state => state?.invoice?.invoiceByStatus);
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(GetInvoicesByStatus({
       id: authState?.id,
-      status: 'Hóa Đơn Mới'
-    }))
+      status: 'Hủy Đơn'
+    })
+    )
   }, [])
-  const UpdateStatus = (a,b)=>
-    {
-      dispatch(UpdateStatusInvoice({id:a, status:"Hủy Đơn"}))
-      setTimeout(()=>{
-        dispatch(GetInvoicesByStatus({
-          id: authState?.id,
-          status: 'Hóa Đơn Mới'
-        }))
-      },300)
-    }
   return (
     <div>
       {
@@ -62,7 +53,6 @@ const HoaDonMoi = () => {
                 <div className='d-flex justify-content-between'>
                   <div className='mt-2'>
                     <Link to={`chi-tiet-don-hang/${item?.id}`} className='btn btn-light border border-warning text-warning btn-hover '>Xem chi tiết</Link>
-                    <button onClick={(e)=>{UpdateStatus(item?.id)}} className='btn btn-danger mx-3'>Hủy Đơn</button>
                   </div>
                   <div className='ml-auto'>
                     <p className='text-danger amount'>Tổng tiền: <span className='h5'>{formatNumber(item?.totalPrice)}</span></p>
@@ -79,4 +69,4 @@ const HoaDonMoi = () => {
   )
 }
 
-export default HoaDonMoi
+export default HuyDon

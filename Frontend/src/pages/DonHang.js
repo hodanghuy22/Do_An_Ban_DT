@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import AllOrders from '../Components/DonHang/AllOrders';
 import { Helmet } from 'react-helmet';
-import HoaDonMoi from '../Components/DonHang/HoaDonMoi';
 import DangXyLy from '../Components/DonHang/DangXuLy';
 import DangGiao from '../Components/DonHang/DangGiao';
 import HoanThanh from '../Components/DonHang/HoanThanh';
+import HoaDonMoi from '../Components/DonHang/HoaDonMoi';
+import HuyDon from '../Components/DonHang/HuyDon';
 
 
 
@@ -28,7 +29,7 @@ const DonHang = () => {
       case 'Hoàn Thành':
         return <HoanThanh />;
       case 'Đã hủy':
-        return <HoanThanh />;
+        return <HuyDon />;
       default:
         return null;
     }
@@ -44,8 +45,8 @@ const DonHang = () => {
           <div className={`pt-3 pb-3 w-25 ${selectedTab === 'Tất cả' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
             <p className={`m-auto text-center ${selectedTab === 'Tất cả' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Tất cả')}>Tất cả</p>
           </div>
-          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Hóa Dơn Mới' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
-            <p className={`m-auto text-center ${selectedTab === 'Hóa Dơn Mới' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Hóa Dơn Mới')}>Hóa đơn mới</p>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Hóa Đơn Mới' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Hóa Đơn Mới' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Hóa Đơn Mới')}>Hóa đơn mới</p>
           </div>
           <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đang Xử Lý' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
             <p className={`m-auto text-center ${selectedTab === 'Đang Xử Lý' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đang Xử Lý')}>Đang xử lý</p>
