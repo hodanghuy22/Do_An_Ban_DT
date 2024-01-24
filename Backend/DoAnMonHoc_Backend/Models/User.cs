@@ -13,7 +13,7 @@ namespace DoAnMonHoc_Backend.Models
         public DateTime Expiration { get; set; }
         [JsonIgnore]
         public List<Comment> Comments { get; set; }
-        [JsonIgnore]
-        public List<Invoice> Invoices { get; set; } 
+        //[JsonIgnore]
+        //public List<Invoice> Invoices { get; set; } 
     }
 }

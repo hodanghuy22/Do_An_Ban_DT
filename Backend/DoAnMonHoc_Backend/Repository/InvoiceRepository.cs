@@ -128,31 +128,35 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<IActionResult> UpdateStatusInvoice(int id, string status)
         {
-            var invoice = await _context.Invoices.FindAsync(id);
+            var invoice = await _context.Invoices
+                .Include(i => i.InvoiceDetails).FirstOrDefaultAsync(i => i.Id == id);
             if (invoice != null)
             {
-                //if(status == "Hủy Đơn")
-                //{
-                //    if(invoice.InvoiceDetails.Count > 0)
-                //    {
-                //        foreach(var i in invoice.InvoiceDetails)
-                //        {
-                //            var product = await _context.Products.FindAsync(i.ProductId);
-                //            var phone = await _context.Phones.FindAsync(product.PhoneId);
-                //            product.Quantity += i.Quantity;
-                //            phone.SoLuong += i.Quantity;
-                //        }
-                //        var result = await _context.SaveChangesAsync();
-                //        if (result < 0)
-                //        {
-                //            return new BadRequestObjectResult("Khong luu duoc");
-                //        }
-                //        return new OkResult();
-                //    }
-                //}
-                if(status == "Hoàn Thành")
+                if (status == "Hủy Đơn")
+                {
+                    invoice.Paid = false;
+                    if (invoice.InvoiceDetails != null)
+                    {
+                        foreach (var i in invoice.InvoiceDetails)
+                        {
+                            var product = await _context.Products.FindAsync(i.ProductId);
+                            var phone = await _context.Phones.FindAsync(product.PhoneId);
+                            product.Quantity += i.Quantity;
+                            phone.SoLuong += i.Quantity;
+                        }
+                    }
+                }
+                if (status == "Hoàn Thành")
                 {
                     invoice.Paid = true;
+                    if (invoice.InvoiceDetails != null)
+                    {
+                        foreach (var i in invoice.InvoiceDetails)
+                        {
+                            var product = await _context.Products.FindAsync(i.ProductId);
+                            product.SoldQuantity += i.Quantity;
+                        }
+                    }
                 }
                 if (status == "Hóa Đơn Mới")
                 {

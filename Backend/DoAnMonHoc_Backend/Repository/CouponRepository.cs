@@ -49,14 +49,16 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<Coupon> GetCoupon(int id)
         {
-            return await _context.Coupons.Include(c => c.Invoices)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Coupons.FirstOrDefaultAsync(c => c.Id == id);
+            //return await _context.Coupons.Include(c => c.Invoices)
+            //    .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<IEnumerable<Coupon>> GetCoupons()
         {
-            return await _context.Coupons.Include(c => c.Invoices)
-                .ToListAsync();
+            return await _context.Coupons.ToListAsync();
+            //return await _context.Coupons.Include(c => c.Invoices)
+            //    .ToListAsync();
         }
 
         public async Task<IActionResult> UpdateCoupon(Coupon coupon)

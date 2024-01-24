@@ -67,8 +67,9 @@ const Invoice = () => {
             paid: invoiceState[i].paid ? <p className='text-success'>Đã thanh toán</p> : <p className='text-danger'>Chưa thanh toán</p>,
             orderStatus: (<>
                 <select defaultValue={invoiceState[i]?.orderStatus}
-                    onClick={(e)=> UpdateStatus(invoiceState[i]?.id,e.target.value)}
-                    name="" className='form-control form-select'> 
+                    onChange={(e)=> UpdateStatus(invoiceState[i]?.id,e.target.value)}
+                    name="" className='form-control form-select'
+                    disabled={invoiceState[i]?.orderStatus === "Hoàn Thành" || invoiceState[i]?.orderStatus === "Hủy Đơn"}> 
                   <option value="Hóa Đơn Mới" selected>Hóa Đơn Mới</option>
                   <option value="Đang Xử Lý">Đang Xử Lý</option>
                   <option value="Đang Giao">Đang Giao</option>

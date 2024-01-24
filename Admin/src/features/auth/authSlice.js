@@ -48,8 +48,8 @@ export const authSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             state.user = action.payload;
-            if(state.isSuccess === true){
-                toast.info("User Created Successfully");
+            if(state.isSuccess){
+                toast.info("Login is Successfully!!!");
             }
         })
         .addCase(login.rejected, (state, action)=>{
@@ -57,8 +57,8 @@ export const authSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
-            if(state.isError === true){
-                toast.error(action.payload.response.data.message);
+            if(state.isError){
+                toast.error(action.error.message);
             }
         }).addCase(GetAllUsers.pending, (state)=>{
             state.isLoading = true;
