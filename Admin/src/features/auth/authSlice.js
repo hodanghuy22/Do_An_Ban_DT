@@ -11,6 +11,14 @@ export const login = createAsyncThunk("auth/login", async(userData,thunkAPI) =>{
     }
 })
 
+export const RegisterAdmin = createAsyncThunk("auth/register-admin", async(userData,thunkAPI) =>{
+    try{
+        return await authServer.registerAdmin(userData);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 export const GetAllUsers = createAsyncThunk("auth/get-allUsers", async(userData,thunkAPI) =>{
     try{
         return await authServer.getAllUsers();
@@ -91,6 +99,23 @@ export const authSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
+        })
+        .addCase(RegisterAdmin.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(RegisterAdmin.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.registerAdmin = action.payload;
+            toast.success("Register is successfully!!!");
+        })
+        .addCase(RegisterAdmin.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+            toast.error(action.error.message);
         })
     }
 })

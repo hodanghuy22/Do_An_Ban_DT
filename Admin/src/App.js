@@ -16,7 +16,6 @@ import ProductTypeList from './pages/ProductTypeList';
 import ColorList from './pages/ColorList';
 import BrandList from './pages/BrandList';
 import AddProductType from './pages/AddProductType';
-import AddCustomer from './pages/AddCustomer';
 import AddCoupon from './pages/AddCoupon';
 import AddColor from './pages/AddColor';
 import AddBrand from './pages/AddBrand';
@@ -30,6 +29,7 @@ import InvoiceDetails from './pages/InvoiceDetails';
 import Rating from './pages/Rating';
 import { OpenRoutes } from './routing/OpenRoutes';
 import { PrivateRoutes } from './routing/PrivateRoutes';
+import AddAdmin from './pages/AddAdmin';
 
 function App() {
   return (
@@ -58,7 +58,7 @@ function App() {
           <Route path='add-product-type/:id' element={<AddProductType />} />
           <Route path='color-list' element={<ColorList />} />
           <Route path='brand-list' element={<BrandList />} />
-          <Route path='add-customer' element={<AddCustomer />} />
+          <Route path='add-admin' element={<AddAdmin />} />
           <Route path='add-coupon' element={<AddCoupon />} />
           <Route path='add-coupon/:id' element={<AddCoupon />} />
           <Route path='add-color' element={<AddColor />} />

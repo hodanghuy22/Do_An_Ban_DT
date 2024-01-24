@@ -20,10 +20,6 @@ const MainLayout = () => {
   } = theme.useToken();
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    navigate('/');
-};
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -90,9 +86,9 @@ const MainLayout = () => {
               label: 'Customers',
               children: [
                 {
-                  key: 'add-customer',
+                  key: 'add-admin',
                   icon: <FaUserCog className='fs-5' />,
-                  label: 'Add Customer',
+                  label: 'Add Admin',
                 },
                 {
                   key: 'customer-list',
@@ -213,9 +209,6 @@ const MainLayout = () => {
               height: 64,
             }}
           />
-          <div className='d-flex gap-3 align-items-center'>
-            <Button variant="contained">Log Out</Button>
-          </div>
         </Header>
         <Content
           style={{

@@ -9,6 +9,13 @@ const login = async(userData)=>{
     }
 }
 
+const registerAdmin = async(userData)=>{
+    const response = await axios.post(`${base_url}Users/register-admin`, userData);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const getAllUsers = async()=>{
     const response = await axios.get(`${base_url}Users`, config);
     if(response.data){
@@ -16,9 +23,11 @@ const getAllUsers = async()=>{
     }
 }
 
+
 const authServer = {
     login,
     getAllUsers,
+    registerAdmin,
 };
 
 export default authServer;

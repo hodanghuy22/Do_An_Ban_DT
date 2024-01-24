@@ -27,6 +27,14 @@ export const UpdateStatusInvoice = createAsyncThunk("invoice/update-status-invoi
     }
 })
 
+export const GetSalesOfYear = createAsyncThunk("invoice/get-sales", async(thunkAPI) =>{
+    try{
+        return await invoiceService.getSalesOfYear();
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 export const resetState = createAction('Reset_all')
 
 const initialState = {
@@ -86,6 +94,20 @@ export const invoiceSlice = createSlice({
             state.AInvoice = action.payload;
         })
         .addCase(GetAInvoice.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        }).addCase(GetSalesOfYear.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(GetSalesOfYear.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.sales = action.payload;
+        })
+        .addCase(GetSalesOfYear.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

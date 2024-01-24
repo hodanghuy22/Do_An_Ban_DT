@@ -16,7 +16,7 @@ namespace DoAnMonHoc_Backend.Repository
         }
         public async Task<IActionResult> CreateInvoice(Invoice invoice)
         {
-            if(invoice.CouponId != null)
+            if (invoice.CouponId != null)
             {
                 var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.Id == invoice.CouponId);
                 coupon.Quantity -= 1;
@@ -75,7 +75,7 @@ namespace DoAnMonHoc_Backend.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Invoice>> GetInvoicesByStatus(string userID,string status)
+        public async Task<IEnumerable<Invoice>> GetInvoicesByStatus(string userID, string status)
         {
             return await _context.Invoices.Include(i => i.User)
                     .Include(i => i.Coupon)
@@ -98,6 +98,25 @@ namespace DoAnMonHoc_Backend.Repository
                 .Include(i => i.User)
                 .Include(i => i.InvoiceDetails)
                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<SaleModel>> GetSalesOfYear()
+        {
+            int currentYear = DateTime.Now.Year;
+            var invoices = await _context.Invoices
+                .Where(i => i.IssueDate.Year == currentYear && i.Paid)
+                .ToListAsync();
+
+            var revenueByMonth = Enumerable.Range(1, 12)
+                .Select(month => new SaleModel
+                {
+                    Month = month.ToString(),
+                    Sale = invoices.Where(i => i.IssueDate.Month == month)
+                                  .Sum(i => i.TotalPriceAfterDiscount)
+                })
+                .ToList();
+
+            return revenueByMonth;
         }
 
         public async Task<bool> InvoiceExist(int id)
@@ -164,7 +183,7 @@ namespace DoAnMonHoc_Backend.Repository
                 }
                 invoice.OrderStatus = status;
                 var rs = await _context.SaveChangesAsync();
-                if(rs > 0)
+                if (rs > 0)
                 {
                     return new OkResult();
                 }

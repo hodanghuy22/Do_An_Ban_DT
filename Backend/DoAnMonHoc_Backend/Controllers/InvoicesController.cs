@@ -46,6 +46,13 @@ namespace DoAnMonHoc_Backend.Controllers
             var invoices = await _uow.InvoiceRepository.GetInvoicesByStatus(userId, status);
             return Ok(invoices);
         }
+        [HttpGet]
+        [Route("GetSalesForYear")]
+        public async Task<IActionResult> GetSalesOfYear()
+        {
+            var invoices = await _uow.InvoiceRepository.GetSalesOfYear();
+            return Ok(invoices);
+        }
         //[HttpGet]
         //[Route("{id}")]
         //public async Task<IActionResult> GetInvoice(int id)

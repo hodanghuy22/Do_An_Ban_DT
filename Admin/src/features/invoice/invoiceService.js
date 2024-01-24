@@ -22,10 +22,18 @@ const updateStatusInvoice = async(data)=>{
     }
 }
 
+const getSalesOfYear = async()=>{
+    const response = await axios.get(`${base_url}Invoices/GetSalesForYear`,config);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const invoiceService = {
     getInvoices,
     updateStatusInvoice,
     getAInvoice,
+    getSalesOfYear,
 };
 
 export default invoiceService;
