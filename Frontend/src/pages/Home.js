@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Container, Nav, Row } from 'react-bootstrap';
+import { Button, Col, Container, Nav, Row } from 'react-bootstrap';
 import Footer from '../Components/Footer';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,21 +21,21 @@ function Home() {
     const productbrand = useSelector(state => state?.product?.productbrand);
     const [isLoading, setIsLoading] = useState(true);
     const [visibleProducts, setVisibleProducts] = useState(20); // Số lượng sản phẩm được hiển thị ban đầu
-
+    const [sortOrder, setSortOrder] = useState("asc");
     useEffect(() => {
         dispatch(GetPhones());
         dispatch(getBrand())
             .then(() => setIsLoading(false))
             .catch(() => 'error');
-            setIsProductStateReady(true);
+        setIsProductStateReady(true);
     }, [dispatch]);
 
     useEffect(() => {
         setProducts(productState)
     }, [productState])
-    
-    useEffect(()=>{
-            setProducts(productbrand)
+
+    useEffect(() => {
+        setProducts(productbrand)
     }, [productbrand])
 
     const handleClickBrand = (id) => {
@@ -56,11 +56,22 @@ function Home() {
     }
 
     //Xem thêm Panigation
-    const productsPerPage = 20; 
+    const productsPerPage = 20;
     const handleLoadMore = () => {
         setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + productsPerPage);
     };
     const remainingProducts = products?.length - visibleProducts;
+
+    const sortProducts = (value) => {
+        if (value === "asc") {
+            const tuThapDenCao = productState.filter(item => item?.products[0]?.price).sort((a, b) => a.products[0].price - b.products[0].price);
+            setProducts(tuThapDenCao)
+        } else if (value === "desc") {
+            const tuCaoDenThap = productState.filter(item => item?.products[0]?.price).sort((a, b) => b.products[0].price - a.products[0].price);
+            setProducts(tuCaoDenThap)
+        }
+    };
+    
     return (
         <>
             <Helmet>
@@ -71,19 +82,40 @@ function Home() {
             </div>
             <div>
                 <p className='h5 font-weight-bold mt-5 mb-5'>ĐIỆN THOẠI NỔI BẬT</p>
-                <Container className="d-inline-flex justify-content-start">
-                    <Nav.Link onClick={handleClickBrand} href="" className="rounded-pill border button-primary mr-2">Tất cả</Nav.Link>
-                    {brandState && brandState.map((item, index) => {
-                        const handleClick = () => {
-                            handleClickBrand(item.id);
-                        };
+                <Container className="d-flex justify-content-end align-items-center">
+                    <Nav.Link onClick={handleClickBrand} href="" className="rounded-pill border button-primary mr-2">
+                        Tất cả
+                    </Nav.Link>
+                    {brandState &&
+                        brandState.map((item, index) => {
+                            const handleClick = () => {
+                                handleClickBrand(item.id);
+                            };
 
-                        return (
-                            <Nav.Link onClick={handleClick} key={index} href="" className="rounded-pill border button-primary mr-2">
-                                {item.title}
-                            </Nav.Link>
-                        );
-                    })}
+                            return (
+                                <Nav.Link
+                                    onClick={handleClick}
+                                    key={index}
+                                    href=""
+                                    className="rounded-pill border button-primary mr-2"
+                                >
+                                    {item.title}
+                                </Nav.Link>
+                            );
+                        })}
+                    <div className="ml-auto">
+                        <select
+                            value={sortOrder}
+                            onChange={(e) => {
+                                setSortOrder(e.target.value);
+                                sortProducts(e.target.value);
+                            }}
+                            className='border p-1'
+                        >
+                            <option value="asc">Sắp xếp theo: Giá thấp đến cao</option>
+                            <option value="desc">Sắp xếp theo: Giá cao đến thấp</option>
+                        </select>
+                    </div>
                 </Container>
                 <Container className='mt-3'>
                     <Row>
@@ -121,13 +153,13 @@ function Home() {
                     </Row>
                     {visibleProducts < products?.length && (
                         <div className="text-center mt-3">
-                            <Button variant="primary" style={{width:'30%'}} onClick={handleLoadMore}>
+                            <Button variant="primary" style={{ width: '30%' }} onClick={handleLoadMore}>
                                 Xem thêm {remainingProducts} Điện thoại <FaCaretDown />
                             </Button>
                         </div>
                     )}
                 </Container>
-               
+
             </div>
 
             <footer className='m-auto' style={{ width: 1200 }}>
