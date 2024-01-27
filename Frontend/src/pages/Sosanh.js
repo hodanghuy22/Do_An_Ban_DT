@@ -23,6 +23,7 @@ const Sosanh = () => {
     const [Phone2, setPhone2] = useState();
     const handleAddPhone = (e) => {
         dispatch(GetAPhone(e));
+        handleClose();
     };
 
     useEffect(() => {
@@ -34,8 +35,10 @@ const Sosanh = () => {
         }
     }, [APhone]);
     const handleDeletePhone = (e) => {
-        if (e === 1)
-            setPhone1(undefined)
+        if (e === 1) {
+            setPhone1(Phone2)
+            setPhone2(undefined)
+        }
         else if (e === 2)
             setPhone2(undefined)
     }
@@ -221,7 +224,7 @@ const Sosanh = () => {
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <Button className='w-100' onClick={() =>{ handleAddPhone(item.id)}}>
+                                                    <Button className='w-100' onClick={() => { handleAddPhone(item.id) }}>
                                                         <FaPlus/> So sánh ngay
                                                     </Button>
                                                 </div>
