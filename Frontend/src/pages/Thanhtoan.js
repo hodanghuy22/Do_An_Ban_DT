@@ -3,6 +3,7 @@ import { Button, Col, Container, Image, Row } from 'react-bootstrap'
 import { Helmet } from 'react-helmet';
 import { IoMdArrowBack } from "react-icons/io";
 import { MdPayment } from "react-icons/md";
+import { RiEditBoxLine } from "react-icons/ri";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { GetCart } from '../features/cart/cartSlice';
@@ -11,6 +12,7 @@ import * as yup from 'yup';
 import { CheckCoupon } from '../features/coupon/couponSlice';
 import { CreateInvoice } from '../features/invoice/invoiceSlice';
 import { CreatePayment } from '../features/payment/paymentSlice';
+import formatNumber from '../utils/formatNumber';
 
 const invoiceSchema = yup.object({
     shippingInfo: yup.string().required('Address is Required'),
@@ -149,6 +151,11 @@ const Thanhtoan = () => {
             setThanhToan("onl")
         }
     };
+    const handleEditInfo = () => {
+        setTimeout(() => {
+            navigate('/user/thong-tin-tai-khoan');
+        }, 300)
+    }
 
 
     return (
@@ -190,7 +197,7 @@ const Thanhtoan = () => {
                                     </Col>
                                     <Col xl={7} md={7} sm={7}>
                                         <h5>{item?.product?.phone?.name}</h5>
-                                        <p className='text-danger'>Giá: {item?.product?.price}đ</p>
+                                        <p className='text-danger'>Giá: {formatNumber(item?.product?.price)}đ</p>
                                     </Col>
                                     <Col xl={3} md={3} sm={3} className='text-right'>
                                         <p>Số lượng: <span>{item?.quantity}</span></p>
@@ -202,13 +209,15 @@ const Thanhtoan = () => {
 
                     <Row>
                         <div className='  bg-light shadow p-4 mb-5 bg-white rounded w-100 d-content-a'>
-                            <h4>THÔNG TIN NHẬN HÀNG</h4>
+                            <h4>THÔNG TIN NHẬN HÀNG
+                                <span onClick={() => { handleEditInfo() }} className='text-primary btn'><RiEditBoxLine className='mb-1' />Thay đổi thông tin</span>
+                            </h4>
                             <form>
-                                <div class="form-group w-50">
+                                <div class="form-group">
                                     <label for="hoTen">Họ tên người nhận</label>
                                     <input readOnly type="text" class="form-control" id="hoTen" placeholder="Nhập họ tên" value={userState?.name} />
                                 </div>
-                                <div class="form-group w-50">
+                                <div class="form-group">
                                     <label for="soDienThoai">Số điện thoại người nhận</label>
                                     <input readOnly type="tel" class="form-control" id="soDienThoai" placeholder="Nhập số điện thoại" value={userState?.phoneNumber} />
                                 </div>
@@ -233,41 +242,7 @@ const Thanhtoan = () => {
                         </div>
 
                     </Row>
-                    {/* <Row>
-                        <div className='  bg-light shadow p-4 mb-5 bg-white rounded w-100 d-content-a'>
-                            <h4>THÔNG TIN NHẬN HÀNG</h4>
-                            <div class="form-group">
-                                <label for="thanhPho">Hồ Chí Minh</label>
-                                <input type="text" class="form-control" id="thanhPho" placeholder="Nhập tỉnh/thành phố" />
-                            </div>
-                            <div class="form-group">
-                                <label for="quanHuyen">Chọn quận/huyện</label>
-                                <select class="form-control" id="quanHuyen">
-                                    <option value="">-- Chọn quận/huyện --</option>
-                                    <option value="quan1">Quận 1</option>
-                                    <option value="quan2">Quận 2</option>
-                                    <option value="quan3">Quận 3</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="phuongXa">Chọn phường/xã</label>
-                                <select class="form-control" id="phuongXa">
-                                    <option value="">-- Chọn phường/xã --</option>
-                                    <option value="phuong1">Phường 1</option>
-                                    <option value="phuong2">Phường 2</option>
-                                    <option value="phuong3">Phường 3</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="soNhaDuong">Số nhà, tên đường</label>
-                                <input type="text" class="form-control" id="soNhaDuong" placeholder="Nhập số nhà, tên đường" />
-                            </div>
-                            <div class="form-group">
-                                <label for="ghiChu">Ghi chú khác (nếu có)</label>
-                                <textarea class="form-control" id="ghiChu" rows="3" placeholder="Nhập ghi chú"></textarea>
-                            </div>
-                        </div>
-                    </Row> */}
+                   
                     <Row>
                         <Button variant='text-danger bg-danger w-100 text-light' onClick={() => handleTabChange('thanhToan')}>Tiếp tục</Button>
 
@@ -301,9 +276,9 @@ const Thanhtoan = () => {
                             <span className='float-right'></span>
                         </p>
                         <p>Số lượng sản phẩm <span className='float-right'>{tongsl}</span></p>
-                        <p>Tiền hàng (tạm tính) <span className='float-right'>{sum}đ</span></p>
+                        <p>Tiền hàng (tạm tính) <span className='float-right'>{formatNumber(sum)}đ</span></p>
                         <hr />
-                        <p className=''>Tổng tiền đã bao gồm VAT(8%) <span className='float-right h5 font-weight-bold'>{tongTien}đ</span></p>
+                        <p className=''>Tổng tiền đã bao gồm VAT(8%) <span className='float-right h5 font-weight-bold'>{formatNumber(tongTien)}đ</span></p>
                     </div>
                     <div>
                         <h4>THÔNG TIN THANH TOÁN</h4>
@@ -328,7 +303,7 @@ const Thanhtoan = () => {
                             </div>
                         </div>
                         <Row className='bg-light shadow p-3 mb-5 bg-white rounded'>
-                            <p><span className='font-weight-bold mr-2'>Tổng tiền tạm tính:</span> <span className='text-danger font-weight-bold'>{formik.values.totalPriceAfterDiscount}đ</span></p>
+                            <p><span className='font-weight-bold mr-2'>Tổng tiền tạm tính:</span> <span className='text-danger font-weight-bold'>{formatNumber(formik.values.totalPriceAfterDiscount)}đ</span></p>
                             <Button type='submit' variant='text-danger bg-danger w-100 text-light'>Thanh toán</Button>
                         </Row>
                     </form>
