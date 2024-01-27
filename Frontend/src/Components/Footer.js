@@ -17,9 +17,6 @@ const Footer = () => {
                   <p>Chính sách bảo hành</p>
                   <p>Chính sách đổi trả</p>
                   <p>Chính sách bán hàng</p>
-                  <p>Chính sách bảo mật</p>
-                  <p>Chính sách sử dụngg</p>
-                  <p>Chính sách kiểm hàng</p>
                   <p>Hướng dẫn mua hàng Online</p>
               </Col>
               <Col xl className='py-4'>

@@ -33,9 +33,9 @@ export const couponSlice = createSlice({
                 state.isSuccess = true;
                 state.ACoupon = action.payload;
                 if(state.ACoupon != null){
-                    toast.success("Add Coupon is successfully!!!")
+                    toast.success("Áp dụng thành công mã!!!")
                 }else{
-                    toast.error("Can't Add Coupon!!!")
+                    toast.error("Không thể áp dụng mã này!!!")
                 }
             })
             .addCase(CheckCoupon.rejected, (state, action) => {

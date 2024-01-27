@@ -80,7 +80,7 @@ export const invoiceSlice = createSlice({
                 state.isSuccess = true;
                 state.invoices = action.payload;
                 if (state.isSuccess) {
-                    toast.success("Create Invoice is successfully!")
+                    toast.success("Tạo hóa đơn thành công!")
                 }
             })
             .addCase(CreateInvoice.rejected, (state, action) => {
@@ -131,7 +131,7 @@ export const invoiceSlice = createSlice({
                 state.isSuccess = true;
                 state.updatedInvoice = action.payload;
                 if(state.isSuccess){
-                    toast.success("Update status is successfullly!!!");
+                    toast.success("Cập nhật trạng thái đơn hàng thành công!!!");
                 }
             })
             .addCase(UpdateStatusInvoice.rejected, (state, action)=>{

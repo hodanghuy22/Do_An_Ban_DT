@@ -39,12 +39,12 @@ const Doimatkhau = () => {
             </Helmet>
             <div className='bg-light shadow mb-3 bg-white rounded w-100 d-flex justify-content-center p-4'>
                 <form onSubmit={formik.handleSubmit} className='w-75'>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label>Current Password</label>
                         <input
                             type="password"
                             name="currentPassword"
-                            class="form-control"
+                            className="form-control"
                             placeholder="Current Password"
                             value={formik.values.currentPassword}
                             onChange={formik.handleChange('currentPassword')}
@@ -56,12 +56,12 @@ const Doimatkhau = () => {
                             }
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label>New Password</label>
                         <input
                             type="password"
                             name="newPassword"
-                            class="form-control"
+                            className="form-control"
                             placeholder="New Password"
                             value={formik.values.newPassword}
                             onChange={formik.handleChange('newPassword')}
@@ -74,7 +74,7 @@ const Doimatkhau = () => {
                         </div>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-primary">Luu</button>
+                        <button type="submit" className="btn btn-primary">Luu</button>
                     </div>
                 </form>
             </div>
