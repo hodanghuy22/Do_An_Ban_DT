@@ -74,7 +74,7 @@ const Mainlayout = () => {
                 <header className="m-auto w-navbar">
                     <Navbar expand="lg" className="bg-body-tertiary">
                         <Container>
-                            <Navbar.Brand href="#home">
+                            <Navbar.Brand>
                                 <div className="background-primary w-25">
                                     <Link to="/" className="btn" style={{ fontSize: '28px' }}>
                                         <img src='/logo_no_bachground.png' width={50} alt="Logo" />
@@ -130,10 +130,10 @@ const Mainlayout = () => {
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
                                     {!userDto ? (
-                                        <Link to='/login' active className="btn button-primary ml-2 mr-2 mb-2" >Tài khoản và đơn hàng</Link>
+                                        <Link to='/login'  className="btn button-primary ml-2 mr-2 mb-2" >Tài khoản và đơn hàng</Link>
 
                                     ) : (
-                                        <Link to='/user' active className="btn button-primary ml-2 mr-2 mb-2" >Tài khoản và đơn hàng</Link>
+                                        <Link to='/user'  className="btn button-primary ml-2 mr-2 mb-2" >Tài khoản và đơn hàng</Link>
                                     )}
 
                                     <Link to="/cart" className="btn button-primary ml-2 mr-2 mb-2"><BsCartCheck /> Giỏ hàng</Link>
@@ -152,7 +152,6 @@ const Mainlayout = () => {
                     </Navbar>
                     <Container className="p-0 m-0 ml-3" >
                         <Row className="d-flex justify-content-start">
-
                             <Link to={'/dienthoai/1'} className="btn mr-3">Hỗ trợ 5G</Link>
                             <Link to={'/dienthoai/2'} className="btn mr-3">Kháng bui, nước</Link>
                             <Link to={'/dienthoai/3'} className="btn mr-3">Sạc không dây</Link>

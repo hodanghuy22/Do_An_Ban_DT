@@ -15,7 +15,7 @@ const DangXyLy = () => {
       status: 'Đang Xử Lý'
     })
     )
-  }, [])
+  }, [dispatch, authState?.id])
   return (
     <div>
       {
@@ -35,15 +35,17 @@ const DangXyLy = () => {
                 <hr />
                 <div className='d-flex'>
                   {
-                    item && item?.invoiceDetails?.map(i => {
+                    item && item?.invoiceDetails?.map((i, index) => {
                       return (
-                        <div className='d-flex w-50'>
+                        <div className='d-flex w-50' key={index}>
                           <img width='60px' height='60px' src={i?.product?.phone?.fileHinh} alt={i?.product?.phone?.name} />
                           <p className='w-75 ml-2'>
                             {i?.product?.phone?.name}
                             <br></br>
                             Màu {i?.product?.color?.colorName}
                             <span className='ml-2 text-danger amount'>Giá: {formatNumber(i?.product?.price)}</span>
+                            <br></br>
+                            Rom {i?.product?.capacity?.totalCapacity} GB
                           </p>
                         </div>
                       )

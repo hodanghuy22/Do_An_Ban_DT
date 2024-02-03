@@ -79,7 +79,7 @@ export const authSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             if(state.isSuccess === true){
-                toast.info("User Created Successfully");
+                toast.info("Đăng ký tài khoản thành công");
             }
         })
         .addCase(registerUser.rejected, (state, action)=>{
@@ -100,7 +100,7 @@ export const authSlice = createSlice({
             state.user = action.payload;
             if(state.isSuccess === true){
                 localStorage.setItem('token', action.payload.userDto.token)
-                toast.info("Login Successfully");
+                toast.info("Đăng nhập thành công");
             }
         })
         .addCase(login.rejected, (state, action)=>{
@@ -109,7 +109,7 @@ export const authSlice = createSlice({
             state.isSuccess = false;
             state.message = action.error;
             if(state.isError === true){
-                toast.error("Login Fail!!!");
+                toast.error("Đăng nhập thất bại");
             }
         }).addCase(UpdateAUser.pending, (state)=>{
             state.isLoading = true;
@@ -120,7 +120,7 @@ export const authSlice = createSlice({
             state.isSuccess = true;
             state.user = action.payload;
             if(state.isSuccess === true){
-                toast.success("Update Successfully");
+                toast.success("Cập nhật thành công");
             }
         })
         .addCase(UpdateAUser.rejected, (state, action)=>{
@@ -139,7 +139,7 @@ export const authSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             if(state.isSuccess === true){
-                toast.success("ChangePassword Successfully");
+                toast.success("Đổi mật khẩu thành công");
             }
         })
         .addCase(ChangePassword.rejected, (state, action)=>{
@@ -147,7 +147,7 @@ export const authSlice = createSlice({
             state.isError = true;
             state.isSuccess = false;
             state.message = action.error;
-            toast.error("ChangePassword Unsuccessfully");
+            toast.error("Đổi mật khẩu thất bại");
         })
         .addCase(logoutUser.fulfilled, (state) => {
             state.user = null;
@@ -155,7 +155,7 @@ export const authSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            toast.success("Logged out successfully");
+            toast.success("Đăng xuất thành công");
         })
         .addCase(ForgetPassword.pending, (state)=>{
             state.isLoading = true;
@@ -165,7 +165,7 @@ export const authSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             if(state.isSuccess){
-                toast.success("Gmail was sent!!!");
+                toast.success("Kiểm tra Email xác nhận");
             }
         })
         .addCase(ForgetPassword.rejected, (state, action)=>{
@@ -185,7 +185,7 @@ export const authSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             if(state.isSuccess){
-                toast.success("Reset Password is successfully!!!");
+                toast.success("Đặt lại mật khẩu thành công");
             }
         })
         .addCase(ResetPassword.rejected, (state, action)=>{

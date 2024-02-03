@@ -41,8 +41,8 @@ const PhoneDetail = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true);
-    const phoneState = useSelector(state => state?.phone?.APhone);
-    const productState = useSelector(state => state?.product?.AProduct);
+    const phoneState = useSelector(state => state?.phone?.A_Phone);
+    const productState = useSelector(state => state?.product?.A_Product);
     const authState = useSelector(state => state?.auth?.user?.userDto);
     const capacityState = useSelector(state => state?.capacity?.capacities);
     const colorState = useSelector(state => state?.color?.colors);
@@ -50,12 +50,6 @@ const PhoneDetail = () => {
 
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
-
-    const [AProduct, setAProduct] = useState({
-        "phoneId": phoneId,
-        "colorId": phoneState?.products[0]?.colorId,
-        "capacityId": phoneState?.products[0]?.capacityId
-    });
     const formik = useFormik({
         initialValues: {
             content: '',
@@ -91,7 +85,12 @@ const PhoneDetail = () => {
             }, 300);
         },
     });
-
+    const [AProduct, setAProduct] = useState({
+        "phoneId": phoneId,
+        "colorId": productState?.colorId,
+        "capacityId": productState?.capacityId
+    });
+//Lấy thông tin phone danh sách loại rom và danh sách
     useEffect(() => {
         dispatch(GetAPhone(phoneId))
             .then(() => setIsLoading(false))
@@ -100,7 +99,7 @@ const PhoneDetail = () => {
         dispatch(GetColorsByPhoneId(phoneId))
     }, [dispatch, phoneId]);
 
-
+//Khới tạo sp ban đầu
     useEffect(() => {
         if (phoneState?.products && phoneState.products.length > 0) {
             setAProduct(prevState => ({
@@ -110,14 +109,16 @@ const PhoneDetail = () => {
             }));
         }
     }, [phoneState]);
+//Lấy sản phẩm mới sau khi chọn màu và rom
     useEffect(() => {
         dispatch(GetProductForUser(AProduct))
     }, [dispatch, AProduct]);
-
+//Load rating và bình luận
     useEffect(() => {
         formik.setFieldValue("productId", productState?.id);
         formik2.setFieldValue("productId", productState?.id);
     }, [dispatch, productState])
+
 
     const handleColorSelection = (colorId) => {
         setAProduct(prevState => ({
@@ -152,9 +153,6 @@ const PhoneDetail = () => {
             userId: authState?.id,
             phoneId: phoneState?.id,
         }))
-        setTimeout(() => {
-            navigate("/user/san-pham-yeu-thich")
-        }, 300);
     }
 
     const addCart = () => {
@@ -167,7 +165,6 @@ const PhoneDetail = () => {
             navigate("/cart")
         }, 300);
     }
-
     return (
         <>
             <Helmet>
@@ -501,14 +498,10 @@ const PhoneDetail = () => {
                                     <Col xl={12} md={12} sm={12}>
                                         <div className='detail-boder p-2'>
                                             <h6>Khuyến mãi</h6>
-                                            <sub>Giá và khuyến mãi dự kiến áp dụng đến 23:00 | 15/11</sub>
+                                            <sub>Giá và khuyến mãi dự kiến áp dụng đến 23:59 | 30/4</sub>
                                             <div className='detail-boder'>
                                                 <ul >
-                                                    <li>Cơ hội trúng 50 sổ tiết kiệm, tổng trị giá đến 500 triệu đồng</li>
-                                                    <li>Thu cũ Đổi mới: Giảm đến 1 triệu (Tuỳ model máy cũ, Không kèm Trả góp 0%, thanh toán qua cổng online, mua kèm) </li>
-                                                    <li>Giảm thêm 5% khi mua cùng sản phẩm có giá cao hơn (trừ Xe đạp, sản phẩm Apple, sản phẩm giá sốc)</li>
-                                                    <li>Hoàn 200,000đ cho chủ thẻ tín dụng HOME CREDIT khi thanh toán đơn hàng từ 5,000,000đ</li>
-                                                    <li>Nhập mã MMSALE100 giảm ngay 1% tối đa 100.000đ khi thanh toán qua MOMO</li>
+                                                    <li>Mã giảm abc</li>
                                                 </ul>
                                             </div>
                                             <div className='w-100'>

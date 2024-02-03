@@ -12,10 +12,10 @@ const HoanThanh = () => {
   useEffect(() => {
     dispatch(GetInvoicesByStatus({
       id: authState?.id,
-      status: 'Hoàn Thành'
+      status: 'Đã Thanh Toán'
     })
     )
-  }, [])
+  }, [dispatch, authState?.id])
   return (
     <div>
       {
@@ -29,21 +29,23 @@ const HoanThanh = () => {
                     <span className='ml-3'>Ngày đặt {formatDate(item?.issueDate)}</span>
                   </div>
                   <div className='ml-auto'>
-                    <p className='text-danger'>{item?.orderStatus}</p>
+                    <p className='text-success'>{item?.orderStatus}</p>
                   </div>
                 </div>
                 <hr />
                 <div className='d-flex'>
                   {
-                    item && item?.invoiceDetails?.map(i => {
+                    item && item?.invoiceDetails?.map((i, index) => {
                       return (
-                        <div className='d-flex w-50'>
+                        <div className='d-flex w-50' key={index}>
                           <img width='60px' height='60px' src={i?.product?.phone?.fileHinh} alt={i?.product?.phone?.name} />
                           <p className='w-75 ml-2'>
                             {i?.product?.phone?.name}
                             <br></br>
                             Màu {i?.product?.color?.colorName}
                             <span className='ml-2 text-danger amount'>Giá: {formatNumber(i?.product?.price)}</span>
+                            <br></br>
+                            Rom {i?.product?.capacity?.totalCapacity} GB
                           </p>
                         </div>
                       )

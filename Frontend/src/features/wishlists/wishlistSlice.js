@@ -55,7 +55,7 @@ export const wishlist = createSlice({
                 state.isSuccess = true;
                 state.newWishlist = action.payload;
                 if (state.isSuccess) {
-                    toast.success("Add WishList is successfully!!!");
+                    toast.success("Đã thêm vào danh sách yêu thích");
                 }
                
             })

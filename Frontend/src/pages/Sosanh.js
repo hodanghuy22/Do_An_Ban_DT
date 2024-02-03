@@ -22,20 +22,23 @@ const Sosanh = () => {
     const [Phone1, setPhone1] = useState();
     const [Phone2, setPhone2] = useState();
     const handleAddPhone = (e) => {
-        dispatch(GetAPhone(e));
+        dispatch(GetAPhone(e))
+        handleClose()
     };
 
     useEffect(() => {
         if (Phone1 === undefined) {
-            setPhone1(APhone); 
+            setPhone1(APhone);
         }
         if (Phone1 !== undefined) {
             setPhone2(APhone);
         }
     }, [APhone]);
     const handleDeletePhone = (e) => {
-        if (e === 1)
-            setPhone1(undefined)
+        if (e === 1) {
+            setPhone1(Phone2)
+            setPhone2(undefined)
+        }
         else if (e === 2)
             setPhone2(undefined)
     }
@@ -56,7 +59,7 @@ const Sosanh = () => {
             <Container>
                 <Row className=''>
                     <h6 className='font-weight-bold text-center w-100' style={{ textTransform: 'uppercase' }}>
-                        So sánh {Phone1?.name} & {Phone2?.name}
+                        So sánh {Phone1?.name} {Phone2?.name ?('và'):('')} {Phone2?.name}
                     </h6>
                 </Row>
                 <Row className='d-flex justify-content-end w-100'>

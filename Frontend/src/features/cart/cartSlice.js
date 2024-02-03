@@ -73,7 +73,7 @@ export const cartSlice = createSlice({
                 state.isSuccess = true;
                 state.cart = action.payload;
                 if (state.isSuccess) {
-                    toast.success("Add To Cart is successfully!!!")
+                    toast.success("Thêm vào giỏ hàng thành công")
                 }
             })
             .addCase(AddCart.rejected, (state, action) => {
@@ -93,9 +93,6 @@ export const cartSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.deletedCart = action.payload;
-                if (state.isSuccess) {
-                    toast.success("Delete is successfully!!!")
-                }
             })
             .addCase(DeleteCart.rejected, (state, action) => {
                 state.isLoading = false;

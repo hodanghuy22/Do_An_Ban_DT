@@ -52,7 +52,7 @@ export const phoneSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.APhone = action.payload;
+                state.A_Phone = action.payload;
             })
             .addCase(GetAPhone.rejected, (state, action) => {
                 state.isLoading = false;
