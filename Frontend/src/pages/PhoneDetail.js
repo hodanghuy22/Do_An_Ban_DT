@@ -71,6 +71,7 @@ const PhoneDetail = () => {
         },
     });
 
+
     const formik2 = useFormik({
         initialValues: {
             comment: '',
@@ -83,6 +84,24 @@ const PhoneDetail = () => {
         onSubmit: values => {
             console.log(values);
             dispatch(CreateRating(values));
+            setTimeout(() => {
+                dispatch(GetProductForUser(AProduct))
+            }, 300);
+        },
+    });
+    const formik3 = useFormik({
+        initialValues: {
+            content: '',
+            userId: authState?.id || "",
+            productId: productState?.id || "",
+            commentId: "",
+            ngayDang: new Date().toISOString().substr(0, 10),
+        },
+        validationSchema: commentSchema,
+        onSubmit: values => {
+            console.log(values);
+            setReplytVisiable(false);
+            dispatch(CreateComment(values));
             setTimeout(() => {
                 dispatch(GetProductForUser(AProduct))
             }, 300);
@@ -121,6 +140,7 @@ const PhoneDetail = () => {
     useEffect(() => {
         formik.setFieldValue("productId", productState?.id);
         formik2.setFieldValue("productId", productState?.id);
+        formik3.setFieldValue("productId", productState?.id);
     }, [dispatch, productState])
 
 
@@ -172,6 +192,7 @@ const PhoneDetail = () => {
     const handleReplyClick = (commentId) => {
         setReplytVisiable(true);
         setReplyCommentId(commentId);
+        formik3.setFieldValue("commentId", commentId)
     };
     return (
         <>
@@ -407,106 +428,96 @@ const PhoneDetail = () => {
                                                         </Row>
                                                     </Form>
                                                 </div>
-                                                {
-                                                    productState && productState?.comments?.map((item, index) => {
-                                                        if (item?.commentId === null) {
-                                                            return (
-                                                                <div className='pt-4 w-100' key={item.id}>
-                                                                    <div className='d-flex items-start justify-start '>
-                                                                        <div className='avatar overflow-hidden'>
-                                                                            <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
-                                                                        </div>
+    {
+        productState && productState?.comments?.map((item, index) => {
+            if (item?.commentId === null) {
+                return (
+                    <div className='pt-4 w-100' key={item.id}>
+                        <div className='d-flex items-start justify-start '>
+                            <div className='avatar overflow-hidden'>
+                                <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
+                            </div>
 
-                                                                        <div className='flex-column items-start justify-start w-100'>
-                                                                            <div className='d-flex items-center ml-4'>
-                                                                                <h5>Khách hàng</h5>
-                                                                                <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
-                                                                            </div>
-                                                                            <div className="bg-light shadow ml-4 p-3 mb-5 bg-white rounded">
-                                                                                <p className="text-ddv font-bold text-16">
-                                                                                    <span className="text-16 mx-2 text-black font-normal">{item?.content}</span>
-                                                                                </p>
-                                                                                <div className='d-flex justify-content-end'>
-                                                                                    <p className='text-danger btn' onClick={() => handleReplyClick(item.id)}>Trả lời</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            {replytVisiable && replyCommentId === item.id && (
-                                                                                <Form>
-                                                                                    <Row className="flex flex-wrap my-2">
-                                                                                        <Col md={10} className="mb-3">
-                                                                                            <Form.Group className="">
-                                                                                                <Form.Control
-                                                                                                    as="textarea"
-                                                                                                    className="rounded-lg"
-                                                                                                    id="mantine-r8"
-                                                                                                    placeholder="Nhận xét về sản phẩm"
-                                                                                                    rows="6"
-                                                                                                    aria-invalid="false"
-                                                                                                />
-                                                                                                <div className='error'></div>
-                                                                                            </Form.Group>
-                                                                                        </Col>
-                                                                                        <Col md={2} className="w-full flex flex-col md:px-2">
-                                                                                            <Button
-                                                                                                variant="primary"
-                                                                                                type="submit"
-                                                                                                className="text-white cursor-pointer mt-2"
-                                                                                                style={{ width: '100%', height: '44px' }}
-                                                                                            >
-                                                                                                Gửi
-                                                                                            </Button>
-                                                                                        </Col>
-                                                                                    </Row>
-                                                                                </Form>
-                                                                            )}
+                            <div className='flex-column items-start justify-start w-100'>
+                                <div className='d-flex items-center ml-4'>
+                                    <h5>Khách hàng</h5>
+                                    <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
+                                </div>
+                                <div className="bg-light shadow ml-4 p-3 mb-5 bg-white rounded">
+                                    <p className="text-ddv font-bold text-16">
+                                        <span className="text-16 mx-2 text-black font-normal">{item?.content}</span>
+                                    </p>
+                                    <div className='d-flex justify-content-end'>
+                                        <p className='text-danger btn' onClick={() => handleReplyClick(item.id)}>Trả lời</p>
+                                    </div>
+                                </div>
+                                {replytVisiable && replyCommentId === item.id && (
+                                    <Form onSubmit={formik3.handleSubmit}>
+                                        <Row className="flex flex-wrap my-2">
+                                            <Col md={10} className="mb-3">
+                                            <Form.Group className="">
+                                                                    <Form.Control
+                                                                        as="textarea"
+                                                                        className="rounded-lg"
+                                                                        id="mantine-r8"
+                                                                        placeholder="Nhận xét về sản phẩm"
+                                                                        rows="6"
+                                                                        aria-invalid="false"
+                                                                        value={formik3.values.content}
+                                                                        onChange={formik3.handleChange('content')}
+                                                                        onBlur={formik3.handleBlur('content')}
+                                                                    />
+                                                                    <div className='error'>
+                                                                        {
+                                                                            formik3.touched.content && formik3.errors.content
+                                                                        }
                                                                     </div>
-                                                                    </div>
-                                                                    {
-                                                                        item && item?.childComments?.map(i => {
-                                                                            return (
-                                                                                <div className='d-flex items-start justify-start w-100' key={i.id}>
-                                                                                    <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                                                        <img src='/logo.jpg' width={30} height={30} alt='asdasd' />
-                                                                                    </div>
-                                                                                    <div className='flex-column items-start justify-start w-100'>
-                                                                                        <h5>
-                                                                                            Quản trị viên
-                                                                                        </h5>
-                                                                                        <div className="d-flex items-center  bg-light shadow mb-5 bg-white  rounded">
-                                                                                            <p className="text-ddv font-bold text-16">
-                                                                                                <span className="text-16 mx-2 text-black font-normal">{i?.content}</span>
-                                                                                            </p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
+                                                                </Form.Group>
+                                            </Col>
+                                            <Col md={2} className="w-full flex flex-col md:px-2">
+                                                <Button
+                                                    variant="primary"
+                                                    type="submit"
+                                                    className="text-white cursor-pointer mt-2"
+                                                    style={{ width: '100%', height: '44px' }}
+                                                >
+                                                    Gửi
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                )}
+                        </div>
+                        </div>
+                        {
+                            item && item?.childComments?.map(i => {
+                                return (
+                                    <div className='d-flex items-start justify-start w-100' key={i.id}>
+                                        <div className='avatar overflow-hidden pr-5 ml-5'>
+                                            <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
+                                        </div>
+                                        <div className='flex-column items-start justify-start w-100'>
+                                            <h5>
+                                                Khách hàng
+                                            </h5>
+                                            <p className="text-brow text-sm mx-2">{i?.ngayDang}</p>
+                                            <div className="d-flex items-center  bg-light shadow mb-5 bg-white  rounded">
+                                                <p className="text-ddv font-bold text-16">
+                                                    <span className="text-16 mx-2 text-black font-normal">{i?.content}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                                                            )
-                                                                        })
-                                                                    }
-                                                                    <div className='d-flex items-start justify-start w-100'>
-                                                                        <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                                            <img src='/logo.jpg' width={30} height={30} alt='asdasd' />
-                                                                        </div>
-                                                                        <div className='flex-column items-start justify-start w-100'>
-                                                                            <h5>
-                                                                                Quản trị viên
-                                                                            </h5>
-                                                                            <div className="d-flex items-center  bg-light shadow mb-5 bg-white  rounded">
-                                                                                <p className="text-ddv font-bold text-16 p-4">
-                                                                                    <span className="text-16 mx-2 text-black font-normal">zxczx zxczxc zxczxczxc zxc xzcasdasdasd asdasda đá asd asd asadasdas asdasdasdasdz xczxc zxczx czx zxc</span>
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            )
-                                                        }
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
 
-                                                    })
-                                                }
-
-
-
+        })
+    }
                                             </div>
                                         </div>
                                     </Col>
