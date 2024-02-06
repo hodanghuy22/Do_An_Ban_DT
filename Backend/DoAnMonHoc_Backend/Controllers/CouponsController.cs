@@ -38,18 +38,7 @@ namespace DoAnMonHoc_Backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCoupon(Coupon coupon)
         {
-            var checkCoupon = await _uow.CouponRepository.CouponExist(coupon.Id);
-            if (checkCoupon == true)
-            {
-                return BadRequest();
-            }
-            _uow.CouponRepository.CreateCoupon(coupon);
-            var result = await _uow.SaveAsync();
-            if (!result)
-            {
-                return BadRequest();
-            }
-            return Ok();
+            return await _uow.CouponRepository.CreateCoupon(coupon);
         }
         [HttpPut]
         [Route("{id}")]

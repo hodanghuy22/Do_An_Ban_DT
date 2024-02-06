@@ -35,6 +35,7 @@ const Thanhtoan = () => {
     const [tongsl, settongsl] = useState();
     const [thanhToan, setThanhToan] = useState("tt");
     const [dataPayment, setDataPayment] = useState("tt");
+    const [applyCoupon, setApplyCoupon] = useState(true);
 
     const formik = useFormik({
         initialValues: {
@@ -80,6 +81,7 @@ const Thanhtoan = () => {
     useEffect(() => {
         if (couponState) {
             formik.setFieldValue("couponId", couponState.id);
+            setApplyCoupon(false)
             if (couponState.discountPercent > 0) {
                 var tien = tongTien
                 tien -= (couponState.discountPercent / 100) * tien;
@@ -269,7 +271,7 @@ const Thanhtoan = () => {
                                         <button
                                             type='submit'
                                             className="float-right btn btn-danger"
-                                            disabled={couponState ? true : false}
+                                            disabled={applyCoupon ? true : false}
                                         >
                                             Áp Dụng
                                         </button>

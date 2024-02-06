@@ -16,6 +16,7 @@ const getACoupon = async(id)=>{
 }
 
 const createCoupon = async(CouponData)=>{
+    console.log(CouponData);
     const response = await axios.post(`${base_url}Coupons`, CouponData, config);
     if(response.data){
         return response.data;

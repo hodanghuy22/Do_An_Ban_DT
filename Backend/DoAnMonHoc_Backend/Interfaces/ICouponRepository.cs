@@ -5,7 +5,7 @@ namespace DoAnMonHoc_Backend.Interfaces
 {
     public interface ICouponRepository
     {
-        Task CreateCoupon(Coupon coupon);
+        Task<IActionResult> CreateCoupon(Coupon coupon);
         Task<IEnumerable<Coupon>> GetCoupons();
         Task<IEnumerable<Coupon>> GetCouponsActive();
         Task<Coupon> GetCoupon(int id);

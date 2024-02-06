@@ -28,7 +28,7 @@ const ChiTietDonHang = () => {
                         <h6>
                             Chi tiết đơn hàng #{invoiceState?.id}
                             <span className='ml-2'>-</span>
-                            <span className=' ml-2'>{invoiceState?.orderStatus}</span>
+                            <span className=' ml-2 text-success'>{invoiceState?.orderStatus}</span>
                         </h6>
                         <div className='mt-5 bg-transparent shadow p-3 mb-5 rounded ' style={{ height: '220px' }}>
                             <p><FaMapMarkedAlt />THÔNG TIN NHẬN HÀNG</p>
@@ -44,7 +44,7 @@ const ChiTietDonHang = () => {
                         </div>
                     </Col>
                     <Col xl={5} className=''>
-                        <h6>Đặt lúc: {formatDate(invoiceState?.deliveryDate)}</h6>
+                        <h6>Đặt lúc: {formatDate(invoiceState?.issueDate)}</h6>
                         <div className='mt-5 bg-transparent shadow p-3 mb-5 rounded ' style={{ height: '220px' }}>
                             <p><FaMapMarkedAlt />HÌNH THỨC THANH TOÁN</p>
                             <p className='text-warning'>{invoiceState?.paid?"Thanh toán Online":"Thanh toán Trực tiếp"}</p>
@@ -68,6 +68,7 @@ const ChiTietDonHang = () => {
                                             </Col>
                                             <Col xl={3} md={3} sm={3} className='text-right'>
                                                 <p className='text-danger amount'>Đơn giá: { formatNumber( item?.product?.price)}</p>
+                                                <p className='text-danger'>Số lượng: { item?.quantity}</p>
                                             </Col>
 
                                         </Row>

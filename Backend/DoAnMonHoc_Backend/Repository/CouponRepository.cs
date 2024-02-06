@@ -33,9 +33,22 @@ namespace DoAnMonHoc_Backend.Repository
             return await _context.Coupons.AnyAsync(b => b.Id == id);
         }
 
-        public async Task CreateCoupon(Coupon coupon)
+        public async Task<IActionResult> CreateCoupon(Coupon coupon)
         {
+            var checkCoupon = await _context.Coupons
+                    .FirstOrDefaultAsync(c => c.Code == coupon.Code);
+            if(checkCoupon != null)
+            {
+                return new BadRequestObjectResult("Đã tồn tại mã khuyến mãi!!!");
+            }
+
             await _context.Coupons.AddAsync(coupon);
+            var result = await _context.SaveChangesAsync();
+            if(result < 0)
+            {
+                return new BadRequestResult(); 
+            }
+            return new OkResult();
         }
 
         public async Task DeleteCoupon(int id)
