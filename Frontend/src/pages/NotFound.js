@@ -6,7 +6,7 @@ const NotFound = () => (
         style={{ height: '100vh' }}
     >
         <img
-            src="/Images/NotFound.svg"
+            src="/NotFound.svg"
             alt="Not found"
             style={{ maxWidth: '50%', maxHeight: '50%' }}
         />
