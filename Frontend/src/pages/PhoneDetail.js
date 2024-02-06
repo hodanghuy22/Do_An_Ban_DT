@@ -51,6 +51,8 @@ const PhoneDetail = () => {
     const couponState = useSelector(state => state?.coupon?.coupons)
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
+    const [replytVisiable, setReplytVisiable] = useState(false);
+    const [replyCommentId, setReplyCommentId] = useState(null);
     const formik = useFormik({
         initialValues: {
             content: '',
@@ -167,6 +169,10 @@ const PhoneDetail = () => {
             navigate("/cart")
         }, 300);
     }
+    const handleReplyClick = (commentId) => {
+        setReplytVisiable(true);
+        setReplyCommentId(commentId);
+    };
     return (
         <>
             <Helmet>
@@ -413,21 +419,47 @@ const PhoneDetail = () => {
 
                                                                         <div className='flex-column items-start justify-start w-100'>
                                                                             <div className='d-flex items-center ml-4'>
-                                                                                <h5>
-                                                                                    Khách hàng
-                                                                                </h5>
+                                                                                <h5>Khách hàng</h5>
                                                                                 <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
                                                                             </div>
-                                                                            <div className="bg-light shadow ml-4 p-3 mb-5 bg-white rounded ">
+                                                                            <div className="bg-light shadow ml-4 p-3 mb-5 bg-white rounded">
                                                                                 <p className="text-ddv font-bold text-16">
                                                                                     <span className="text-16 mx-2 text-black font-normal">{item?.content}</span>
                                                                                 </p>
                                                                                 <div className='d-flex justify-content-end'>
-                                                                                    <p className='text-danger btn'>Trả lời</p>
+                                                                                    <p className='text-danger btn' onClick={() => handleReplyClick(item.id)}>Trả lời</p>
                                                                                 </div>
                                                                             </div>
-
-                                                                        </div>
+                                                                            {replytVisiable && replyCommentId === item.id && (
+                                                                                <Form>
+                                                                                    <Row className="flex flex-wrap my-2">
+                                                                                        <Col md={10} className="mb-3">
+                                                                                            <Form.Group className="">
+                                                                                                <Form.Control
+                                                                                                    as="textarea"
+                                                                                                    className="rounded-lg"
+                                                                                                    id="mantine-r8"
+                                                                                                    placeholder="Nhận xét về sản phẩm"
+                                                                                                    rows="6"
+                                                                                                    aria-invalid="false"
+                                                                                                />
+                                                                                                <div className='error'></div>
+                                                                                            </Form.Group>
+                                                                                        </Col>
+                                                                                        <Col md={2} className="w-full flex flex-col md:px-2">
+                                                                                            <Button
+                                                                                                variant="primary"
+                                                                                                type="submit"
+                                                                                                className="text-white cursor-pointer mt-2"
+                                                                                                style={{ width: '100%', height: '44px' }}
+                                                                                            >
+                                                                                                Gửi
+                                                                                            </Button>
+                                                                                        </Col>
+                                                                                    </Row>
+                                                                                </Form>
+                                                                            )}
+                                                                    </div>
                                                                     </div>
                                                                     {
                                                                         item && item?.childComments?.map(i => {
