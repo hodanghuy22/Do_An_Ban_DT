@@ -7,10 +7,16 @@ const checkCoupon = async (checkData) => {
         return response.data;
     }
 }
-
+const GetCoupon = async () => {
+    const response = await axios.get(`${base_url}Coupons/GetCouponsActive`)
+    if (response.data) {
+        return response.data;
+    }
+}
 
 const couponService = {
     checkCoupon,
+    GetCoupon
 }
 
 export default couponService

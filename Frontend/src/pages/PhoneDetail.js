@@ -25,6 +25,7 @@ import * as yup from 'yup';
 import { CreateComment } from '../features/comment/commentSlice';
 import { CreateRating } from '../features/rating/ratingSlice';
 import formatNumber from '../utils/formatNumber';
+import { GetCoupon } from '../features/coupon/couponSlice';
 
 const commentSchema = yup.object({
     content: yup.string().required("Content is required!"),
@@ -47,7 +48,7 @@ const PhoneDetail = () => {
     const capacityState = useSelector(state => state?.capacity?.capacities);
     const colorState = useSelector(state => state?.color?.colors);
     const phoneId = useParams().phoneId;
-
+    const couponState = useSelector(state => state?.coupon?.coupons)
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
     const formik = useFormik({
@@ -90,8 +91,9 @@ const PhoneDetail = () => {
         "colorId": productState?.colorId,
         "capacityId": productState?.capacityId
     });
-//Lấy thông tin phone danh sách loại rom và danh sách
+    //Lấy thông tin phone danh sách loại rom và danh sách
     useEffect(() => {
+        dispatch(GetCoupon())
         dispatch(GetAPhone(phoneId))
             .then(() => setIsLoading(false))
             .catch(() => 'error');
@@ -99,7 +101,7 @@ const PhoneDetail = () => {
         dispatch(GetColorsByPhoneId(phoneId))
     }, [dispatch, phoneId]);
 
-//Khới tạo sp ban đầu
+    //Khới tạo sp ban đầu
     useEffect(() => {
         if (phoneState?.products && phoneState.products.length > 0) {
             setAProduct(prevState => ({
@@ -109,11 +111,11 @@ const PhoneDetail = () => {
             }));
         }
     }, [phoneState]);
-//Lấy sản phẩm mới sau khi chọn màu và rom
+    //Lấy sản phẩm mới sau khi chọn màu và rom
     useEffect(() => {
         dispatch(GetProductForUser(AProduct))
     }, [dispatch, AProduct]);
-//Load rating và bình luận
+    //Load rating và bình luận
     useEffect(() => {
         formik.setFieldValue("productId", productState?.id);
         formik2.setFieldValue("productId", productState?.id);
@@ -365,12 +367,12 @@ const PhoneDetail = () => {
                                                 <h4 className='text-danger font-weight-bold p-0'>Bình luận</h4>
                                                 <div className='mb-5'>
                                                     <Form onClick={formik.handleSubmit}>
-                                                        <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
-                                                            <Col md={10} className="w-full h-full mb-3 md:mb-0">
-                                                                <Form.Group className="mantine-InputWrapper-root mantine-Textarea-root mantine-1m3pqry">
+                                                        <Row className="flex flex-wrap my-2">
+                                                            <Col md={10} className=" mb-3">
+                                                                <Form.Group className="">
                                                                     <Form.Control
                                                                         as="textarea"
-                                                                        className="rounded-lg border-neutral-300 mantine-Input-input mantine-Textarea-input mantine-1jx8v2y"
+                                                                        className="rounded-lg"
                                                                         id="mantine-r8"
                                                                         placeholder="Nhận xét về sản phẩm"
                                                                         rows="6"
@@ -390,7 +392,7 @@ const PhoneDetail = () => {
                                                                 <Button
                                                                     variant="primary"
                                                                     type="submit"
-                                                                    className="mantine-UnstyledButton-root mantine-Button-root bg-ddv hover:bg-ddv text-white rounded-lg cursor-pointer mt-2 mantine-ijj40k"
+                                                                    className="text-white cursor-pointer mt-2 "
                                                                     style={{ width: '100%', height: '44px' }}
                                                                 >
                                                                     Gửi
@@ -400,50 +402,74 @@ const PhoneDetail = () => {
                                                     </Form>
                                                 </div>
                                                 {
-                                                    productState && productState?.comments?.map((item, index) => {if(item?.commentId === null){
-                                                        return (
-                                                            <div className='pt-4' key={item.id}>
-                                                                <div className='d-flex items-start justify-start '>
-                                                                    <div className='avatar overflow-hidden'>
-                                                                        <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
-                                                                    </div>
-                                                                    <div className='flex-column items-start justify-start pl-2 w-11/12'>
-                                                                        <div className='d-flex items-center'>
-                                                                            <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
+                                                    productState && productState?.comments?.map((item, index) => {
+                                                        if (item?.commentId === null) {
+                                                            return (
+                                                                <div className='pt-4 w-100' key={item.id}>
+                                                                    <div className='d-flex items-start justify-start '>
+                                                                        <div className='avatar overflow-hidden'>
+                                                                            <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
                                                                         </div>
-                                                                        <div className="d-flex items-center">
-                                                                            <p className="text-ddv font-bold text-16">
-                                                                                <span className="text-16 mx-2 text-black font-normal">{item?.content}</span>
-                                                                            </p>
+
+                                                                        <div className='flex-column items-start justify-start w-100'>
+                                                                            <div className='d-flex items-center ml-4'>
+                                                                                <h5>
+                                                                                    Khách hàng
+                                                                                </h5>
+                                                                                <p className="text-brow text-sm mx-2">{item?.ngayDang}</p>
+                                                                            </div>
+                                                                            <div className="bg-light shadow ml-4 p-3 mb-5 bg-white rounded ">
+                                                                                <p className="text-ddv font-bold text-16">
+                                                                                    <span className="text-16 mx-2 text-black font-normal">{item?.content}</span>
+                                                                                </p>
+                                                                                <div className='d-flex justify-content-end'>
+                                                                                    <p className='text-danger btn'>Trả lời</p>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    {
+                                                                        item && item?.childComments?.map(i => {
+                                                                            return (
+                                                                                <div className='d-flex items-start justify-start w-100' key={i.id}>
+                                                                                    <div className='avatar overflow-hidden pr-5 ml-5'>
+                                                                                        <img src='/logo.jpg' width={30} height={30} alt='asdasd' />
+                                                                                    </div>
+                                                                                    <div className='flex-column items-start justify-start w-100'>
+                                                                                        <h5>
+                                                                                            Quản trị viên
+                                                                                        </h5>
+                                                                                        <div className="d-flex items-center  bg-light shadow mb-5 bg-white  rounded">
+                                                                                            <p className="text-ddv font-bold text-16">
+                                                                                                <span className="text-16 mx-2 text-black font-normal">{i?.content}</span>
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                    <div className='d-flex items-start justify-start w-100'>
+                                                                        <div className='avatar overflow-hidden pr-5 ml-5'>
+                                                                            <img src='/logo.jpg' width={30} height={30} alt='asdasd' />
+                                                                        </div>
+                                                                        <div className='flex-column items-start justify-start w-100'>
+                                                                            <h5>
+                                                                                Quản trị viên
+                                                                            </h5>
+                                                                            <div className="d-flex items-center  bg-light shadow mb-5 bg-white  rounded">
+                                                                                <p className="text-ddv font-bold text-16 p-4">
+                                                                                    <span className="text-16 mx-2 text-black font-normal">zxczx zxczxc zxczxczxc zxc xzcasdasdasd asdasda đá asd asd asadasdas asdasdasdasdz xczxc zxczx czx zxc</span>
+                                                                                </p>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                {
-                                                                    item && item?.childComments?.map(i => {
-                                                                        return (
-                                                                            <div className='d-flex items-start justify-start  ' key={i.id}>
-                                                                                <div className='avatar overflow-hidden pr-5 ml-5'>
-                                                                                    <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
-                                                                                </div>
-                                                                                <div className='flex-column items-start justify-start pl-2 w-11/12'>
-                                                                        <div className='d-flex items-center'>
-                                                                            <p className="text-brow text-sm mx-2">{i?.ngayDang}</p>
-                                                                        </div>
-                                                                        <div className="d-flex items-center">
-                                                                            <p className="text-ddv font-bold text-16">
-                                                                                <span className="text-16 mx-2 text-black font-normal">{i?.content}</span>
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                            </div>
-                                                                        )
-                                                                    })
-                                                                }
+                                                            )
+                                                        }
 
-                                                            </div>
-                                                        )
-                                                    }
-                                                        
                                                     })
                                                 }
 
@@ -503,10 +529,15 @@ const PhoneDetail = () => {
                                     <Col xl={12} md={12} sm={12}>
                                         <div className='detail-boder p-2'>
                                             <h6>Khuyến mãi</h6>
-                                            <sub>Giá và khuyến mãi dự kiến áp dụng đến 23:59 | 30/4</sub>
                                             <div className='detail-boder'>
                                                 <ul >
-                                                    <li>Mã giảm abc</li>
+                                                    {
+                                                        couponState && couponState?.map((item, index) => {
+                                                            return (
+                                                                <li>{item.title} </li>
+                                                            )
+                                                        })
+                                                    }
                                                 </ul>
                                             </div>
                                             <div className='w-100'>

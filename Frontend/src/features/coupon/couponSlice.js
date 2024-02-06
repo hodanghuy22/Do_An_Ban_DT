@@ -10,7 +10,14 @@ export const CheckCoupon = createAsyncThunk("coupon/check-coupon", async (data, 
         return thunkAPI.rejectWithValue(err);
     }
 });
-
+export const GetCoupon = createAsyncThunk("coupon/get-coupon", async (data, thunkAPI) => {
+    try {
+        const coupon = await couponService.GetCoupon(data);
+        return coupon;
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err);
+    }
+});
 const initialState = {
     coupons: [],
     isError: false,
@@ -32,9 +39,9 @@ export const couponSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.ACoupon = action.payload;
-                if(state.ACoupon != null){
+                if (state.ACoupon != null) {
                     toast.success("Áp dụng thành công mã!!!")
-                }else{
+                } else {
                     toast.error("Không thể áp dụng mã này!!!")
                 }
             })
@@ -43,10 +50,30 @@ export const couponSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-                if(state.isError){
+                if (state.isError) {
                     toast.error(action.error.message)
                 }
             })
+            .addCase(GetCoupon.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(GetCoupon.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.coupons = action.payload;
+
+            })
+            .addCase(GetCoupon.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if (state.isError) {
+                    toast.error(action.error.message)
+                }
+            })
+
 
     }
 });

@@ -266,7 +266,13 @@ const Thanhtoan = () => {
                                         </div>
                                     </div>
                                     <div className='col-4'>
-                                        <button type='submit' className=' float-right btn btn-danger '>Áp Dụng</button>
+                                        <button
+                                            type='submit'
+                                            className="float-right btn btn-danger"
+                                            disabled={couponState ? true : false}
+                                        >
+                                            Áp Dụng
+                                        </button>
                                     </div>
                                 </div>
                             </form>
