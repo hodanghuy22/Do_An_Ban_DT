@@ -400,7 +400,7 @@ const PhoneDetail = () => {
                                                     </Form>
                                                 </div>
                                                 {
-                                                    productState && productState?.comments?.map((item, index) => {
+                                                    productState && productState?.comments?.map((item, index) => {if(item?.commentId === null){
                                                         return (
                                                             <div className='pt-4' key={item.id}>
                                                                 <div className='d-flex items-start justify-start '>
@@ -425,13 +425,16 @@ const PhoneDetail = () => {
                                                                                 <div className='avatar overflow-hidden pr-5 ml-5'>
                                                                                     <img src='/Images/user-icon.jpg' width={30} height={30} alt='asdasd' />
                                                                                 </div>
-                                                                                <div className='flex-column items-start justify-start px-3 w-11/12'>
-                                                                                    <div className="d-flex items-center">
-                                                                                        <p className="text-ddv font-bold text-16 mt-1" >
-                                                                                            {i?.content}
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
+                                                                                <div className='flex-column items-start justify-start pl-2 w-11/12'>
+                                                                        <div className='d-flex items-center'>
+                                                                            <p className="text-brow text-sm mx-2">{i?.ngayDang}</p>
+                                                                        </div>
+                                                                        <div className="d-flex items-center">
+                                                                            <p className="text-ddv font-bold text-16">
+                                                                                <span className="text-16 mx-2 text-black font-normal">{i?.content}</span>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                             </div>
                                                                         )
                                                                     })
@@ -439,6 +442,8 @@ const PhoneDetail = () => {
 
                                                             </div>
                                                         )
+                                                    }
+                                                        
                                                     })
                                                 }
 

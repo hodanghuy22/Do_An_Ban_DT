@@ -1,13 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import formatNumber from '../../utils/formatNumber';
 import formatDate from '../../utils/formatDate';
 import { GetInvoicesByStatus, UpdateStatusInvoice } from '../../features/invoice/invoiceSlice';
+import { Modal } from 'antd';
 
 const HoaDonMoi = () => {
   const authState = useSelector(state => state?.auth?.user?.userDto);
   const invoiceState = useSelector(state => state?.invoice?.invoiceByStatus);
+  const [open, setOpen] = useState(false);
+  const [invoiceId, setInvoiceId] = useState();
+  const hideModal = () => {
+    setOpen(false);
+  };
+  const showModal = (e) => {
+    setOpen(true);
+    setInvoiceId(e)
+  };
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(GetInvoicesByStatus({
@@ -15,9 +25,10 @@ const HoaDonMoi = () => {
       status: 'Hóa Đơn Mới'
     }))
   }, [dispatch, authState?.id])
-  const UpdateStatus = (a,b)=>
+  const UpdateStatus = (a)=>
     {
       dispatch(UpdateStatusInvoice({id:a, status:"Hủy Đơn"}))
+      setOpen(false);
       setTimeout(()=>{
         dispatch(GetInvoicesByStatus({
           id: authState?.id,
@@ -64,14 +75,25 @@ const HoaDonMoi = () => {
                 <div className='d-flex justify-content-between'>
                   <div className='mt-2'>
                     <Link to={`chi-tiet-don-hang/${item?.id}`} className='btn btn-light border border-warning text-warning btn-hover '>Xem chi tiết</Link>
-                    <button onClick={(e)=>{UpdateStatus(item?.id)}} className='btn btn-danger mx-3'>Hủy Đơn</button>
+                    <button onClick={(e)=>{showModal(item?.id)}} className='btn btn-danger mx-3'>Hủy Đơn</button>
                   </div>
                   <div className='ml-auto'>
                     <p className='text-danger amount'>Tổng tiền: <span className='h5'>{formatNumber(item?.totalPrice)}</span></p>
                   </div>
                 </div>
               </div>
+              <Modal
+                title="Confirmation"
+                open={open}
+                onOk={()=>{UpdateStatus(invoiceId)}}
+                onCancel={hideModal}
+                okText="Ok"
+                cancelText="Cancel"
+              >
+                <p>Bạn Muốn Hủy Đơn Hàng Này ???</p>
+              </Modal>
             </div>
+            
           )
         })
       }
