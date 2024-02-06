@@ -7,6 +7,7 @@ namespace DoAnMonHoc_Backend.Interfaces
     {
         Task CreateCoupon(Coupon coupon);
         Task<IEnumerable<Coupon>> GetCoupons();
+        Task<IEnumerable<Coupon>> GetCouponsActive();
         Task<Coupon> GetCoupon(int id);
         Task<bool> CouponExist(int id);
         Task<Coupon> CheckCoupon(CheckCouponModel checkCoupon);

@@ -61,6 +61,11 @@ namespace DoAnMonHoc_Backend.Repository
             //    .ToListAsync();
         }
 
+        public async Task<IEnumerable<Coupon>> GetCouponsActive()
+        {
+            return await _context.Coupons.Where(c => c.Status == true).ToListAsync();
+        }
+
         public async Task<IActionResult> UpdateCoupon(Coupon coupon)
         {
             _context.Entry(coupon).State = EntityState.Modified;

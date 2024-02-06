@@ -21,6 +21,13 @@ namespace DoAnMonHoc_Backend.Controllers
             return Ok(coupons);
         }
         [HttpGet]
+        [Route("GetCouponsActive")]
+        public async Task<IActionResult> GetCouponsActive()
+        {
+            var coupons = await _uow.CouponRepository.GetCouponsActive();
+            return Ok(coupons);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetCoupon(int id)
         {

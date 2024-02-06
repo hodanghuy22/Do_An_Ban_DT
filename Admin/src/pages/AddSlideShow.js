@@ -87,7 +87,7 @@ const AddSlideShow = () => {
                             )} */}
                         </div>
                     </div>
-                    <button className='btn btn-success' type='submit'> Phone</button>
+                    <button className='btn btn-success mt-3' type='submit'>Add SlideShow</button>
                 </form>
             </div>
         </div>
