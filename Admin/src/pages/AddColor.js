@@ -57,7 +57,7 @@ const AddColor = () => {
                             name="colorName"
                             class="form-control"
                             placeholder="ColorName"
-                            value={formik.values.colorName.toUpperCase()}
+                            value={formik.values.colorName}
                             onChange={formik.handleChange('colorName')}
                             onBlur={formik.handleBlur('colorName')}
                         />

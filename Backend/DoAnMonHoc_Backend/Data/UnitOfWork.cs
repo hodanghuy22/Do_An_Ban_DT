@@ -48,7 +48,7 @@ namespace DoAnMonHoc_Backend.Data
             new productTypeDetailRepository(_context);
 
         public IProductRepository ProductRepository => 
-            new ProductRepository(_context);
+            new ProductRepository(_context, _mapper);
 
         public IWishlistRepository WishlistRepository => 
             new WishlistRepository(_context);

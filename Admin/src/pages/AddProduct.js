@@ -78,7 +78,7 @@ useEffect(() => {
       console.log(values);
       if (getProductId !== undefined) {
         console.log(values);
-        const data = { id: getProductId, productData: { ...values, id: getProductId } }
+        const data = { id: getProductId, productData: { ...values, id: getProductId, comments: null, ratings:null } }
         dispatch(UpdateProduct(data))
         dispatch(resetState())
     } else {

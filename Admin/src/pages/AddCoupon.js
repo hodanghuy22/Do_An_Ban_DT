@@ -78,7 +78,7 @@ const AddCoupon = () => {
                             name="title"
                             class="form-control"
                             placeholder="Title"
-                            value={formik.values.title.toUpperCase()}
+                            value={formik.values.title}
                             onChange={formik.handleChange('title')}
                             onBlur={formik.handleBlur('title')}
                         />
@@ -94,7 +94,7 @@ const AddCoupon = () => {
                             name="code"
                             class="form-control"
                             placeholder="Code"
-                            value={formik.values.code.toUpperCase()}
+                            value={formik.values.code}
                             onChange={formik.handleChange('code')}
                             onBlur={formik.handleBlur('code')}
                         />

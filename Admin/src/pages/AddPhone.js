@@ -127,7 +127,7 @@ const AddPhone = () => {
                             name="name"
                             class="form-control"
                             placeholder="Name"
-                            value={formik.values.name.toUpperCase()}
+                            value={formik.values.name}
                             onChange={formik.handleChange('name')}
                             onBlur={formik.handleBlur('name')}
                         />

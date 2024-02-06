@@ -58,7 +58,7 @@ const AddBrand = () => {
                             name="title"
                             class="form-control"
                             placeholder="Title"
-                            value={formik.values.title.toUpperCase()}
+                            value={formik.values.title}
                             onChange={formik.handleChange('title')}
                             onBlur={formik.handleBlur('title')}
                         />

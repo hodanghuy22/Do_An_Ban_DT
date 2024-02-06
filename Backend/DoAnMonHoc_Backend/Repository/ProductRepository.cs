@@ -1,4 +1,5 @@
-﻿using DoAnMonHoc_Backend.Data;
+﻿using AutoMapper;
+using DoAnMonHoc_Backend.Data;
 using DoAnMonHoc_Backend.Dto;
 using DoAnMonHoc_Backend.Interfaces;
 using DoAnMonHoc_Backend.Models;
@@ -10,10 +11,12 @@ namespace DoAnMonHoc_Backend.Repository
     public class ProductRepository : IProductRepository
     {
         private readonly CSDLContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductRepository(CSDLContext context)
+        public ProductRepository(CSDLContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
         public async Task<IActionResult> CreateProduct(Product product)
         {
@@ -118,17 +121,43 @@ namespace DoAnMonHoc_Backend.Repository
 
         public async Task<IActionResult> UpdateProduct(Product product)
         {
-            //var product1 = await _context.Products.FindAsync(product.Id);
-            //product1.Images.Clear();
-            //foreach(var image in product.Images)
-            //{
-            //    product1.Images.Add(image);
-            //}
+            var product1 = await _context.Products.FindAsync(product.Id);
+            var phone = await _context.Phones.FindAsync(product1.PhoneId);
+            Console.WriteLine("=======Product " + product.Quantity);
+            Console.WriteLine("=======product1 " + product1.Quantity);
+            if (phone.Price > product.Price || phone.Price <= 0)
+            {
+                phone.Price = product.Price;
+            }
 
-            _context.Entry(product).State = EntityState.Modified;
+            if (product.Quantity < product1.Quantity)
+            {
+                phone.SoLuong -= product1.Quantity - product.Quantity;
+            }
+            else
+            {
+                phone.SoLuong += product.Quantity - product1.Quantity;
+            }
+            if(product1 != null)
+            {
+                product1.Quantity = product.Quantity;
+                product1.Price = product.Price;
+                product1.SoldQuantity = product.SoldQuantity;
+                product1.AverageRating = product.AverageRating;
+                product1.PhoneId = product.PhoneId;
+                product1.CapacityId = product.CapacityId;
+                product1.ColorId = product.ColorId;
+                product1.Status = product.Status;
+                product1.Images = product.Images;
+                product1.Comments = product.Comments;
+                product1.Ratings = product.Ratings;
+            }
+
+            _context.Entry(phone).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
+                return new OkResult();
             }
             catch (Exception ex)
             {
@@ -141,18 +170,7 @@ namespace DoAnMonHoc_Backend.Repository
                     throw;
                 }
             }
-            //var getProduct = await _context.Products.FindAsync(product1.Id);
-            //var phone = await _context.Phones.FindAsync(product1.PhoneId);
-            //if (getProduct.Quantity < product1.Quantity)
-            //{
-            //    phone.SoLuong += product1.Quantity - getProduct.Quantity;
-            //}
-            //else
-            //{
-            //    phone.SoLuong -= getProduct.Quantity - product1.Quantity;
-            //}
-            //await _context.SaveChangesAsync();
-            return new OkResult();
+
         }
     }
 }

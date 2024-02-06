@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../features/auth/authSlice';
+import { ToastContainer, toast } from 'react-toastify';
 
 const loginSchema = yup.object({
     username: yup.string().required('Username is Required'),
@@ -27,6 +28,9 @@ const Login = () => {
         },
     });
     useEffect(() => {
+        if(authState.isError){
+          toast.error("Login fail!!!");
+        }
         if (authState.user !== null && authState.isError === false) {
             navigate('/admin')
         }
@@ -78,6 +82,17 @@ const Login = () => {
             </form>
             </div>
         </div>
+        <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="light"
+          />
     </div>;
 };
 

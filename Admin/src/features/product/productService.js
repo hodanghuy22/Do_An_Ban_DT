@@ -23,6 +23,7 @@ const createProduct = async(productData)=>{
 }
 
 const updateProduct = async(productData)=>{
+    console.log(productData);
     const response = await axios.put(`${base_url}Products/${productData.id}`, productData.productData, config);
     if(response.data){
         return response.data;
