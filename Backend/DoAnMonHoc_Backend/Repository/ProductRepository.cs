@@ -62,7 +62,7 @@ namespace DoAnMonHoc_Backend.Repository
                     .Include(p => p.Color)
                     .Include(p => p.Capacity)
                     .Include(p => p.Comments)
-                    .ThenInclude(c => c.ChildComments)
+                        .ThenInclude(c => c.ChildComments)
                     .Include(p => p.Images)
                     .Include(p => p.Ratings)
                     .FirstOrDefaultAsync(P => P.PhoneId == phoneId && P.ColorId == colorId && P.CapacityId == capacityId);
