@@ -56,7 +56,7 @@ const AddBrand = () => {
                         <input
                             type="text"
                             name="title"
-                            class="form-control"
+                            className="form-control"
                             placeholder="Title"
                             value={formik.values.title}
                             onChange={formik.handleChange('title')}

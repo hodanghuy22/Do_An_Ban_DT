@@ -5,6 +5,7 @@ import { TbCategory, TbShoppingCart, TbShoppingCartCog, TbBrandBlogger } from "r
 import {AiOutlineLogout} from 'react-icons/ai'
 import { MdOutlineColorLens } from "react-icons/md";
 import { FaUser, FaUserCog, FaRegStar } from "react-icons/fa";
+import { GrCapacity } from "react-icons/gr";
 import { Layout, Menu, Button, theme } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -170,13 +171,30 @@ const MainLayout = () => {
               children: [
                 {
                   key: 'add-brand',
-                  icon: <MdOutlineColorLens className='fs-5' />,
+                  icon: <TbBrandBlogger className='fs-5' />,
                   label: 'Add Brand',
                 },
                 {
                   key: 'brand-list',
-                  icon: <MdOutlineColorLens className='fs-5' />,
+                  icon: <TbBrandBlogger className='fs-5' />,
                   label: 'Brand List',
+                },
+              ]
+            },
+            {
+              key: 'capacity',
+              icon: <GrCapacity  className='fs-5' />,
+              label: 'Capacity',
+              children: [
+                {
+                  key: 'add-capacity',
+                  icon: <GrCapacity className='fs-5' />,
+                  label: 'Add Capacity',
+                },
+                {
+                  key: 'capacity-list',
+                  icon: <GrCapacity className='fs-5' />,
+                  label: 'Capacity List',
                 },
               ]
             },

@@ -75,8 +75,8 @@ namespace DoAnMonHoc_Backend.Controllers
             }
             return await _uow.CapacityRepository.UpdateCapacity(capacity);
         }
-        [HttpPut]
-        [Route("DeleteCapacity/{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCapacity(int id)
         {

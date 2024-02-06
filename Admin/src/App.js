@@ -30,6 +30,8 @@ import Rating from './pages/Rating';
 import { OpenRoutes } from './routing/OpenRoutes';
 import { PrivateRoutes } from './routing/PrivateRoutes';
 import AddAdmin from './pages/AddAdmin';
+import CapacityList from './pages/CapacityList';
+import AddCapacity from './pages/AddCapacity';
 
 function App() {
   return (
@@ -58,6 +60,7 @@ function App() {
           <Route path='add-product-type/:id' element={<AddProductType />} />
           <Route path='color-list' element={<ColorList />} />
           <Route path='brand-list' element={<BrandList />} />
+          <Route path='capacity-list' element={<CapacityList />} />
           <Route path='add-admin' element={<AddAdmin />} />
           <Route path='add-coupon' element={<AddCoupon />} />
           <Route path='add-coupon/:id' element={<AddCoupon />} />
@@ -65,6 +68,8 @@ function App() {
           <Route path='add-color/:id' element={<AddColor />} />
           <Route path='add-brand' element={<AddBrand />} />
           <Route path='add-brand/:id' element={<AddBrand />} />
+          <Route path='add-capacity' element={<AddCapacity />} />
+          <Route path='add-capacity/:id' element={<AddCapacity />} />
           <Route path='product-detail/:id' element={<ProductDetail />} />
           <Route path='slideshows' element={<SlideShows />} />
           <Route path='add-slideshow' element={<AddSlideShow />} />
